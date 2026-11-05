@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NoGreedCards</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="NoGreedCards aus Saarbrücken: Verkauf deine Pokémon-Karten fair – Bulk zu festen Preisen, Einzelkarten zu 70 % des Cardmarket-Preises. Günstige Karten bei eBay und Cardmarket.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: Händler-Ledger. Dunkler Grund wie bisher, gestrichelte Ticket-Kanten als Trenner,
+   Preise immer in Mono und rechtsbündig wie in einem Kassenbuch. Eine Spalte, max. 1120px. */
+:root{
+  --bg:#120d1a;        /* Grund (wie alte Seite) */
+  --bg-2:#181121;      /* Bänder */
+  --panel:#1d1529;     /* Karten */
+  --line:#3a2d50;      /* Linien */
+  --line-soft:#271d37;
+  --fg:#ede4d3;        /* Pergament */
+  --muted:#9a90a6;
+  --gold:#d9b563;      /* Akzent 1: Preise, Siegel */
+  --gold-soft:#f0dba8;
+  --green:#39ff8c;     /* Akzent 2: nur Haken + Fokus */
+  --font-display:"Archivo", "Arial Narrow", system-ui, sans-serif;
+  --font-body:"Figtree", -apple-system, "Segoe UI", sans-serif;
+  --font-mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --r:10px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--green);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(20px, env(safe-area-inset-left, 0px));padding-right:max(20px, env(safe-area-inset-right, 0px))}
+.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+h1,h2,h3{font-family:var(--font-display);font-stretch:112%;line-height:1.05;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h2{font-size:clamp(28px,4.2vw,44px);font-weight:800}
+h3{font-size:20px;font-weight:700;font-stretch:100%}
+p{margin:0}
+.lead{color:var(--muted);max-width:60ch;font-size:17px}
+
+/* Siegel (Logo der alten Seite) */
+.seal{width:36px;height:36px;border-radius:50%;border:2px solid var(--gold);display:grid;place-items:center;background:var(--bg);flex-shrink:0}
+.seal svg{width:17px;height:17px}
+
+/* Kopfzeile */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:10;background:var(--bg-2)}
+header{position:sticky;top:env(safe-area-inset-top, 0px);z-index:9;background:color-mix(in srgb, var(--bg-2) 88%, transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand-name{font-family:var(--font-display);font-stretch:125%;font-weight:800;font-size:16px;letter-spacing:.04em}
+nav{display:flex;align-items:center;gap:28px}
+nav a{font-size:14px;color:var(--muted);text-decoration:none;transition:color .15s}
+nav a:hover{color:var(--gold-soft)}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-body);font-weight:600;font-size:15px;padding:12px 20px;border-radius:999px;text-decoration:none;border:1px solid transparent;transition:transform .15s, background .15s, border-color .15s;cursor:pointer}
+.btn:hover{transform:translateY(-1px)}
+.btn-gold{background:var(--gold);color:#1a1206}
+.btn-gold:hover{background:var(--gold-soft)}
+.btn-line{border-color:var(--line);color:var(--fg)}
+.btn-line:hover{border-color:var(--gold)}
+.btn-sm{padding:8px 14px;font-size:14px}
+@media (max-width:720px){ nav .nav-link{display:none} }
+
+/* Hero */
+.hero{padding-block:72px 56px;display:grid;grid-template-columns:1.25fr .9fr;gap:48px;align-items:center}
+.hero h1{font-size:clamp(44px,7.4vw,88px);font-weight:900;font-stretch:118%}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero .lead{margin-top:20px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.trust{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:28px;padding:0;list-style:none;font-size:14px;color:var(--muted)}
+.trust li{display:flex;align-items:center;gap:8px}
+.trust svg{width:14px;height:14px;flex-shrink:0}
+
+/* Beleg-Karte im Hero: zeigt das 70 %-Prinzip als Rechnung */
+.receipt{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:24px;position:relative;box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
+.receipt::after{content:"";position:absolute;left:16px;right:16px;bottom:-1px;border-bottom:2px dashed var(--bg)}
+.receipt-head{display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;border-bottom:1px dashed var(--line)}
+.receipt-row{display:flex;justify-content:space-between;gap:12px;padding-block:10px;font-size:14px}
+.receipt-row span:first-child{color:var(--muted)}
+.receipt-total{display:flex;justify-content:space-between;align-items:baseline;padding-top:14px;border-top:1px dashed var(--line);margin-top:4px}
+.receipt-total b{font-family:var(--font-mono);font-size:28px;color:var(--gold)}
+.receipt-foot{margin-top:14px;font-size:12px;color:var(--muted)}
+@media (max-width:860px){ .hero{grid-template-columns:1fr;padding-block:48px 40px} }
+
+/* Trenner im Ticket-Stil */
+.tear{border:0;border-top:1px dashed var(--line);margin:0}
+
+section{padding-block:80px}
+.sec-head{display:grid;gap:14px;margin-bottom:40px}
+
+/* Verkaufen: zwei Wege */
+.sell{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.path{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--r);padding:28px;display:flex;flex-direction:column;gap:18px;min-width:0}
+.path-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.path p{color:var(--muted)}
+.chip{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.chip-gold{border-color:color-mix(in srgb, var(--gold) 50%, transparent);color:var(--gold)}
+.big{font-family:var(--font-display);font-stretch:118%;font-weight:900;font-size:64px;line-height:1;color:var(--gold)}
+.big small{font-size:18px;font-weight:600;color:var(--muted);font-stretch:100%;margin-left:6px}
+
+/* Preisliste */
+.rates{width:100%;border-collapse:collapse;font-size:15px}
+.rates td{padding:12px 0;border-bottom:1px dashed var(--line-soft);vertical-align:baseline}
+.rates tr:last-child td{border-bottom:0}
+.rates td:last-child{text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.rates .unit{display:block;font-size:12px;color:var(--muted)}
+.tbd{color:var(--muted);border:1px dashed var(--line);border-radius:6px;padding:2px 8px;font-size:13px}
+
+/* Rechner */
+.calc{display:grid;gap:10px;padding:18px;border:1px dashed var(--line);border-radius:var(--r)}
+.calc label{font-size:13px;color:var(--muted)}
+.calc-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.field{display:flex;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding-inline:12px;flex:1 1 140px;min-width:0}
+.field input{all:unset;font-family:var(--font-mono);font-size:18px;padding-block:10px;width:100%;min-width:0}
+.field span{color:var(--muted);font-family:var(--font-mono)}
+.calc-out{font-family:var(--font-mono);font-size:22px;color:var(--gold);white-space:nowrap}
+.calc-out small{font-size:12px;color:var(--muted);display:block;text-align:right}
+.path .btn{align-self:flex-start;margin-top:auto}
+
+/* Ablauf */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:48px;padding:0;list-style:none;counter-reset:s;border-top:1px dashed var(--line)}
+.steps li{counter-increment:s;padding:22px 20px 0 0;display:grid;gap:6px;align-content:start;min-width:0}
+.steps li::before{content:"0" counter(s);font-family:var(--font-mono);font-size:13px;color:var(--gold)}
+.steps b{font-weight:600}
+.steps span{color:var(--muted);font-size:14px}
+@media (max-width:860px){ .sell{grid-template-columns:1fr} .steps{grid-template-columns:1fr 1fr;row-gap:8px} }
+@media (max-width:440px){ .steps{grid-template-columns:1fr} .big{font-size:52px} }
+
+/* Bewertungen */
+.band{background:var(--bg-2);border-block:1px solid var(--line-soft)}
+.reviews{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.score{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:center;background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--r);padding:28px;text-decoration:none;transition:border-color .15s;min-width:0}
+.score:hover{border-color:var(--gold)}
+.score-num{grid-row:span 2;font-family:var(--font-display);font-stretch:118%;font-weight:900;font-size:56px;line-height:1;color:var(--gold)}
+.score-num.ph{color:var(--muted)}
+.score-name{font-weight:600;font-size:17px}
+.score-meta{color:var(--muted);font-size:14px}
+.score-link{grid-column:1 / -1;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line-soft);font-size:14px;color:var(--gold-soft);display:flex;justify-content:space-between}
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:20px}
+.quote{border-left:2px solid var(--line);padding:4px 0 4px 18px;display:grid;gap:10px;min-width:0}
+.quote p{font-size:15px}
+.quote cite{font-style:normal;font-size:13px;color:var(--muted);font-family:var(--font-mono)}
+.ph-note{font-size:13px;color:var(--muted);margin-top:20px;display:flex;gap:8px;align-items:center}
+@media (max-width:860px){ .reviews{grid-template-columns:1fr} .quotes{grid-template-columns:1fr} }
+
+/* Shops */
+.shops{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.shop{display:flex;flex-direction:column;gap:16px;padding:32px;border:1px solid var(--line);border-radius:var(--r);text-decoration:none;background:linear-gradient(160deg, var(--panel), var(--bg) 70%);transition:border-color .15s, transform .15s;min-width:0}
+.shop:hover{border-color:var(--gold);transform:translateY(-2px)}
+.shop h3{font-size:28px;font-stretch:118%;font-weight:800}
+.shop p{color:var(--muted)}
+.shop ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:15px}
+.shop li{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dashed var(--line-soft);padding-bottom:8px}
+.shop li span:last-child{font-family:var(--font-mono);color:var(--gold-soft);white-space:nowrap}
+.shop-go{margin-top:auto;font-weight:600;color:var(--gold);display:flex;align-items:center;gap:8px}
+.shop-go svg{transition:transform .15s}
+.shop:hover .shop-go svg{transform:translateX(4px)}
+@media (max-width:860px){ .shops{grid-template-columns:1fr} }
+
+/* Footer */
+footer{border-top:1px solid var(--line-soft);background:var(--bg-2)}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px;padding-block:40px;font-size:14px;color:var(--muted)}
+.foot nav{gap:20px;flex-wrap:wrap}
+.foot-motto{color:var(--gold-soft);font-family:var(--font-display);font-stretch:118%;font-weight:700;font-size:18px}
+
+@media (prefers-reduced-motion:reduce){ *{transition:none!important;scroll-behavior:auto!important} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a href="#top" class="brand" aria-label="NoGreedCards Startseite">
+      <span class="seal"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12.5 L9.5 18 L20 6" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="brand-name">NOGREEDCARDS</span>
+    </a>
+    <nav aria-label="Hauptnavigation">
+      <a class="nav-link" href="#verkaufen">Karten verkaufen</a>
+      <a class="nav-link" href="#bewertungen">Bewertungen</a>
+      <a class="nav-link" href="#shops">Shops</a>
+      <a class="btn btn-gold btn-sm" href="#verkaufen">Angebot holen</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <div>
+      <div class="eyebrow">Pokémon-Karten · Saarbrücken</div>
+      <h1 style="margin-top:16px">Keep the Hobby <em>Cheap</em>.</h1>
+      <p class="lead">Ich kaufe deine Karten zu festen, offenen Preisen. Und ich verkaufe sortierte Karten günstig über eBay und Cardmarket. Kein Feilschen, keine Abzocke.</p>
+      <div class="hero-actions">
+        <a class="btn btn-gold" href="#verkaufen">Karten verkaufen</a>
+        <a class="btn btn-line" href="#shops">Karten kaufen</a>
+      </div>
+      <ul class="trust">
+        <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12.5 L9.5 18 L20 6" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Preise vorab sichtbar</li>
+        <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12.5 L9.5 18 L20 6" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Jede Karte per Hand geprüft</li>
+        <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12.5 L9.5 18 L20 6" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Übergabe in Saarbrücken möglich</li>
+      </ul>
+    </div>
+
+    <aside class="receipt" aria-label="Beispielrechnung Einzelkarten-Ankauf">
+      <div class="receipt-head">
+        <span class="eyebrow">Ankaufbeleg · Beispiel</span>
+        <span class="seal"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12.5 L9.5 18 L20 6" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </div>
+      <div class="receipt-row"><span>Einzelkarte, Zustand NM</span><span class="mono">1×</span></div>
+      <div class="receipt-row"><span>Cardmarket-Preis</span><span class="mono">12,00 €</span></div>
+      <div class="receipt-row"><span>Ankaufsquote</span><span class="mono">70 %</span></div>
+      <div class="receipt-total"><span>Du bekommst</span><b>8,40 €</b></div>
+      <p class="receipt-foot">Rechenbeispiel. Der echte Preis richtet sich nach dem aktuellen Cardmarket-Wert deiner Karte.</p>
+    </aside>
+  </div>
+
+  <hr class="tear">
+
+  <section id="verkaufen">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Karten verkaufen</div>
+        <h2>Zwei Wege, deine Karten loszuwerden.</h2>
+        <p class="lead">Ganze Kisten Bulk oder einzelne gute Karten: Du weißt vorher, was du bekommst.</p>
+      </div>
+
+      <div class="sell">
+        <!-- WEG 1: BULK -->
+        <article class="path">
+          <div class="path-top">
+            <h3>Bulk verkaufen</h3>
+            <span class="chip">Feste Preise</span>
+          </div>
+          <p>Commons, Uncommons, Holos, Energien in Mengen. Ich zähle, sortiere und zahle nach dieser Liste.</p>
+          <!-- PLATZHALTER: Preise hier eintragen. Kategorien sind ein Vorschlag. -->
+          <table class="rates">
+            <tbody>
+              <tr><td>Common &amp; Uncommon<span class="unit">je 1.000 Karten</span></td><td><span class="tbd">Preis folgt</span></td></tr>
+              <tr><td>Holo &amp; Reverse Holo<span class="unit">je 100 Karten</span></td><td><span class="tbd">Preis folgt</span></td></tr>
+              <tr><td>V, ex, GX und Full Arts<span class="unit">je Karte</span></td><td><span class="tbd">Preis folgt</span></td></tr>
+              <tr><td>Basis-Energien<span class="unit">je 1.000 Karten</span></td><td><span class="tbd">Preis folgt</span></td></tr>
+            </tbody>
+          </table>
+          <a class="btn btn-line" href="kontakt.html">Bulk anbieten</a>
+        </article>
+
+        <!-- WEG 2: EINZELKARTEN -->
+        <article class="path">
+          <div class="path-top">
+            <h3>Einzelkarten verkaufen</h3>
+            <span class="chip chip-gold">Ankauf</span>
+          </div>
+          <div class="big">70&nbsp;%<small>vom Cardmarket-Preis</small></div>
+          <p>Du nennst mir deine Karten, ich schaue den aktuellen Cardmarket-Preis nach und zahle dir 70 % davon. Sofort, ohne auf einen Käufer zu warten.</p>
+          <div class="calc">
+            <label for="cm-price">Rechne selbst: Cardmarket-Preis deiner Karte</label>
+            <div class="calc-row">
+              <div class="field"><input id="cm-price" type="text" inputmode="decimal" value="12,00" aria-describedby="calc-out"><span>€</span></div>
+              <div class="calc-out" id="calc-out" aria-live="polite"><small>du bekommst</small><span id="calc-val">8,40 €</span></div>
+            </div>
+          </div>
+          <a class="btn btn-gold" href="kontakt.html">Karten anfragen</a>
+        </article>
+      </div>
+
+      <ol class="steps" aria-label="So läuft ein Ankauf ab">
+        <li><b>Anfragen</b><span>Schick mir eine Liste oder Fotos deiner Karten.</span></li>
+        <li><b>Angebot</b><span>Du bekommst einen festen Preis nach Liste oder 70 %-Regel.</span></li>
+        <li><b>Übergabe</b><span>Per Post oder persönlich in Saarbrücken.</span></li>
+        <li><b>Bezahlung</b><span>Nach kurzer Prüfung der Karten.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="band">
+    <section id="bewertungen">
+      <div class="wrap">
+        <div class="sec-head">
+          <div class="eyebrow">Bewertungen</div>
+          <h2>Was Käufer über NoGreedCards sagen.</h2>
+          <p class="lead">Alle Bewertungen stammen von echten Bestellungen auf eBay und Cardmarket. Klick dich selbst durch.</p>
+        </div>
+
+        <div class="reviews">
+          <!-- PLATZHALTER: Werte aus dem eBay-Profil eintragen -->
+          <a class="score" href="https://www.ebay.de/fdbk/feedback_profile/nogreedtcg" target="_blank" rel="noopener">
+            <span class="score-num ph">–&nbsp;%</span>
+            <span class="score-name">eBay · nogreedtcg</span>
+            <span class="score-meta">positive Bewertungen · <span class="tbd">Anzahl folgt</span></span>
+            <span class="score-link"><span>Alle eBay-Bewertungen</span><span aria-hidden="true">↗</span></span>
+          </a>
+          <!-- PLATZHALTER: Werte aus dem Cardmarket-Profil eintragen -->
+          <a class="score" href="https://www.cardmarket.com/de/Pokemon/Users/NoGreedCards" target="_blank" rel="noopener">
+            <span class="score-num ph">–</span>
+            <span class="score-name">Cardmarket · NoGreedCards</span>
+            <span class="score-meta">Verkäuferbewertung · <span class="tbd">Verkäufe folgen</span></span>
+            <span class="score-link"><span>Profil auf Cardmarket</span><span aria-hidden="true">↗</span></span>
+          </a>
+        </div>
+
+        <!-- PLATZHALTER: 3 echte Bewertungstexte (mit Datum und Plattform) einfügen -->
+        <div class="quotes">
+          <figure class="quote" style="margin:0"><p class="tbd" style="border:0;padding:0">Hier kommt eine echte Kundenbewertung hin.</p><cite>eBay · Datum</cite></figure>
+          <figure class="quote" style="margin:0"><p class="tbd" style="border:0;padding:0">Hier kommt eine echte Kundenbewertung hin.</p><cite>Cardmarket · Datum</cite></figure>
+          <figure class="quote" style="margin:0"><p class="tbd" style="border:0;padding:0">Hier kommt eine echte Kundenbewertung hin.</p><cite>eBay · Datum</cite></figure>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section id="shops">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Karten kaufen</div>
+        <h2>Günstige Karten, sortiert statt zufällig.</h2>
+        <p class="lead">Ich verkaufe über die großen Plattformen. So bezahlst du sicher und hast den Käuferschutz der Plattform.</p>
+      </div>
+
+      <div class="shops">
+        <a class="shop" href="https://www.ebay.de/usr/nogreedtcg" target="_blank" rel="noopener">
+          <span class="chip" style="align-self:flex-start">eBay-Shop</span>
+          <h3>Sortierte Lose</h3>
+          <p>Fertige Sammlungen für Einsteiger, Kinder und Binder-Sammler.</p>
+          <ul>
+            <li><span>100 Karten, 25 Holo garantiert</span><span>5,99 €</span></li>
+            <li><span>500 Karten, nur Holo</span><span>29,99 €</span></li>
+            <li><span>Spielbereites 60er-Deck</span><span>16,99 €</span></li>
+          </ul>
+          <span class="shop-go">Zum eBay-Shop <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+        <a class="shop" href="https://www.cardmarket.com/de/Pokemon/Users/NoGreedCards" target="_blank" rel="noopener">
+          <span class="chip" style="align-self:flex-start">Cardmarket</span>
+          <h3>Einzelkarten</h3>
+          <p>Die Karte für dein Deck oder deine Sammlung, knapp unter Marktpreis.</p>
+          <ul>
+            <li><span>Zustand</span><span>nach Cardmarket-Skala</span></li>
+            <li><span>Sprache</span><span>Deutsch</span></li>
+            <li><span>Versand</span><span>aus Saarbrücken</span></li>
+          </ul>
+          <span class="shop-go">Zum Cardmarket-Shop <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div style="display:grid;gap:6px">
+      <span class="foot-motto">Keep the Hobby Cheap.</span>
+      <span>Faire Preise. Ehrlicher Bulk. Keine Abzocke.</span>
+    </div>
+    <nav aria-label="Fußzeile">
+      <a href="https://www.youtube.com/@NoGreedCollector" target="_blank" rel="noopener">YouTube</a>
+      <a href="turniere.html">Turniere</a>
+      <a href="kontakt.html">Kontakt</a>
+      <!-- PLATZHALTER: Impressum und Datenschutz anlegen, bevor die Seite gewerblich live geht -->
+      <a href="#">Impressum</a>
+      <a href="#">Datenschutz</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var input=document.getElementById('cm-price'), out=document.getElementById('calc-val');
+  var fmt=new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'});
+  function update(){
+    var v=parseFloat(String(input.value).replace(/\./g,'').replace(',','.'));
+    out.textContent=isFinite(v)&&v>=0?fmt.format(Math.round(v*70)/100):'–';
+  }
+  input.addEventListener('input',update);update();
+})();
+</script>
+</body>
+</html>
