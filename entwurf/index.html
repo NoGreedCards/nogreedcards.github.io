@@ -83,6 +83,12 @@ nav a:hover{color:var(--gold-soft)}
 .receipt-row span:first-child{color:var(--muted)}
 .receipt-total{display:flex;justify-content:space-between;align-items:baseline;padding-top:14px;border-top:1px dashed var(--line);margin-top:4px}
 .receipt-total b{font-family:var(--font-mono);font-size:28px;color:var(--gold)}
+.receipt-in{display:grid;gap:8px;padding-block:14px 6px;font-size:14px;color:var(--muted)}
+.receipt-in .field{flex:none}
+.receipt-in.bad .field{border-color:#e0795b}
+.receipt-flat{box-shadow:none;background:var(--bg)}
+.receipt-flat::after{display:none}
+.receipt-flat .field{background:var(--panel)}
 .receipt-foot{margin-top:14px;font-size:12px;color:var(--muted)}
 @media (max-width:860px){ .hero{grid-template-columns:1fr;padding-block:48px 40px} }
 
@@ -115,7 +121,7 @@ section{padding-block:80px}
 .calc label{font-size:13px;color:var(--muted)}
 .calc-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .field{display:flex;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding-inline:12px;flex:1 1 140px;min-width:0}
-.field input{all:unset;font-family:var(--font-mono);font-size:18px;padding-block:10px;width:100%;min-width:0}
+.field input{all:unset;color:var(--fg);font-family:var(--font-mono);font-size:18px;padding-block:10px;width:100%;min-width:0}
 .field span{color:var(--muted);font-family:var(--font-mono)}
 .calc-out{font-family:var(--font-mono);font-size:22px;color:var(--gold);white-space:nowrap}
 .calc-out small{font-size:12px;color:var(--muted);display:block;text-align:right}
@@ -191,11 +197,11 @@ footer{border-top:1px solid var(--line-soft);background:var(--bg-2)}
   <div class="wrap hero">
     <div>
       <div class="eyebrow">Pokémon-Karten · Saarbrücken</div>
-      <h1 style="margin-top:16px">Keep the Hobby <em>Cheap</em>.</h1>
-      <p class="lead">Ich kaufe deine Karten zu festen, offenen Preisen. Und ich verkaufe sortierte Karten günstig über eBay und Cardmarket. Kein Feilschen, keine Abzocke.</p>
+      <h1 style="margin-top:16px">Ich kaufe deinen <em>Bulk</em>.</h1>
+      <p class="lead">Kisten voller Commons, Uncommons und Holos? Ab 500 Karten zahle ich dir einen festen Preis je 1.000 Karten. Du siehst vorher, was du bekommst.</p>
       <div class="hero-actions">
-        <a class="btn btn-gold" href="#verkaufen">Karten verkaufen</a>
-        <a class="btn btn-line" href="#shops">Karten kaufen</a>
+        <a class="btn btn-gold" href="kontakt.html">Bulk anbieten</a>
+        <a class="btn btn-line" href="#verkaufen">Preise und Ablauf</a>
       </div>
       <ul class="trust">
         <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12.5 L9.5 18 L20 6" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Preise vorab sichtbar</li>
@@ -204,16 +210,19 @@ footer{border-top:1px solid var(--line-soft);background:var(--bg-2)}
       </ul>
     </div>
 
-    <aside class="receipt" aria-label="Beispielrechnung Einzelkarten-Ankauf">
+    <!-- BULK-RECHNER: Preis je 1.000 Karten in data-rate eintragen (aktuell Testwert 18 €) -->
+    <aside class="receipt" id="bulk-calc" data-rate="18" data-min="500" aria-label="Bulk-Rechner">
       <div class="receipt-head">
-        <span class="eyebrow">Ankaufbeleg · Beispiel</span>
+        <span class="eyebrow">Bulk-Rechner</span>
         <span class="seal"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12.5 L9.5 18 L20 6" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </div>
-      <div class="receipt-row"><span>Einzelkarte, Zustand NM</span><span class="mono">1×</span></div>
-      <div class="receipt-row"><span>Cardmarket-Preis</span><span class="mono">12,00 €</span></div>
-      <div class="receipt-row"><span>Ankaufsquote</span><span class="mono">70 %</span></div>
-      <div class="receipt-total"><span>Du bekommst</span><b>8,40 €</b></div>
-      <p class="receipt-foot">Rechenbeispiel. Der echte Preis richtet sich nach dem aktuellen Cardmarket-Wert deiner Karte.</p>
+      <label class="receipt-in" for="bulk-qty"><span>Anzahl deiner Karten</span>
+        <span class="field"><input id="bulk-qty" type="text" inputmode="numeric" value="2.000" aria-describedby="bulk-hint"><span>Stk.</span></span>
+      </label>
+      <div class="receipt-row"><span>Preis je 1.000 Karten <span class="tbd">Testwert</span></span><span class="mono" id="bulk-rate">18,00 €</span></div>
+      <div class="receipt-row"><span>Mindestmenge</span><span class="mono">500 Karten</span></div>
+      <div class="receipt-total"><span>Du bekommst</span><b id="bulk-val" aria-live="polite">36,00 €</b></div>
+      <p class="receipt-foot" id="bulk-hint">Gilt für Commons und Uncommons. Der Endpreis steht nach dem Zählen fest.</p>
     </aside>
   </div>
 
@@ -238,7 +247,7 @@ footer{border-top:1px solid var(--line-soft);background:var(--bg-2)}
           <!-- PLATZHALTER: Preise hier eintragen. Kategorien sind ein Vorschlag. -->
           <table class="rates">
             <tbody>
-              <tr><td>Common &amp; Uncommon<span class="unit">je 1.000 Karten</span></td><td><span class="tbd">Preis folgt</span></td></tr>
+              <tr><td>Common &amp; Uncommon<span class="unit">je 1.000 Karten, ab 500 Stück</span></td><td>18,00 € <span class="tbd">Testwert</span></td></tr>
               <tr><td>Holo &amp; Reverse Holo<span class="unit">je 100 Karten</span></td><td><span class="tbd">Preis folgt</span></td></tr>
               <tr><td>V, ex, GX und Full Arts<span class="unit">je Karte</span></td><td><span class="tbd">Preis folgt</span></td></tr>
               <tr><td>Basis-Energien<span class="unit">je 1.000 Karten</span></td><td><span class="tbd">Preis folgt</span></td></tr>
@@ -255,12 +264,13 @@ footer{border-top:1px solid var(--line-soft);background:var(--bg-2)}
           </div>
           <div class="big">70&nbsp;%<small>vom Cardmarket-Preis</small></div>
           <p>Du nennst mir deine Karten, ich schaue den aktuellen Cardmarket-Preis nach und zahle dir 70 % davon. Sofort, ohne auf einen Käufer zu warten.</p>
-          <div class="calc">
-            <label for="cm-price">Rechne selbst: Cardmarket-Preis deiner Karte</label>
-            <div class="calc-row">
-              <div class="field"><input id="cm-price" type="text" inputmode="decimal" value="12,00" aria-describedby="calc-out"><span>€</span></div>
-              <div class="calc-out" id="calc-out" aria-live="polite"><small>du bekommst</small><span id="calc-val">8,40 €</span></div>
-            </div>
+          <div class="receipt receipt-flat" aria-label="Einzelkarten-Rechner">
+            <div class="receipt-head"><span class="eyebrow">Einzelkarten-Rechner</span><span class="mono" style="color:var(--muted);font-size:13px">1 Karte · NM</span></div>
+            <label class="receipt-in" for="cm-price"><span>Cardmarket-Preis deiner Karte</span>
+              <span class="field"><input id="cm-price" type="text" inputmode="decimal" value="12,00"><span>€</span></span>
+            </label>
+            <div class="receipt-row"><span>Ankaufsquote</span><span class="mono">70 %</span></div>
+            <div class="receipt-total"><span>Du bekommst</span><b id="calc-val" aria-live="polite">8,40 €</b></div>
           </div>
           <a class="btn btn-gold" href="kontakt.html">Karten anfragen</a>
         </article>
@@ -366,13 +376,30 @@ footer{border-top:1px solid var(--line-soft);background:var(--bg-2)}
 
 <script>
 (function(){
-  var input=document.getElementById('cm-price'), out=document.getElementById('calc-val');
-  var fmt=new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'});
-  function update(){
-    var v=parseFloat(String(input.value).replace(/\./g,'').replace(',','.'));
-    out.textContent=isFinite(v)&&v>=0?fmt.format(Math.round(v*70)/100):'–';
+  var eur=new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'});
+  var int=new Intl.NumberFormat('de-DE');
+  function num(s){return parseFloat(String(s).replace(/\./g,'').replace(',','.'));}
+
+  // Einzelkarten: 70 % vom Cardmarket-Preis
+  var cm=document.getElementById('cm-price'), cmOut=document.getElementById('calc-val');
+  function single(){var v=num(cm.value);cmOut.textContent=isFinite(v)&&v>=0?eur.format(Math.round(v*70)/100):'–';}
+  cm.addEventListener('input',single);single();
+
+  // Bulk: Anzahl × Preis je 1.000, ab Mindestmenge
+  var box=document.getElementById('bulk-calc'), qty=document.getElementById('bulk-qty');
+  var out=document.getElementById('bulk-val'), hint=document.getElementById('bulk-hint'), lab=qty.closest('.receipt-in');
+  var rate=parseFloat(box.dataset.rate), min=parseInt(box.dataset.min,10), hintText=hint.textContent;
+  document.getElementById('bulk-rate').textContent=eur.format(rate);
+  function bulk(){
+    var n=Math.floor(num(qty.value));
+    if(!isFinite(n)){out.textContent='–';lab.classList.remove('bad');hint.textContent=hintText;return;}
+    if(n<min){out.textContent='–';lab.classList.add('bad');hint.textContent='Ich kaufe Bulk ab '+int.format(min)+' Karten an.';return;}
+    lab.classList.remove('bad');hint.textContent=hintText;
+    out.textContent=eur.format(Math.round(n*rate/10)/100);
   }
-  input.addEventListener('input',update);update();
+  qty.addEventListener('input',bulk);
+  qty.addEventListener('blur',function(){var n=Math.floor(num(qty.value));if(isFinite(n))qty.value=int.format(n);});
+  bulk();
 })();
 </script>
 </body>
