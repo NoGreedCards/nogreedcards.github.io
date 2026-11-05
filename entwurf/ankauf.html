@@ -288,7 +288,7 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
     <div class="crumbs"><a href="index.html">Start</a> / Ankauf-Anfrage</div>
     <h1>Was willst du <em>verkaufen</em>?</h1>
     <p class="lead">Füll das Formular aus. Du bekommst ein festes Angebot per E-Mail. Bitte schick noch keine Karten, bevor du das Angebot hast.</p>
-    <div style="margin-top:12px"><ol class="stepper" aria-label="Fortschritt des Ankaufs"><li class="now" aria-current="step"><b>01</b><span>Anfrage</span></li><li class=""><b>02</b><span>Angebot</span></li><li class=""><b>03</b><span>Übergabe</span></li><li class=""><b>04</b><span>Prüfung</span></li><li class=""><b>05</b><span>Auszahlung</span></li></ol></div>
+    <div style="margin-top:12px"><ol class="stepper" aria-label="Fortschritt des Ankaufs"><li class="now" aria-current="step"><b>01</b><span>Anfrage</span></li><li class=""><b>02</b><span>Angebot</span></li><li class=""><b>03</b><span>Versand</span></li><li class=""><b>04</b><span>Prüfung</span></li><li class=""><b>05</b><span>Auszahlung</span></li></ol></div>
   </div>
 
   <div class="wrap form-grid">
@@ -340,19 +340,12 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
       </fieldset>
 
       <fieldset>
-        <legend>Übergabe und Auszahlung</legend>
-        <div class="f"><span>Wie kommen die Karten zu mir?</span>
-          <div class="opts">
-            <label class="opt"><input type="radio" name="uebergabe" value="Post" checked><span>Per Post</span></label>
-            <label class="opt"><input type="radio" name="uebergabe" value="Persönlich Saarbrücken"><span>Persönlich in Saarbrücken</span></label>
-          </div>
-        </div>
+        <legend>Auszahlung</legend>
         <div class="f"><span>Wie willst du dein Geld?</span>
           <!-- VORSCHLAG: Zahlungswege anpassen -->
           <div class="opts">
             <label class="opt"><input type="radio" name="auszahlung" value="PayPal" checked><span>PayPal</span></label>
             <label class="opt"><input type="radio" name="auszahlung" value="Überweisung"><span>Überweisung</span></label>
-            <label class="opt"><input type="radio" name="auszahlung" value="Bar bei Übergabe"><span>Bar bei Übergabe</span></label>
           </div>
         </div>
       </fieldset>
@@ -383,7 +376,7 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
         <div class="receipt-total"><span>ca.</span><b id="s-total">–</b></div>
         <p class="receipt-foot" id="s-foot">Der Endpreis steht fest, sobald ich nachgezählt habe.</p>
       </div>
-      <div class="side-note"><b>Was danach passiert</b>Ich melde mich mit einem festen Angebot per E-Mail. Erst wenn du zusagst, schickst du die Karten oder wir treffen uns.</div>
+      <div class="side-note"><b>Was danach passiert</b>Ich melde mich mit einem festen Angebot per E-Mail. Erst wenn du zusagst, schickst du die Karten per Post.</div>
     </aside>
   </div>
 </main>
@@ -471,7 +464,7 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
     var id='NGC-'+String(d.getFullYear()).slice(2)+pad(d.getMonth()+1)+pad(d.getDate())+'-'+Math.random().toString(36).slice(2,6).toUpperCase();
     var data=new FormData(form); data.append('anfragenummer', id);
     var summary={ id:id, art:art.value, name:$('name').value.trim(), mail:$('mail').value.trim(),
-      uebergabe:data.get('uebergabe'), auszahlung:data.get('auszahlung'), schaetzung:$('s-total').textContent,
+      auszahlung:data.get('auszahlung'), schaetzung:$('s-total').textContent,
       menge: mode==='bulk' ? $('menge').value : null, karten: mode==='einzel' ? $('liste').value.trim().split('\n').filter(Boolean).length : null };
     try { sessionStorage.setItem('ngc-anfrage', JSON.stringify(summary)); } catch(e){}
 
