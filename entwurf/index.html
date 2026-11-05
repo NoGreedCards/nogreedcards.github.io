@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>NoGreedCards</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="NoGreedCards aus Saarbrücken: Verkauf deine Pokémon-Karten fair – Bulk zu festen Preisen, Einzelkarten zu 70 % des Cardmarket-Preises. Günstige Karten bei eBay und Cardmarket.">
+<meta name="description" content="NoGreedCards aus Saarbrücken kauft deinen Pokémon-Bulk zu festen Preisen und Einzelkarten zu 70 % des Cardmarket-Preises.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -22,7 +22,8 @@
   --muted:#9a90a6;
   --gold:#d9b563;      /* Akzent 1: Preise, Siegel */
   --gold-soft:#f0dba8;
-  --green:#39ff8c;     /* Akzent 2: nur Haken + Fokus */
+  --green:#39ff8c;
+  --warn:#e8896b;     /* Hinweise und Fehler */     /* Akzent 2: nur Haken + Fokus */
   --font-display:"Archivo", "Arial Narrow", system-ui, sans-serif;
   --font-body:"Figtree", -apple-system, "Segoe UI", sans-serif;
   --font-mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
@@ -174,25 +175,114 @@ footer{border-top:1px solid var(--line-soft);background:var(--bg-2)}
 .foot-motto{color:var(--gold-soft);font-family:var(--font-display);font-stretch:118%;font-weight:700;font-size:18px}
 
 @media (prefers-reduced-motion:reduce){ *{transition:none!important;scroll-behavior:auto!important} }
+
+[hidden]{display:none!important}
+/* ---- Unterseiten ---- */
+.page-hero{padding-block:56px 32px;display:grid;gap:14px}
+.page-hero h1{font-size:clamp(36px,5.6vw,60px);font-weight:900;font-stretch:118%}
+.page-hero h1 em{font-style:normal;color:var(--gold)}
+.crumbs{font-size:13px;color:var(--muted)}
+.crumbs a{color:var(--muted)}
+nav a[aria-current="page"]{color:var(--gold-soft)}
+
+/* Fortschritt: die 5 Stationen des Ankaufs */
+.stepper{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:0;padding:0;list-style:none}
+.stepper li{display:grid;gap:8px;font-size:13px;color:var(--muted);min-width:0}
+.stepper li::before{content:"";height:3px;border-radius:2px;background:var(--line)}
+.stepper li.done::before{background:color-mix(in srgb, var(--gold) 55%, var(--line))}
+.stepper li.now::before{background:var(--gold)}
+.stepper li.now{color:var(--fg);font-weight:600}
+.stepper b{font-family:var(--font-mono);font-weight:400;font-size:11px;letter-spacing:.08em;color:var(--gold)}
+@media (max-width:560px){ .stepper span{display:none} .stepper li.now span{display:inline} }
+
+/* Formular */
+.form-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,.8fr);gap:32px;align-items:start;padding-bottom:80px}
+@media (max-width:900px){ .form-grid{grid-template-columns:1fr} }
+form{display:grid;gap:28px}
+fieldset{border:1px solid var(--line-soft);border-radius:var(--r);background:var(--panel);padding:24px;margin:0;display:grid;gap:18px;min-width:0}
+legend{font-family:var(--font-display);font-stretch:112%;font-weight:800;font-size:18px;padding:0 8px;margin-left:-8px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:560px){ .row2{grid-template-columns:1fr} }
+.f{display:grid;gap:6px;min-width:0}
+.f > span{font-size:14px;font-weight:500}
+.f small{font-size:12px;color:var(--muted)}
+.f input,.f select,.f textarea{font:inherit;font-size:15px;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:11px 12px;width:100%;min-width:0}
+.f textarea{min-height:130px;resize:vertical;font-family:var(--font-mono);font-size:14px}
+.f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--gold)}
+.f.bad input{border-color:var(--warn)}
+.err{font-size:13px;color:var(--warn)}
+.opts{display:flex;flex-wrap:wrap;gap:10px}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.opt span{display:block;padding:10px 14px;border:1px solid var(--line);border-radius:8px;font-size:14px;cursor:pointer;transition:border-color .15s, background .15s}
+.opt input:checked + span{border-color:var(--gold);background:color-mix(in srgb, var(--gold) 12%, transparent);color:var(--gold-soft)}
+.opt input:focus-visible + span{outline:2px solid var(--green);outline-offset:2px}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted)}
+.check input{margin-top:4px;accent-color:var(--gold)}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tab{font:inherit;text-align:left;cursor:pointer;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;color:var(--fg);display:grid;gap:4px}
+.tab b{font-family:var(--font-display);font-stretch:112%;font-size:17px}
+.tab span{font-size:13px;color:var(--muted)}
+.tab[aria-selected="true"]{border-color:var(--gold);background:color-mix(in srgb, var(--gold) 9%, var(--panel))}
+.submit-row{display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+.demo-note{font-size:13px;color:var(--muted)}
+.side{position:sticky;top:96px;display:grid;gap:16px}
+.side .receipt{padding:22px}
+.side-note{font-size:14px;color:var(--muted);border-left:2px solid var(--line);padding-left:14px;display:grid;gap:6px}
+.side-note b{color:var(--fg);font-weight:600}
+
+/* Zeitleiste und Karten */
+.timeline{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.timeline > li{display:grid;grid-template-columns:56px minmax(0,1fr);gap:20px;padding-bottom:36px;position:relative}
+.timeline > li::before{content:"";position:absolute;left:27px;top:44px;bottom:0;border-left:1px dashed var(--line)}
+.timeline > li:last-child::before{display:none}
+.t-num{width:56px;height:56px;border-radius:50%;border:2px solid var(--gold);display:grid;place-items:center;font-family:var(--font-mono);color:var(--gold);background:var(--bg)}
+.t-body{display:grid;gap:8px;padding-top:6px}
+.t-body h3{font-size:22px}
+.t-body p{color:var(--muted);max-width:62ch}
+.t-meta{display:flex;flex-wrap:wrap;gap:8px}
+.t-meta .chip{white-space:normal}
+.card{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--r);padding:24px;display:grid;gap:12px;min-width:0}
+.card p,.card li{color:var(--muted)}
+.card ul{margin:0;padding-left:18px;display:grid;gap:6px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media (max-width:860px){ .grid2,.grid3{grid-template-columns:1fr} }
+.terms{counter-reset:t;display:grid;gap:14px;margin:0;padding:0;list-style:none;max-width:72ch}
+.terms li{counter-increment:t;display:grid;grid-template-columns:40px 1fr;gap:12px;color:var(--muted)}
+.terms li::before{content:"§" counter(t);font-family:var(--font-mono);color:var(--gold)}
+.terms b{color:var(--fg);font-weight:600}
+details{border-bottom:1px dashed var(--line);padding-block:16px}
+summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:var(--font-mono);color:var(--gold)}
+details[open] summary::after{content:"–"}
+details p{color:var(--muted);margin-top:10px;max-width:66ch}
+.ticket{border:1px dashed var(--gold);border-radius:var(--r);padding:24px;display:grid;gap:6px;background:var(--panel)}
+.ticket .id{font-family:var(--font-mono);font-size:clamp(24px,4vw,34px);color:var(--gold);letter-spacing:.04em}
+.summary{display:grid;gap:0;margin:0}
+.summary div{display:flex;justify-content:space-between;gap:16px;padding-block:10px;border-bottom:1px dashed var(--line-soft);font-size:15px}
+.summary dt{color:var(--muted)}
+.summary dd{margin:0;text-align:right;font-family:var(--font-mono);font-size:14px;overflow-wrap:anywhere}
+.callout{border:1px solid color-mix(in srgb, var(--warn) 50%, transparent);background:color-mix(in srgb, var(--warn) 9%, transparent);border-radius:var(--r);padding:16px 18px;font-size:15px}
+.callout b{color:var(--fg)}
 </style>
 </head>
 <body>
-
 <header>
   <div class="wrap bar">
-    <a href="#top" class="brand" aria-label="NoGreedCards Startseite">
+    <a href="index.html" class="brand" aria-label="NoGreedCards Startseite">
       <span class="seal"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12.5 L9.5 18 L20 6" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       <span class="brand-name">NOGREEDCARDS</span>
     </a>
     <nav aria-label="Hauptnavigation">
-      <a class="nav-link" href="#verkaufen">Karten verkaufen</a>
-      <a class="nav-link" href="#bewertungen">Bewertungen</a>
-      <a class="nav-link" href="#shops">Shops</a>
-      <a class="btn btn-gold btn-sm" href="#verkaufen">Angebot holen</a>
+      <a class="nav-link" href="ablauf.html">So läuft der Ankauf</a>
+      <a class="nav-link" href="index.html#bewertungen">Bewertungen</a>
+      <a class="nav-link" href="index.html#shops">Shops</a>
+      <a class="btn btn-gold btn-sm" href="ankauf.html">Angebot holen</a>
     </nav>
   </div>
 </header>
-
 <main id="top">
   <div class="wrap hero">
     <div>
@@ -200,8 +290,8 @@ footer{border-top:1px solid var(--line-soft);background:var(--bg-2)}
       <h1 style="margin-top:16px">Ich kaufe deinen <em>Bulk</em>.</h1>
       <p class="lead">Kisten voller Commons, Uncommons und Holos? Ab 500 Karten zahle ich dir einen festen Preis je 1.000 Karten. Du siehst vorher, was du bekommst.</p>
       <div class="hero-actions">
-        <a class="btn btn-gold" href="kontakt.html">Bulk anbieten</a>
-        <a class="btn btn-line" href="#verkaufen">Preise und Ablauf</a>
+        <a class="btn btn-gold" href="ankauf.html#bulk">Bulk anbieten</a>
+        <a class="btn btn-line" href="ablauf.html">So läuft der Ankauf</a>
       </div>
       <ul class="trust">
         <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12.5 L9.5 18 L20 6" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Preise vorab sichtbar</li>
@@ -253,7 +343,7 @@ footer{border-top:1px solid var(--line-soft);background:var(--bg-2)}
               <tr><td>Basis-Energien<span class="unit">je 1.000 Karten</span></td><td><span class="tbd">Preis folgt</span></td></tr>
             </tbody>
           </table>
-          <a class="btn btn-line" href="kontakt.html">Bulk anbieten</a>
+          <a class="btn btn-line" href="ankauf.html#bulk">Bulk anbieten</a>
         </article>
 
         <!-- WEG 2: EINZELKARTEN -->
@@ -272,16 +362,17 @@ footer{border-top:1px solid var(--line-soft);background:var(--bg-2)}
             <div class="receipt-row"><span>Ankaufsquote</span><span class="mono">70 %</span></div>
             <div class="receipt-total"><span>Du bekommst</span><b id="calc-val" aria-live="polite">8,40 €</b></div>
           </div>
-          <a class="btn btn-gold" href="kontakt.html">Karten anfragen</a>
+          <a class="btn btn-gold" href="ankauf.html#einzel">Karten anfragen</a>
         </article>
       </div>
 
       <ol class="steps" aria-label="So läuft ein Ankauf ab">
-        <li><b>Anfragen</b><span>Schick mir eine Liste oder Fotos deiner Karten.</span></li>
-        <li><b>Angebot</b><span>Du bekommst einen festen Preis nach Liste oder 70 %-Regel.</span></li>
+        <li><b>Anfrage</b><span>Formular ausfüllen, dauert 2 Minuten.</span></li>
+        <li><b>Angebot</b><span>Du bekommst einen festen Preis per E-Mail.</span></li>
         <li><b>Übergabe</b><span>Per Post oder persönlich in Saarbrücken.</span></li>
-        <li><b>Bezahlung</b><span>Nach kurzer Prüfung der Karten.</span></li>
+        <li><b>Prüfung und Auszahlung</b><span>Ich zähle nach und zahle dir den Betrag aus.</span></li>
       </ol>
+      <p style="margin-top:24px"><a href="ablauf.html" style="color:var(--gold-soft)">Alle Schritte und Ankaufbedingungen ansehen →</a></p>
     </div>
   </section>
 
@@ -356,7 +447,6 @@ footer{border-top:1px solid var(--line-soft);background:var(--bg-2)}
     </div>
   </section>
 </main>
-
 <footer>
   <div class="wrap foot">
     <div style="display:grid;gap:6px">
@@ -364,16 +454,16 @@ footer{border-top:1px solid var(--line-soft);background:var(--bg-2)}
       <span>Faire Preise. Ehrlicher Bulk. Keine Abzocke.</span>
     </div>
     <nav aria-label="Fußzeile">
+      <a href="ablauf.html">Ankauf</a>
+      <a href="versand.html">Versand</a>
       <a href="https://www.youtube.com/@NoGreedCollector" target="_blank" rel="noopener">YouTube</a>
       <a href="turniere.html">Turniere</a>
-      <a href="kontakt.html">Kontakt</a>
       <!-- PLATZHALTER: Impressum und Datenschutz anlegen, bevor die Seite gewerblich live geht -->
       <a href="#">Impressum</a>
       <a href="#">Datenschutz</a>
     </nav>
   </div>
 </footer>
-
 <script>
 (function(){
   var eur=new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'});
