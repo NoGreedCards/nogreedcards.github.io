@@ -217,6 +217,7 @@ legend{font-family:var(--font-display);font-stretch:112%;font-weight:800;font-si
 .opt span{display:block;padding:10px 14px;border:1px solid var(--line);border-radius:8px;font-size:14px;cursor:pointer;transition:border-color .15s, background .15s}
 .opt input:checked + span{border-color:var(--gold);background:color-mix(in srgb, var(--gold) 12%, transparent);color:var(--gold-soft)}
 .opt input:focus-visible + span{outline:2px solid var(--green);outline-offset:2px}
+.opt-tag{font-style:normal;font-weight:400;color:var(--muted);font-size:12px}
 .check{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted)}
 .check input{margin-top:4px;accent-color:var(--gold)}
 .tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -295,10 +296,10 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
     <div class="wrap">
       <ol class="timeline">
         <li><span class="t-num">01</span><div class="t-body"><h3>Anfrage</h3><p>Du füllst das Ankauf-Formular aus: Bulk ab 500 Karten oder eine Liste deiner Einzelkarten. Das dauert etwa 2 Minuten.</p><div class="t-meta"><span class="chip">Du</span><span class="chip">2 Min.</span></div></div></li>
-        <li><span class="t-num">02</span><div class="t-body"><h3>Angebot</h3><p>Ich schicke dir ein festes Angebot per E-Mail. Bulk nach Preisliste, Einzelkarten zu 70 % des aktuellen Cardmarket-Preises. Bei Einzelkarten frage ich eventuell nach Fotos.</p><div class="t-meta"><span class="chip">Ich</span><span class="chip">meist in 2 Tagen <span class="tbd" style="margin-left:4px">Vorschlag</span></span></div></div></li>
+        <li><span class="t-num">02</span><div class="t-body"><h3>Angebot</h3><p>Ich schicke dir ein festes Angebot per WhatsApp oder E-Mail, je nachdem, was du im Formular gewählt hast. Bulk nach Preisliste, Einzelkarten zu 70 % des aktuellen Cardmarket-Preises. Bei Einzelkarten frage ich eventuell nach Fotos.</p><div class="t-meta"><span class="chip">Ich</span><span class="chip">meist in 2 Tagen <span class="tbd" style="margin-left:4px">Vorschlag</span></span></div></div></li>
         <li><span class="t-num">03</span><div class="t-body"><h3>Versand</h3><p>Du sagst zu und schickst die Karten per Post mit deiner Anfragenummer. <a href="versand.html" style="color:var(--gold-soft)">Versandanleitung</a></p><div class="t-meta"><span class="chip">Du</span></div></div></li>
         <li><span class="t-num">04</span><div class="t-body"><h3>Prüfung</h3><p>Ich zähle Bulk nach Gewicht und Stichprobe und prüfe Einzelkarten auf Zustand und Echtheit. Weicht etwas ab, bekommst du ein neues Angebot oder deine Karten zurück.</p><div class="t-meta"><span class="chip">Ich</span><span class="chip">2 bis 3 Tage nach Eingang <span class="tbd" style="margin-left:4px">Vorschlag</span></span></div></div></li>
-        <li><span class="t-num">05</span><div class="t-body"><h3>Auszahlung</h3><p>Du bekommst dein Geld per PayPal oder Überweisung. Dazu einen Ankaufbeleg per E-Mail.</p><div class="t-meta"><span class="chip chip-gold">Fertig</span></div></div></li>
+        <li><span class="t-num">05</span><div class="t-body"><h3>Auszahlung</h3><p>Du bekommst dein Geld per PayPal oder Überweisung. Dazu einen Ankaufbeleg als PDF.</p><div class="t-meta"><span class="chip chip-gold">Fertig</span></div></div></li>
       </ol>
     </div>
   </section>
@@ -335,6 +336,7 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
           <details><summary>Wie schätze ich die Anzahl?</summary><p>100 Karten wiegen etwa 180 g. Ein voller Schuhkarton sind ungefähr 800 bis 1.000 Karten.</p></details>
           <details><summary>Kaufst du auch englische oder japanische Karten?</summary><p>Englische ja. Bei anderen Sprachen schreib es bitte in die Nachricht, dann mache ich ein eigenes Angebot.</p></details>
           <details><summary>Was ist mit Karten in Sammelalben?</summary><p>Bitte nimm sie vorher heraus. Alben und Hüllen kann ich nicht mit ankaufen.</p></details>
+          <details><summary>Warum WhatsApp?</summary><p>Weil es schneller geht. Du kannst mir Fotos deiner Karten direkt schicken, und Rückfragen sind in einer Minute geklärt. Wer lieber nicht chattet, wählt im Formular E-Mail.</p></details>
           <details><summary>Bin ich nach der Anfrage zum Verkauf verpflichtet?</summary><p>Nein. Die Anfrage ist unverbindlich. Verkauft ist erst, wenn du mein Angebot annimmst und die Karten geprüft sind.</p></details>
         </div>
       </div>

@@ -217,6 +217,7 @@ legend{font-family:var(--font-display);font-stretch:112%;font-weight:800;font-si
 .opt span{display:block;padding:10px 14px;border:1px solid var(--line);border-radius:8px;font-size:14px;cursor:pointer;transition:border-color .15s, background .15s}
 .opt input:checked + span{border-color:var(--gold);background:color-mix(in srgb, var(--gold) 12%, transparent);color:var(--gold-soft)}
 .opt input:focus-visible + span{outline:2px solid var(--green);outline-offset:2px}
+.opt-tag{font-style:normal;font-weight:400;color:var(--muted);font-size:12px}
 .check{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted)}
 .check input{margin-top:4px;accent-color:var(--gold)}
 .tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -287,7 +288,7 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
   <div class="wrap page-hero">
     <div class="crumbs"><a href="index.html">Start</a> / Ankauf-Anfrage</div>
     <h1>Was willst du <em>verkaufen</em>?</h1>
-    <p class="lead">Füll das Formular aus. Du bekommst ein festes Angebot per E-Mail. Bitte schick noch keine Karten, bevor du das Angebot hast.</p>
+    <p class="lead">Füll das Formular aus. Du bekommst ein festes Angebot per WhatsApp oder E-Mail, ganz wie du willst. Bitte schick noch keine Karten, bevor du das Angebot hast.</p>
     <div style="margin-top:12px"><ol class="stepper" aria-label="Fortschritt des Ankaufs"><li class="now" aria-current="step"><b>01</b><span>Anfrage</span></li><li class=""><b>02</b><span>Angebot</span></li><li class=""><b>03</b><span>Versand</span></li><li class=""><b>04</b><span>Prüfung</span></li><li class=""><b>05</b><span>Auszahlung</span></li></ol></div>
   </div>
 
@@ -330,7 +331,7 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
         <legend>Deine Einzelkarten</legend>
         <label class="f" id="f-liste"><span>Kartenliste</span>
           <textarea id="liste" name="liste" placeholder="Glurak ex · Obsidianflammen 125 · NM · 1×&#10;Pikachu · Karmesin &amp; Purpur 151 · EX · 2×"></textarea>
-          <small>Eine Karte pro Zeile: Name, Set, Nummer, Zustand, Anzahl. Fotos schickst du mir später als Antwort auf meine E-Mail.</small>
+          <small>Eine Karte pro Zeile: Name, Set, Nummer, Zustand, Anzahl. Fotos schickst du mir später per WhatsApp oder E-Mail.</small>
           <span class="err" id="err-liste" hidden>Bitte trag mindestens eine Karte ein.</span>
         </label>
         <label class="f"><span>Cardmarket-Wert aller Karten (optional)</span>
@@ -352,9 +353,17 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
 
       <fieldset>
         <legend>Kontakt</legend>
+        <label class="f" id="f-name"><span>Vorname</span><input id="name" name="name" type="text" autocomplete="given-name"><span class="err" id="err-name" hidden>Bitte gib deinen Vornamen an.</span></label>
+        <div class="f"><span>Wie soll ich mich bei dir melden?</span>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="kontaktweg" value="WhatsApp" checked><span>WhatsApp</span></label>
+            <label class="opt"><input type="radio" name="kontaktweg" value="E-Mail"><span>E-Mail</span></label>
+          </div>
+          <small id="kw-hint">Ich schreibe dir von meiner Geschäftsnummer. Fotos von Karten kannst du mir dort direkt schicken.</small>
+        </div>
         <div class="row2">
-          <label class="f" id="f-name"><span>Vorname</span><input id="name" name="name" type="text" autocomplete="given-name"><span class="err" id="err-name" hidden>Bitte gib deinen Vornamen an.</span></label>
-          <label class="f" id="f-mail"><span>E-Mail</span><input id="mail" name="email" type="email" autocomplete="email"><span class="err" id="err-mail" hidden>Bitte gib eine gültige E-Mail an.</span></label>
+          <label class="f" id="f-tel"><span>WhatsApp-Nummer <em class="opt-tag" id="tel-tag" hidden>(optional)</em></span><input id="tel" name="whatsapp" type="tel" autocomplete="tel" placeholder="z. B. 0151 23456789"><span class="err" id="err-tel" hidden>Bitte gib deine WhatsApp-Nummer an.</span></label>
+          <label class="f" id="f-mail"><span>E-Mail <em class="opt-tag" id="mail-tag">(optional, für den Ankaufbeleg)</em></span><input id="mail" name="email" type="email" autocomplete="email"><span class="err" id="err-mail" hidden>Bitte gib eine gültige E-Mail an.</span></label>
         </div>
         <label class="f"><span>Nachricht (optional)</span><textarea id="nachricht" name="nachricht" style="min-height:90px;font-family:var(--font-body)"></textarea></label>
         <label class="check"><input type="checkbox" id="ok-18" name="volljaehrig"><span>Ich bin mindestens 18 Jahre alt oder meine Eltern sind einverstanden.</span></label>
@@ -376,7 +385,7 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
         <div class="receipt-total"><span>ca.</span><b id="s-total">–</b></div>
         <p class="receipt-foot" id="s-foot">Der Endpreis steht fest, sobald ich nachgezählt habe.</p>
       </div>
-      <div class="side-note"><b>Was danach passiert</b>Ich melde mich mit einem festen Angebot per E-Mail. Erst wenn du zusagst, schickst du die Karten per Post.</div>
+      <div class="side-note"><b>Was danach passiert</b>Ich melde mich mit einem festen Angebot, per WhatsApp oder E-Mail. Erst wenn du zusagst, schickst du die Karten per Post.</div>
     </aside>
   </div>
 </main>
@@ -448,6 +457,18 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
 
   function flag(fid, eid, bad){ var f=$(fid); if(f) f.classList.toggle('bad', bad); $(eid).hidden=!bad; return bad; }
 
+  function kontaktweg(){ var r=form.querySelector('input[name="kontaktweg"]:checked'); return r?r.value:'WhatsApp'; }
+  function setKontakt(){
+    var wa=kontaktweg()==='WhatsApp';
+    $('tel-tag').hidden=wa;
+    $('mail-tag').hidden=!wa;
+    $('kw-hint').textContent = wa ? 'Ich schreibe dir von meiner Geschäftsnummer. Fotos von Karten kannst du mir dort direkt schicken.'
+                                  : 'Du bekommst Angebot, Versandadresse und Ankaufbeleg per E-Mail.';
+    flag('f-tel','err-tel',false); flag('f-mail','err-mail',false);
+  }
+  form.querySelectorAll('input[name="kontaktweg"]').forEach(function(r){ r.addEventListener('change', setKontakt); });
+  setKontakt();
+
   form.addEventListener('submit', function(ev){
     ev.preventDefault();
     var bad=false, first=null;
@@ -455,7 +476,10 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
     if (mode==='bulk'){ var n=Math.floor(num($('menge').value)); chk('f-menge','err-menge',!(isFinite(n)&&n>=MIN),'menge'); }
     else chk('f-liste','err-liste',!$('liste').value.trim(),'liste');
     chk('f-name','err-name',!$('name').value.trim(),'name');
-    chk('f-mail','err-mail',!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('mail').value.trim()),'mail');
+    var kw=kontaktweg(), mailV=$('mail').value.trim(), telV=$('tel').value.replace(/[^0-9]/g,'');
+    var mailOk=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mailV);
+    chk('f-tel','err-tel', kw==='WhatsApp' ? telV.length<8 : (telV.length>0 && telV.length<8),'tel');
+    chk('f-mail','err-mail', kw==='E-Mail' ? !mailOk : (mailV.length>0 && !mailOk),'mail');
     $('err-ok').hidden = $('ok-18').checked && $('ok-agb').checked;
     if (!$('err-ok').hidden){ bad=true; if(!first) first=$('ok-18'); }
     if (bad){ first.focus(); return; }
@@ -463,7 +487,7 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
     var d=new Date(), pad=function(x){return String(x).padStart(2,'0');};
     var id='NGC-'+String(d.getFullYear()).slice(2)+pad(d.getMonth()+1)+pad(d.getDate())+'-'+Math.random().toString(36).slice(2,6).toUpperCase();
     var data=new FormData(form); data.append('anfragenummer', id);
-    var summary={ id:id, art:art.value, name:$('name').value.trim(), mail:$('mail').value.trim(),
+    var summary={ id:id, art:art.value, name:$('name').value.trim(), mail:$('mail').value.trim(), tel:$('tel').value.trim(), kontaktweg:kontaktweg(),
       auszahlung:data.get('auszahlung'), schaetzung:$('s-total').textContent,
       menge: mode==='bulk' ? $('menge').value : null, karten: mode==='einzel' ? $('liste').value.trim().split('\n').filter(Boolean).length : null };
     try { sessionStorage.setItem('ngc-anfrage', JSON.stringify(summary)); } catch(e){}
