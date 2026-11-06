@@ -318,7 +318,12 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
 .reviews-main{grid-template-columns:minmax(0,2.2fr) minmax(0,1fr);align-items:start}
 @media (max-width:860px){ .reviews-main{grid-template-columns:1fr} }
 .ebay-box{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--r);padding:28px;display:grid;gap:8px;min-width:0}
-.ebay-head{display:grid;gap:4px}
+.ebay-head{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:center;padding-bottom:8px}
+.ebay-head > div{display:grid;gap:4px}
+.ebay-head .score-num{grid-row:auto}
+@media (max-width:560px){ .ebay-head{grid-template-columns:1fr} .ebay-head .score-num{font-size:44px} .ebay-box{padding:20px} }
+.stars{grid-column:1 / -1;font-size:13px;color:var(--muted)}
+.stars span{color:var(--gold);letter-spacing:2px;margin-right:6px}
 .ebay-head .score-name{font-family:var(--font-display);font-stretch:112%;font-weight:800;font-size:22px}
 .ebay-box .quotes{grid-template-columns:1fr;gap:16px}
 .ebay-box .score-link{text-decoration:none}

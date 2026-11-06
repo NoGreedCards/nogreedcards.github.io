@@ -318,7 +318,12 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
 .reviews-main{grid-template-columns:minmax(0,2.2fr) minmax(0,1fr);align-items:start}
 @media (max-width:860px){ .reviews-main{grid-template-columns:1fr} }
 .ebay-box{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--r);padding:28px;display:grid;gap:8px;min-width:0}
-.ebay-head{display:grid;gap:4px}
+.ebay-head{display:grid;grid-template-columns:auto 1fr;gap:6px 24px;align-items:center;padding-bottom:8px}
+.ebay-head > div{display:grid;gap:4px}
+.ebay-head .score-num{grid-row:auto}
+@media (max-width:560px){ .ebay-head{grid-template-columns:1fr} .ebay-head .score-num{font-size:44px} .ebay-box{padding:20px} }
+.stars{grid-column:1 / -1;font-size:13px;color:var(--muted)}
+.stars span{color:var(--gold);letter-spacing:2px;margin-right:6px}
 .ebay-head .score-name{font-family:var(--font-display);font-stretch:112%;font-weight:800;font-size:22px}
 .ebay-box .quotes{grid-template-columns:1fr;gap:16px}
 .ebay-box .score-link{text-decoration:none}
@@ -401,7 +406,7 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
         <div><b>Steven aus Saarbrücken</b><span>Ich sortiere und zähle jede Sendung selbst. Du schreibst direkt mit mir, nicht mit einem Callcenter.</span></div>
       </div>
       <a class="mini-score" href="https://feedback.ebay.de/fdbk/feedback_profile/nogreedtcg" target="_blank" rel="noopener">
-        <b>eBay</b><span>„Alles super gelaufen, wie beschriebe, gerne wieder“ ↗</span>
+        <b>eBay</b><span>100 % positiv · 39 Bewertungen ↗</span>
       </a>
       <a class="mini-score" href="https://www.cardmarket.com/de/Pokemon/Users/NoGreedCards" target="_blank" rel="noopener">
         <b>Cardmarket</b><span>100 % positiv · 119 Verkäufe ↗</span>
@@ -502,7 +507,11 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
         <!-- Bewertungen: wörtlich übernommen aus Screenshots des Nutzers vom 06.11.2026. Käufernamen bewusst nicht gezeigt. -->
         <div class="reviews reviews-main">
           <div class="ebay-box">
-            <div class="ebay-head"><span class="score-name">eBay · nogreedtcg</span><span class="score-meta">Nur bestätigte Käufe · <span class="tbd">Prozent und Anzahl folgen</span></span></div>
+            <div class="ebay-head">
+              <span class="score-num">100&nbsp;%</span>
+              <div><span class="score-name">eBay · nogreedtcg</span><span class="score-meta">positiv · 39 Bewertungen in 12 Monaten · 0 neutral, 0 negativ</span></div>
+              <span class="stars"><span aria-hidden="true">★★★★★</span> bei Beschreibung, Lieferzeit, Versandkosten und Kommunikation</span>
+            </div>
             <div class="quotes">
               <figure class="quote"><p>„Alles super gelaufen, wie beschriebe, gerne wieder“</p><cite>bestätigter Kauf · 100 Karten Holo &amp; Glitzer · letzter Monat</cite></figure>
               <figure class="quote"><p>„Alles super gelaufen 👍 Top Ware 👍 gerne wieder 👍👍👍“</p><cite>bestätigter Kauf · 2 × 100 Karten Holo &amp; Glitzer · letzter Monat</cite></figure>
