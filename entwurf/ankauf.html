@@ -267,6 +267,54 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
 .summary dd{margin:0;text-align:right;font-family:var(--font-mono);font-size:14px;overflow-wrap:anywhere}
 .callout{border:1px solid color-mix(in srgb, var(--warn) 50%, transparent);background:color-mix(in srgb, var(--warn) 9%, transparent);border-radius:var(--r);padding:16px 18px;font-size:15px}
 .callout b{color:var(--fg)}
+
+/* Rechner mit Kategorien, Vertrauen, Sortierhilfe, Zwei-Schritt-Formular */
+.text-link{font:inherit;font-weight:600;background:none;border:0;padding:0;cursor:pointer;color:var(--gold-soft);text-decoration:none}
+.text-link:hover{text-decoration:underline}
+.hero-actions{align-items:center}
+.hero-actions .text-link{padding:12px 4px}
+@media (max-width:420px){ header .btn-sm{white-space:nowrap;padding-inline:12px} header .brand span{font-size:15px} }
+.seg{padding-top:14px}
+.seg .opt{flex:1}
+.seg .opt span{text-align:center;padding:8px 10px}
+.calc-row{display:grid;grid-template-columns:minmax(0,1fr) 92px 70px;gap:10px;align-items:center;padding-block:8px;font-size:14px}
+.calc-row > span:first-child{display:grid;gap:2px}
+.calc-row small{font-size:12px;color:var(--muted)}
+.calc-row .field input{font-size:16px;padding-block:7px;text-align:right}
+.calc-row > .mono{text-align:right;font-size:14px}
+#bc-sorted,#bc-unsorted{padding-block:6px}
+#bulk-calc.bad .receipt-foot#bulk-hint{color:var(--warn)}
+.bonus{color:var(--green)}
+.bonus:empty{display:none}
+.trustband{border-top:1px solid var(--line-soft);padding-block:28px}
+.trust-grid{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(2,minmax(0,.8fr)) minmax(0,1.3fr);gap:16px;align-items:stretch}
+@media (max-width:980px){ .trust-grid{grid-template-columns:1fr 1fr} }
+@media (max-width:560px){ .trust-grid{grid-template-columns:1fr} }
+.who{display:flex;gap:14px;align-items:center}
+.who div,.promise{display:grid;gap:4px;font-size:14px;color:var(--muted)}
+.who b,.promise b{color:var(--fg);font-weight:600;font-size:15px}
+.avatar{flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--panel);border:2px solid var(--gold);font-family:var(--font-display);font-weight:900;font-size:22px;color:var(--gold)}
+.mini-score{display:grid;gap:4px;align-content:center;background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--r);padding:14px 16px;text-decoration:none;font-size:13px;color:var(--muted);transition:border-color .15s}
+.mini-score:hover{border-color:var(--gold)}
+.mini-score b{font-family:var(--font-display);font-stretch:112%;font-size:18px;color:var(--fg)}
+.promise{border-left:2px solid var(--green);padding-left:14px;align-content:center}
+.promise a{color:var(--gold-soft)}
+.sort-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+@media (max-width:980px){ .sort-grid{grid-template-columns:1fr 1fr} }
+@media (max-width:560px){ .sort-grid{grid-template-columns:1fr} }
+.sym{font-family:var(--font-mono);font-size:22px;color:var(--gold)}
+.sort-grid h3{font-size:19px}
+.sort-foot{margin-top:24px;color:var(--muted)}
+.source-note{margin-top:32px;border-top:1px dashed var(--line);border-bottom:0}
+.source-note a{color:var(--gold-soft)}
+.part{display:grid;gap:28px}
+.part-head{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:baseline}
+.part-head b{font-family:var(--font-display);font-stretch:112%;font-size:20px}
+.part-bar{grid-column:1 / -1;height:3px;background:var(--line);border-radius:2px;overflow:hidden}
+.part-bar i{display:block;height:100%;background:var(--gold)}
+.row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:640px){ .row3{grid-template-columns:1fr} }
+#f-menge:has(.err[hidden]){display:none}
 </style>
 </head>
 <body>
@@ -288,91 +336,105 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
   <div class="wrap page-hero">
     <div class="crumbs"><a href="index.html">Start</a> / Ankauf-Anfrage</div>
     <h1>Was willst du <em>verkaufen</em>?</h1>
-    <p class="lead">Füll das Formular aus. Du bekommst ein Angebot per WhatsApp oder E-Mail, ganz wie du willst. Bitte schick noch keine Karten, bevor du das Angebot hast.</p>
+    <p class="lead">Zwei kurze Teile, etwa 2 Minuten. Du bekommst ein Angebot per WhatsApp oder E-Mail. Bitte schick noch keine Karten, bevor du das Angebot hast.</p>
     <div style="margin-top:12px"><ol class="stepper" aria-label="Fortschritt des Ankaufs"><li class="now" aria-current="step"><b>01</b><span>Anfrage</span></li><li class=""><b>02</b><span>Angebot</span></li><li class=""><b>03</b><span>Versand</span></li><li class=""><b>04</b><span>Prüfung</span></li><li class=""><b>05</b><span>Auszahlung</span></li></ol></div>
   </div>
 
   <div class="wrap form-grid">
     <!-- FORMULAR: Formspree-ID unten in FORM_ID eintragen. Ohne ID läuft das Formular im Vorschau-Modus. -->
     <form id="ankauf-form" novalidate>
-      <div class="tabs" role="tablist" aria-label="Art des Ankaufs">
-        <button type="button" class="tab" role="tab" id="tab-bulk" aria-controls="fs-bulk" aria-selected="true"><b>Bulk</b><span>ab 500 Karten, fester Preis je 1.000</span></button>
-        <button type="button" class="tab" role="tab" id="tab-einzel" aria-controls="fs-einzel" aria-selected="false"><b>Einzelkarten</b><span>70 % vom Cardmarket-Preis</span></button>
+      <div class="part" id="part1">
+        <div class="part-head"><span class="eyebrow">Teil 1 von 2</span><b>Deine Karten</b><span class="part-bar"><i style="width:50%"></i></span></div>
+        <div class="tabs" role="tablist" aria-label="Art des Ankaufs">
+          <button type="button" class="tab" role="tab" id="tab-bulk" aria-controls="fs-bulk" aria-selected="true"><b>Bulk</b><span>ab 500 Karten, feste Preise</span></button>
+          <button type="button" class="tab" role="tab" id="tab-einzel" aria-controls="fs-einzel" aria-selected="false"><b>Einzelkarten</b><span>70 % vom Cardmarket-Preis</span></button>
+        </div>
+        <input type="hidden" name="art" id="art" value="Bulk">
+
+        <fieldset id="fs-bulk" role="tabpanel" aria-labelledby="tab-bulk">
+          <legend>Deine Bulk-Karten</legend>
+          <div class="f"><span>Hast du sortiert?</span>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="sortiert" value="sortiert" checked><span>Ja, grob sortiert</span></label>
+              <label class="opt"><input type="radio" name="sortiert" value="unsortiert"><span>Nein, alles gemischt</span></label>
+            </div>
+            <small>Unsicher? <a href="index.html#sortieren" style="color:var(--gold-soft)">So sortierst du in 10 Minuten</a>. Grob schätzen reicht: ein voller Schuhkarton sind etwa 800 bis 1.000 Karten.</small>
+          </div>
+          <div class="row3" id="grp-sorted">
+            <label class="f"><span>Common &amp; Uncommon</span><input id="cu" name="common_uncommon" type="text" inputmode="numeric" placeholder="z. B. 1.500" autocomplete="off"><small>0,7 ct je Karte</small></label>
+            <label class="f"><span>Holo &amp; Reverse</span><input id="holo" name="holo_reverse" type="text" inputmode="numeric" placeholder="z. B. 400" autocomplete="off"><small>1,5 ct, ab 500: 2 ct</small></label>
+            <label class="f"><span>EX, V, GX, ex</span><input id="ex" name="ex_v_gx" type="text" inputmode="numeric" placeholder="z. B. 10" autocomplete="off"><small>25 ct, ab 20: 35 ct</small></label>
+          </div>
+          <div id="grp-un" hidden>
+            <label class="f"><span>Anzahl, alles gemischt</span><input id="un" name="unsortiert" type="text" inputmode="numeric" placeholder="z. B. 2.000" autocomplete="off"><small>0,6 ct je Karte</small></label>
+          </div>
+          <div class="f" id="f-menge"><span class="err" id="err-menge" hidden>Ich kaufe Bulk ab 500 Karten an.</span></div>
+          <label class="check"><input type="checkbox" name="energien" value="ja"><span>Ich schicke auch Basis-Energien mit (kostenlos, ich nehme sie gern).</span></label>
+          <div class="row2">
+            <label class="f"><span>Sprache</span>
+              <select id="sprache" name="sprache"><option>Deutsch</option><option>Englisch</option><option>Gemischt</option><option>Andere</option></select>
+            </label>
+            <label class="f"><span>Zustand</span>
+              <select id="zustand" name="zustand"><option>Gut, wenig bespielt</option><option>Gemischt</option><option>Stark bespielt</option></select>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset id="fs-einzel" role="tabpanel" aria-labelledby="tab-einzel" hidden>
+          <legend>Deine Einzelkarten</legend>
+          <label class="f" id="f-liste"><span>Kartenliste</span>
+            <textarea id="liste" name="liste" placeholder="Glurak ex · Obsidianflammen 125 · NM · 1×&#10;Pikachu · Karmesin &amp; Purpur 151 · EX · 2×"></textarea>
+            <small>Eine Karte pro Zeile: Name, Set, Nummer, Zustand, Anzahl. Fotos schickst du mir später per WhatsApp oder E-Mail.</small>
+            <span class="err" id="err-liste" hidden>Bitte trag mindestens eine Karte ein.</span>
+          </label>
+          <label class="f"><span>Cardmarket-Wert aller Karten (optional)</span>
+            <input id="wert" name="wert" type="text" inputmode="decimal" placeholder="z. B. 45,00" autocomplete="off">
+            <small>Wenn du ihn kennst. Ich prüfe jede Karte trotzdem selbst nach.</small>
+          </label>
+        </fieldset>
+
+        <div class="submit-row">
+          <button class="btn btn-gold" type="button" id="next">Weiter zu Teil 2</button>
+          <span class="demo-note">Noch unverbindlich.</span>
+        </div>
       </div>
-      <input type="hidden" name="art" id="art" value="Bulk">
 
-      <fieldset id="fs-bulk" role="tabpanel" aria-labelledby="tab-bulk">
-        <legend>Deine Bulk-Karten</legend>
-        <label class="f" id="f-menge"><span>Ungefähre Anzahl</span>
-          <input id="menge" name="menge" type="text" inputmode="numeric" placeholder="z. B. 2.000" autocomplete="off">
-          <small>Mindestens 500 Karten. Grob schätzen reicht: ein voller Schuhkarton sind etwa 800 bis 1.000 Karten.</small>
-          <span class="err" id="err-menge" hidden>Ich kaufe Bulk ab 500 Karten an.</span>
-        </label>
-        <div class="f"><span>Was ist dabei?</span>
-          <div class="opts">
-            <label class="opt"><input type="checkbox" name="inhalt" value="Commons/Uncommons" checked><span>Commons und Uncommons</span></label>
-            <label class="opt"><input type="checkbox" name="inhalt" value="Holos/Reverse"><span>Holos und Reverse Holos</span></label>
-            <label class="opt"><input type="checkbox" name="inhalt" value="V/ex/GX"><span>V, ex, GX</span></label>
-            <label class="opt"><input type="checkbox" name="inhalt" value="Energien"><span>Energien</span></label>
-            <label class="opt"><input type="checkbox" name="inhalt" value="Unsortiert"><span>Weiß ich nicht, unsortiert</span></label>
+      <div class="part" id="part2" hidden>
+        <div class="part-head"><span class="eyebrow">Teil 2 von 2</span><b>Kontakt und Auszahlung</b><span class="part-bar"><i style="width:100%"></i></span></div>
+        <fieldset>
+          <legend>Auszahlung</legend>
+          <div class="f"><span>Wie willst du dein Geld?</span>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="auszahlung" value="PayPal" checked><span>PayPal</span></label>
+              <label class="opt"><input type="radio" name="auszahlung" value="Überweisung"><span>Überweisung</span></label>
+            </div>
           </div>
-        </div>
-        <div class="row2">
-          <label class="f"><span>Sprache</span>
-            <select id="sprache" name="sprache"><option>Deutsch</option><option>Englisch</option><option>Gemischt</option><option>Andere</option></select>
-          </label>
-          <label class="f"><span>Zustand</span>
-            <select id="zustand" name="zustand"><option>Gut, wenig bespielt</option><option>Gemischt</option><option>Stark bespielt</option></select>
-          </label>
-        </div>
-      </fieldset>
+        </fieldset>
 
-      <fieldset id="fs-einzel" role="tabpanel" aria-labelledby="tab-einzel" hidden>
-        <legend>Deine Einzelkarten</legend>
-        <label class="f" id="f-liste"><span>Kartenliste</span>
-          <textarea id="liste" name="liste" placeholder="Glurak ex · Obsidianflammen 125 · NM · 1×&#10;Pikachu · Karmesin &amp; Purpur 151 · EX · 2×"></textarea>
-          <small>Eine Karte pro Zeile: Name, Set, Nummer, Zustand, Anzahl. Fotos schickst du mir später per WhatsApp oder E-Mail.</small>
-          <span class="err" id="err-liste" hidden>Bitte trag mindestens eine Karte ein.</span>
-        </label>
-        <label class="f"><span>Cardmarket-Wert aller Karten (optional)</span>
-          <input id="wert" name="wert" type="text" inputmode="decimal" placeholder="z. B. 45,00" autocomplete="off">
-          <small>Wenn du ihn kennst. Ich prüfe jede Karte trotzdem selbst nach.</small>
-        </label>
-      </fieldset>
-
-      <fieldset>
-        <legend>Auszahlung</legend>
-        <div class="f"><span>Wie willst du dein Geld?</span>
-          <!-- VORSCHLAG: Zahlungswege anpassen -->
-          <div class="opts">
-            <label class="opt"><input type="radio" name="auszahlung" value="PayPal" checked><span>PayPal</span></label>
-            <label class="opt"><input type="radio" name="auszahlung" value="Überweisung"><span>Überweisung</span></label>
+        <fieldset>
+          <legend>Kontakt</legend>
+          <label class="f" id="f-name"><span>Vorname</span><input id="name" name="name" type="text" autocomplete="given-name"><span class="err" id="err-name" hidden>Bitte gib deinen Vornamen an.</span></label>
+          <div class="f"><span>Wie soll ich mich bei dir melden?</span>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="kontaktweg" value="WhatsApp" checked><span>WhatsApp</span></label>
+              <label class="opt"><input type="radio" name="kontaktweg" value="E-Mail"><span>E-Mail</span></label>
+            </div>
+            <small id="kw-hint">Ich schreibe dir von meiner Geschäftsnummer. Fotos von Karten kannst du mir dort direkt schicken.</small>
           </div>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>Kontakt</legend>
-        <label class="f" id="f-name"><span>Vorname</span><input id="name" name="name" type="text" autocomplete="given-name"><span class="err" id="err-name" hidden>Bitte gib deinen Vornamen an.</span></label>
-        <div class="f"><span>Wie soll ich mich bei dir melden?</span>
-          <div class="opts">
-            <label class="opt"><input type="radio" name="kontaktweg" value="WhatsApp" checked><span>WhatsApp</span></label>
-            <label class="opt"><input type="radio" name="kontaktweg" value="E-Mail"><span>E-Mail</span></label>
+          <div class="row2">
+            <label class="f" id="f-tel"><span>WhatsApp-Nummer <em class="opt-tag" id="tel-tag" hidden>(optional)</em></span><input id="tel" name="whatsapp" type="tel" autocomplete="tel" placeholder="z. B. 0151 23456789"><span class="err" id="err-tel" hidden>Bitte gib deine WhatsApp-Nummer an.</span></label>
+            <label class="f" id="f-mail"><span>E-Mail <em class="opt-tag" id="mail-tag">(optional, für den Ankaufbeleg)</em></span><input id="mail" name="email" type="email" autocomplete="email"><span class="err" id="err-mail" hidden>Bitte gib eine gültige E-Mail an.</span></label>
           </div>
-          <small id="kw-hint">Ich schreibe dir von meiner Geschäftsnummer. Fotos von Karten kannst du mir dort direkt schicken.</small>
-        </div>
-        <div class="row2">
-          <label class="f" id="f-tel"><span>WhatsApp-Nummer <em class="opt-tag" id="tel-tag" hidden>(optional)</em></span><input id="tel" name="whatsapp" type="tel" autocomplete="tel" placeholder="z. B. 0151 23456789"><span class="err" id="err-tel" hidden>Bitte gib deine WhatsApp-Nummer an.</span></label>
-          <label class="f" id="f-mail"><span>E-Mail <em class="opt-tag" id="mail-tag">(optional, für den Ankaufbeleg)</em></span><input id="mail" name="email" type="email" autocomplete="email"><span class="err" id="err-mail" hidden>Bitte gib eine gültige E-Mail an.</span></label>
-        </div>
-        <label class="f"><span>Nachricht (optional)</span><textarea id="nachricht" name="nachricht" style="min-height:90px;font-family:var(--font-body)"></textarea></label>
-        <label class="check"><input type="checkbox" id="ok-18" name="volljaehrig"><span>Ich bin mindestens 18 Jahre alt oder meine Eltern sind einverstanden.</span></label>
-        <label class="check"><input type="checkbox" id="ok-agb" name="bedingungen"><span>Ich habe die <a href="ablauf.html#bedingungen" style="color:var(--gold-soft)">Ankaufbedingungen</a> und die <a href="#" style="color:var(--gold-soft)">Datenschutzerklärung</a> gelesen.</span></label>
-        <span class="err" id="err-ok" hidden>Bitte bestätige beide Punkte.</span>
-      </fieldset>
+          <label class="f"><span>Nachricht (optional)</span><textarea id="nachricht" name="nachricht" style="min-height:90px;font-family:var(--font-body)"></textarea></label>
+          <label class="check"><input type="checkbox" id="ok-18" name="volljaehrig"><span>Ich bin mindestens 18 Jahre alt oder meine Eltern sind einverstanden.</span></label>
+          <label class="check"><input type="checkbox" id="ok-agb" name="bedingungen"><span>Ich habe die <a href="ablauf.html#bedingungen" style="color:var(--gold-soft)">Ankaufbedingungen</a> und die <a href="#" style="color:var(--gold-soft)">Datenschutzerklärung</a> gelesen.</span></label>
+          <span class="err" id="err-ok" hidden>Bitte bestätige beide Punkte.</span>
+        </fieldset>
 
-      <div class="submit-row">
-        <button class="btn btn-gold" type="submit" id="send">Anfrage senden</button>
+        <div class="submit-row">
+          <button class="btn btn-gold" type="submit" id="send">Anfrage senden</button>
+          <button class="text-link" type="button" id="back">← Zurück zu Teil 1</button>
+        </div>
         <span class="demo-note" id="demo-note">Unverbindlich. Du verkaufst erst, wenn du mein Angebot annimmst.</span>
       </div>
     </form>
@@ -380,11 +442,12 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
     <aside class="side" aria-label="Deine Schätzung">
       <div class="receipt" aria-live="polite">
         <div class="receipt-head"><span class="eyebrow">Deine Schätzung</span><span class="seal"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12.5 L9.5 18 L20 6" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-        <div class="receipt-row"><span id="s-l1">Anzahl Karten</span><span class="mono" id="s-v1">–</span></div>
-        <div class="receipt-row"><span id="s-l2">Preis je 1.000 <span class="tbd">Testwert</span></span><span class="mono" id="s-v2">18,00 €</span></div>
+        <div id="s-rows"></div>
         <div class="receipt-total"><span>ca.</span><b id="s-total">–</b></div>
-        <p class="receipt-foot" id="s-foot">Der Endpreis steht fest, sobald ich nachgezählt habe.</p>
+        <p class="receipt-foot" id="s-foot">Der Endbetrag steht fest, sobald ich nachgezählt habe.</p>
+        <p class="receipt-foot bonus" id="s-tipp"></p>
       </div>
+      <div class="side-note"><b>Passt dir der Endbetrag nicht?</b><span>Dann schicke ich dir deine Karten zurück. Details in den <a href="ablauf.html#bedingungen" style="color:var(--gold-soft)">Ankaufbedingungen</a>.</span></div>
       <div class="side-note"><b>Was danach passiert</b>Ich melde mich mit einem Angebot, per WhatsApp oder E-Mail. Erst wenn du zusagst, schickst du die Karten per Post.</div>
     </aside>
   </div>
@@ -406,20 +469,45 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
     </nav>
   </div>
 </footer>
-<script>
+<script>// PREISE in Cent je Karte. Vorschlag aus der Preisgestaltung, noch nicht final.
+// Gleiche Werte stehen in der Preistabelle auf der Startseite.
+var NGC_PREISE = {
+  MIN: 500,                         // Mindestmenge Bulk, alle Karten zusammen
+  cu: 0.7,                          // Common & Uncommon
+  holo: 1.5, holoBonus: 2, holoAb: 500,
+  ex: 25, exBonus: 35, exAb: 20,    // EX, V, GX, VMAX, ex unter 1 € Marktwert
+  un: 0.6,                          // unsortiert
+  quote: 0.7                        // Einzelkarten: 70 % vom Cardmarket-Preis
+};
+function ngcNum(s){ var v=parseFloat(String(s).replace(/\./g,'').replace(',','.')); return isFinite(v)&&v>0?v:0; }
+// m: {sortiert:bool, cu, holo, ex, un} -> Teilbeträge in Cent, Anzahl, Summe
+function ngcBulk(m){
+  var P=NGC_PREISE, r={};
+  if (m.sortiert){
+    r.holoRate = m.holo>=P.holoAb ? P.holoBonus : P.holo;
+    r.exRate   = m.ex>=P.exAb ? P.exBonus : P.ex;
+    r.cu=Math.round(m.cu*P.cu); r.holo=Math.round(m.holo*r.holoRate); r.ex=Math.round(m.ex*r.exRate);
+    r.anzahl=m.cu+m.holo+m.ex; r.cent=r.cu+r.holo+r.ex;
+    r.tipp = m.holo>0&&m.holo<P.holoAb ? 'Noch '+(P.holoAb-m.holo).toLocaleString('de-DE')+' Holos, dann zahle ich 2 ct je Holo.'
+           : m.ex>0&&m.ex<P.exAb ? 'Noch '+(P.exAb-m.ex)+' EX/V-Karten, dann zahle ich 35 ct je Karte.' : '';
+  } else { r.un=Math.round(m.un*P.un); r.anzahl=m.un; r.cent=r.un; r.tipp=''; }
+  r.ok = r.anzahl>=P.MIN;
+  return r;
+}
+var ngcEur=new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'});
+function ngcFmt(cent){ return ngcEur.format(cent/100); }
+
 (function(){
   // Formspree-Formular-ID hier eintragen, z. B. "xabcdwxyz". Leer = Vorschau-Modus ohne Versand.
   var FORM_ID = "";
-  var RATE = 18, MIN = 500, QUOTE = 0.7;   // Testwerte, auch auf der Startseite anpassen
+  var P = NGC_PREISE;
 
-  var eur = new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'});
   var int = new Intl.NumberFormat('de-DE');
-  function num(s){ return parseFloat(String(s).replace(/\./g,'').replace(',','.')); }
   function $(id){ return document.getElementById(id); }
 
   var form=$('ankauf-form'), art=$('art');
   var tabs={bulk:$('tab-bulk'), einzel:$('tab-einzel')}, panels={bulk:$('fs-bulk'), einzel:$('fs-einzel')};
-  var mode='bulk';
+  var mode='bulk', last=null;
 
   function setMode(m){
     mode=m; art.value = m==='bulk' ? 'Bulk' : 'Einzelkarten';
@@ -430,32 +518,56 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
   tabs.bulk.addEventListener('click', function(){ setMode('bulk'); });
   tabs.einzel.addEventListener('click', function(){ setMode('einzel'); });
 
+  function sortiert(){ return form.querySelector('input[name="sortiert"]:checked').value==='sortiert'; }
+  function n(id){ return Math.floor(ngcNum($(id).value)); }
+  function row(l,v){ return '<div class="receipt-row"><span>'+l+'</span><span class="mono">'+v+'</span></div>'; }
+
   function calc(){
+    var rows='', tipp='';
     if (mode==='bulk'){
-      var n=Math.floor(num($('menge').value));
-      $('s-l1').textContent='Anzahl Karten';
-      $('s-v1').textContent=isFinite(n)?int.format(n):'–';
-      $('s-l2').innerHTML='Preis je 1.000 <span class="tbd">Testwert</span>';
-      $('s-v2').textContent=eur.format(RATE);
-      $('s-total').textContent = isFinite(n)&&n>=MIN ? eur.format(Math.round(n*RATE/10)/100) : '–';
-      $('s-foot').textContent = isFinite(n)&&n<MIN ? 'Bulk kaufe ich ab '+int.format(MIN)+' Karten an.' : 'Der Endpreis steht fest, sobald ich nachgezählt habe.';
+      var s=sortiert(); $('grp-sorted').hidden=!s; $('grp-un').hidden=s;
+      var r=last=ngcBulk({sortiert:s, cu:n('cu'), holo:n('holo'), ex:n('ex'), un:n('un')});
+      if (s){
+        rows+=row('Common &amp; Uncommon · '+int.format(n('cu')), ngcFmt(r.cu));
+        rows+=row('Holo &amp; Reverse · '+int.format(n('holo')), ngcFmt(r.holo));
+        rows+=row('EX, V, GX · '+int.format(n('ex')), ngcFmt(r.ex));
+      } else rows+=row('Unsortiert · '+int.format(n('un')), ngcFmt(r.un));
+      rows+=row('Karten gesamt', int.format(r.anzahl));
+      $('s-total').textContent = r.ok ? ngcFmt(r.cent) : '–';
+      $('s-foot').textContent = r.anzahl>0 && !r.ok ? 'Bulk kaufe ich ab '+int.format(P.MIN)+' Karten an.' : 'Der Endbetrag steht fest, sobald ich nachgezählt habe.';
+      tipp = r.ok ? r.tipp : '';
     } else {
-      var v=num($('wert').value);
-      $('s-l1').textContent='Cardmarket-Wert';
-      $('s-v1').textContent=isFinite(v)?eur.format(v):'–';
-      $('s-l2').textContent='Ankaufsquote';
-      $('s-v2').textContent='70 %';
-      $('s-total').textContent = isFinite(v)&&v>0 ? eur.format(Math.round(v*QUOTE*100)/100) : '–';
+      var v=ngcNum($('wert').value);
+      rows+=row('Cardmarket-Wert', v?ngcFmt(Math.round(v*100)):'–');
+      rows+=row('Ankaufsquote', '70 %');
+      $('s-total').textContent = v ? ngcFmt(Math.round(v*100*P.quote)) : '–';
       $('s-foot').textContent='Ich prüfe jede Karte und ihren aktuellen Cardmarket-Preis selbst.';
     }
+    $('s-rows').innerHTML=rows; $('s-tipp').textContent=tipp;
   }
-  $('menge').addEventListener('input', calc);
-  $('menge').addEventListener('blur', function(){ var n=Math.floor(num(this.value)); if(isFinite(n)) this.value=int.format(n); });
-  $('wert').addEventListener('input', calc);
+  ['cu','holo','ex','un','wert'].forEach(function(id){
+    $(id).addEventListener('input', calc);
+    if (id!=='wert') $(id).addEventListener('blur', function(){ var x=n(id); this.value = x ? int.format(x) : ''; });
+  });
+  form.querySelectorAll('input[name="sortiert"]').forEach(function(r){ r.addEventListener('change', calc); });
 
   if (!FORM_ID) $('demo-note').textContent = 'Vorschau: Die Anfrage wird noch nicht verschickt, solange keine Formspree-ID eingetragen ist.';
 
   function flag(fid, eid, bad){ var f=$(fid); if(f) f.classList.toggle('bad', bad); $(eid).hidden=!bad; return bad; }
+
+  // Teil 1 prüfen, dann Teil 2 zeigen
+  function part(p){
+    $('part1').hidden = p!==1; $('part2').hidden = p!==2;
+    var h=$(p===1?'part1':'part2'); window.scrollTo({top: h.getBoundingClientRect().top + window.scrollY - 110, behavior:'smooth'});
+  }
+  $('next').addEventListener('click', function(){
+    calc();
+    if (mode==='bulk'){
+      if (flag('f-menge','err-menge', !last.ok)){ $('err-menge').textContent='Ich kaufe Bulk ab '+int.format(P.MIN)+' Karten an. Du bist bei '+int.format(last.anzahl)+'.'; $(sortiert()?'cu':'un').focus(); return; }
+    } else if (flag('f-liste','err-liste', !$('liste').value.trim())){ $('liste').focus(); return; }
+    part(2); $('name').focus({preventScroll:true});
+  });
+  $('back').addEventListener('click', function(){ part(1); });
 
   function kontaktweg(){ var r=form.querySelector('input[name="kontaktweg"]:checked'); return r?r.value:'WhatsApp'; }
   function setKontakt(){
@@ -471,10 +583,9 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
 
   form.addEventListener('submit', function(ev){
     ev.preventDefault();
+    if (!$('part1').hidden){ $('next').click(); return; }   // Enter in Teil 1 = Weiter
     var bad=false, first=null;
     function chk(fid,eid,cond,focusId){ if(flag(fid,eid,cond)){ bad=true; if(!first) first=$(focusId); } }
-    if (mode==='bulk'){ var n=Math.floor(num($('menge').value)); chk('f-menge','err-menge',!(isFinite(n)&&n>=MIN),'menge'); }
-    else chk('f-liste','err-liste',!$('liste').value.trim(),'liste');
     chk('f-name','err-name',!$('name').value.trim(),'name');
     var kw=kontaktweg(), mailV=$('mail').value.trim(), telV=$('tel').value.replace(/[^0-9]/g,'');
     var mailOk=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mailV);
@@ -487,9 +598,11 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
     var d=new Date(), pad=function(x){return String(x).padStart(2,'0');};
     var id='NGC-'+String(d.getFullYear()).slice(2)+pad(d.getMonth()+1)+pad(d.getDate())+'-'+Math.random().toString(36).slice(2,6).toUpperCase();
     var data=new FormData(form); data.append('anfragenummer', id);
+    if (mode==='bulk'){ data.append('karten_gesamt', last.anzahl); data.append('schaetzung', $('s-total').textContent); }
     var summary={ id:id, art:art.value, name:$('name').value.trim(), mail:$('mail').value.trim(), tel:$('tel').value.trim(), kontaktweg:kontaktweg(),
       auszahlung:data.get('auszahlung'), schaetzung:$('s-total').textContent,
-      menge: mode==='bulk' ? $('menge').value : null, karten: mode==='einzel' ? $('liste').value.trim().split('\n').filter(Boolean).length : null };
+      menge: mode==='bulk' ? int.format(last.anzahl)+(sortiert()?' Karten, sortiert':' Karten, unsortiert') : null,
+      karten: mode==='einzel' ? $('liste').value.trim().split('\n').filter(Boolean).length : null };
     try { sessionStorage.setItem('ngc-anfrage', JSON.stringify(summary)); } catch(e){}
 
     var btn=$('send'); btn.disabled=true; btn.textContent='Wird gesendet …';
