@@ -315,6 +315,20 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
 .row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 @media (max-width:640px){ .row3{grid-template-columns:1fr} }
 #f-menge:has(.err[hidden]){display:none}
+.reviews-main{grid-template-columns:minmax(0,2.2fr) minmax(0,1fr);align-items:start}
+@media (max-width:860px){ .reviews-main{grid-template-columns:1fr} }
+.ebay-box{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--r);padding:28px;display:grid;gap:8px;min-width:0}
+.ebay-head{display:grid;gap:4px}
+.ebay-head .score-name{font-family:var(--font-display);font-stretch:112%;font-weight:800;font-size:22px}
+.ebay-box .quotes{grid-template-columns:1fr;gap:16px}
+.ebay-box .score-link{text-decoration:none}
+.ebay-box .score-link:hover span:first-child{text-decoration:underline}
+.score-cm{padding:20px;gap:4px 16px}
+.score-cm .score-num{font-size:34px}
+.score-cm .score-name{font-size:15px}
+.score-cm .score-meta{font-size:13px}
+.quotes .quote{margin:0;border-left-color:var(--gold)}
+.quotes .quote p{font-size:17px;color:var(--fg)}
 </style>
 </head>
 <body>
@@ -387,10 +401,10 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
         <div><b>Steven aus Saarbrücken</b><span>Ich sortiere und zähle jede Sendung selbst. Du schreibst direkt mit mir, nicht mit einem Callcenter.</span></div>
       </div>
       <a class="mini-score" href="https://feedback.ebay.de/fdbk/feedback_profile/nogreedtcg" target="_blank" rel="noopener">
-        <b>eBay</b><span>nogreedtcg · Bewertungen ansehen ↗</span>
+        <b>eBay</b><span>„Alles super gelaufen, wie beschriebe, gerne wieder“ ↗</span>
       </a>
       <a class="mini-score" href="https://www.cardmarket.com/de/Pokemon/Users/NoGreedCards" target="_blank" rel="noopener">
-        <b>Cardmarket</b><span>NoGreedCards · Bewertungen ansehen ↗</span>
+        <b>Cardmarket</b><span>100 % positiv · 119 Verkäufe ↗</span>
       </a>
       <div class="promise"><b>Mein Versprechen</b><span>Passt dir mein Endbetrag nach dem Zählen nicht, schicke ich dir deine Karten zurück. <a href="ablauf.html#bedingungen">Bedingungen</a></span></div>
     </div>
@@ -485,34 +499,30 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
           <p class="lead">Die Bewertungen stehen direkt bei eBay und Cardmarket. Klick dich selbst durch.</p>
         </div>
 
-        <div class="reviews">
-          <!-- PLATZHALTER: Werte aus dem eBay-Profil eintragen, nichts schätzen -->
-          <a class="score" href="https://feedback.ebay.de/fdbk/feedback_profile/nogreedtcg" target="_blank" rel="noopener">
-            <span class="score-num ph">–&nbsp;%</span>
-            <span class="score-name">eBay · nogreedtcg</span>
-            <span class="score-meta">positive Bewertungen · <span class="tbd">Anzahl folgt</span></span>
-            <span class="score-link"><span>Alle eBay-Bewertungen</span><span aria-hidden="true">↗</span></span>
-          </a>
-          <!-- PLATZHALTER: Werte aus dem Cardmarket-Profil eintragen, nichts schätzen -->
-          <a class="score" href="https://www.cardmarket.com/de/Pokemon/Users/NoGreedCards" target="_blank" rel="noopener">
-            <span class="score-num ph">–</span>
-            <span class="score-name">Cardmarket · NoGreedCards</span>
-            <span class="score-meta">Verkäuferbewertung · <span class="tbd">Verkäufe folgen</span></span>
+        <!-- Bewertungen: wörtlich übernommen aus Screenshots des Nutzers vom 06.11.2026. Käufernamen bewusst nicht gezeigt. -->
+        <div class="reviews reviews-main">
+          <div class="ebay-box">
+            <div class="ebay-head"><span class="score-name">eBay · nogreedtcg</span><span class="score-meta">Nur bestätigte Käufe · <span class="tbd">Prozent und Anzahl folgen</span></span></div>
+            <div class="quotes">
+              <figure class="quote"><p>„Alles super gelaufen, wie beschriebe, gerne wieder“</p><cite>bestätigter Kauf · 100 Karten Holo &amp; Glitzer · letzter Monat</cite></figure>
+              <figure class="quote"><p>„Alles super gelaufen 👍 Top Ware 👍 gerne wieder 👍👍👍“</p><cite>bestätigter Kauf · 2 × 100 Karten Holo &amp; Glitzer · letzter Monat</cite></figure>
+              <figure class="quote"><p>„Immer wieder gerne.“</p><cite>bestätigter Kauf · 500 Karten nur Holo · letzte 6 Monate</cite></figure>
+            </div>
+            <a class="score-link" href="https://feedback.ebay.de/fdbk/feedback_profile/nogreedtcg" target="_blank" rel="noopener"><span>Alle eBay-Bewertungen ansehen</span><span aria-hidden="true">↗</span></a>
+          </div>
+          <a class="score score-cm" href="https://www.cardmarket.com/de/Pokemon/Users/NoGreedCards" target="_blank" rel="noopener">
+            <span class="score-num">100&nbsp;%</span>
+            <span class="score-name">Cardmarket</span>
+            <span class="score-meta">positiv · 119 Verkäufe · „Herausragend“ · seit 2022</span>
             <span class="score-link"><span>Profil auf Cardmarket</span><span aria-hidden="true">↗</span></span>
           </a>
         </div>
-
-        <!-- PLATZHALTER: 3 echte Bewertungstexte wörtlich übernehmen, mit Datum und Plattform. Nichts kürzen, was den Sinn ändert. -->
-        <div class="quotes">
-          <figure class="quote" style="margin:0"><p class="tbd" style="border:0;padding:0">Hier kommt eine echte Bewertung von eBay hin.</p><cite>eBay · Datum</cite></figure>
-          <figure class="quote" style="margin:0"><p class="tbd" style="border:0;padding:0">Hier kommt eine echte Bewertung von Cardmarket hin.</p><cite>Cardmarket · Datum</cite></figure>
-          <figure class="quote" style="margin:0"><p class="tbd" style="border:0;padding:0">Hier kommt eine echte Bewertung von eBay hin.</p><cite>eBay · Datum</cite></figure>
-        </div>
+        <p class="sort-foot">Stand 06.11.2026. Eine Auswahl, wörtlich übernommen. Alle Bewertungen, auch neuere, findest du über die Links oben.</p>
 
         <!-- Pflichthinweis nach § 5b Abs. 3 UWG: wie Bewertungen geprüft werden -->
         <details class="source-note" id="bewertungen-quelle">
           <summary>Woher die Bewertungen kommen</summary>
-          <p>Alle Bewertungen auf dieser Seite stammen von eBay und Cardmarket. Dort kann nur bewerten, wer bei mir tatsächlich gekauft hat. Ich prüfe die Bewertungen nicht zusätzlich selbst. Ich zeige keine gekauften, erfundenen oder ausgewählt geschönten Bewertungen. Die Zahlen oben übernehme ich so, wie sie auf der Plattform stehen.</p>
+          <p>Alle Bewertungen auf dieser Seite stammen von eBay und Cardmarket. Dort kann nur bewerten, wer bei mir tatsächlich gekauft hat. Ich prüfe die Bewertungen nicht zusätzlich selbst. Ich zeige keine gekauften oder erfundenen Bewertungen. Die Zitate sind eine Auswahl, wörtlich und ungekürzt übernommen; alle Bewertungen siehst du vollständig auf eBay und Cardmarket. Die Zahlen übernehme ich so, wie sie auf der Plattform stehen.</p>
           <p>Grundlage: <a href="https://www.gesetze-im-internet.de/uwg_2004/__5b.html" target="_blank" rel="noopener">§ 5b Abs. 3 UWG</a> (Hinweis, wie Bewertungen geprüft werden) und der <a href="https://www.gesetze-im-internet.de/uwg_2004/anhang.html" target="_blank" rel="noopener">Anhang zu § 3 Abs. 3 UWG</a>, Nr. 23b und 23c (keine falschen Angaben zur Echtheit, keine gefälschten Bewertungen) sowie Nr. 7 (keine erfundene Zeitbegrenzung bei Angeboten).</p>
         </details>
       </div>

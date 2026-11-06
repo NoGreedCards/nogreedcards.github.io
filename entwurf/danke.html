@@ -315,6 +315,20 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
 .row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 @media (max-width:640px){ .row3{grid-template-columns:1fr} }
 #f-menge:has(.err[hidden]){display:none}
+.reviews-main{grid-template-columns:minmax(0,2.2fr) minmax(0,1fr);align-items:start}
+@media (max-width:860px){ .reviews-main{grid-template-columns:1fr} }
+.ebay-box{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--r);padding:28px;display:grid;gap:8px;min-width:0}
+.ebay-head{display:grid;gap:4px}
+.ebay-head .score-name{font-family:var(--font-display);font-stretch:112%;font-weight:800;font-size:22px}
+.ebay-box .quotes{grid-template-columns:1fr;gap:16px}
+.ebay-box .score-link{text-decoration:none}
+.ebay-box .score-link:hover span:first-child{text-decoration:underline}
+.score-cm{padding:20px;gap:4px 16px}
+.score-cm .score-num{font-size:34px}
+.score-cm .score-name{font-size:15px}
+.score-cm .score-meta{font-size:13px}
+.quotes .quote{margin:0;border-left-color:var(--gold)}
+.quotes .quote p{font-size:17px;color:var(--fg)}
 </style>
 </head>
 <body>
