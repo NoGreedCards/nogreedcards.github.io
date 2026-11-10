@@ -52,7 +52,8 @@ legend{font-family:var(--font-display);font-stretch:112%;font-weight:800;font-si
 .opt-tag{font-style:normal;font-weight:400;color:var(--muted);font-size:12px}
 .check{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted)}
 .check input{margin-top:4px;accent-color:var(--gold)}
-.tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:640px){ .tabs{grid-template-columns:1fr} }
 .tab{font:inherit;text-align:left;cursor:pointer;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;color:var(--fg);display:grid;gap:4px}
 .tab b{font-family:var(--font-display);font-stretch:112%;font-size:17px}
 .tab span{font-size:13px;color:var(--muted)}
@@ -290,6 +291,7 @@ ankauf = f'''<main>
         <div class="tabs" role="tablist" aria-label="Art des Ankaufs">
           <button type="button" class="tab" role="tab" id="tab-bulk" aria-controls="fs-bulk" aria-selected="true"><b>Bulk</b><span>ab 500 Karten, feste Preise</span></button>
           <button type="button" class="tab" role="tab" id="tab-einzel" aria-controls="fs-einzel" aria-selected="false"><b>Einzelkarten</b><span>70 % vom Cardmarket-Preis</span></button>
+          <button type="button" class="tab" role="tab" id="tab-beide" aria-controls="fs-bulk fs-einzel" aria-selected="false"><b>Bulk + Einzelkarten</b><span>beides in einer Anfrage</span></button>
         </div>
         <input type="hidden" name="art" id="art" value="Bulk">
         <input type="hidden" name="anfragenummer" id="h-id">
@@ -307,7 +309,7 @@ ankauf = f'''<main>
             <small>Unsicher? <a href="index.html#sortieren" style="color:var(--gold-soft)">So sortierst du in 10 Minuten</a>. Grob schätzen reicht: ein voller Schuhkarton sind etwa 800 bis 1.000 Karten.</small>
           </div>
           <div class="row3" id="grp-sorted">
-            <label class="f"><span>Common &amp; Uncommon</span><input id="cu" name="common_uncommon" type="text" inputmode="numeric" placeholder="z. B. 1.500" autocomplete="off"><small>0,7 ct je Karte</small></label>
+            <label class="f"><span>Common &amp; Uncommon</span><input id="cu" name="common_uncommon" type="text" inputmode="numeric" placeholder="z. B. 1.500" autocomplete="off"><small>0,8 ct je Karte</small></label>
             <label class="f"><span>Holo &amp; Reverse</span><input id="holo" name="holo_reverse" type="text" inputmode="numeric" placeholder="z. B. 400" autocomplete="off"><small>1,5 ct, ab 500: 2 ct</small></label>
             <label class="f"><span>EX, V, GX, ex</span><input id="ex" name="ex_v_gx" type="text" inputmode="numeric" placeholder="z. B. 10" autocomplete="off"><small>25 ct, ab 20: 35 ct</small></label>
           </div>
@@ -412,17 +414,21 @@ ankauf_js = read("prices.js") + r"""
   // Normaler Formular-Versand statt JavaScript-Fetch: Formspree leitet nach dem Senden
   // selbst auf danke.html weiter. Das braucht keine CORS- oder Domain-Freigabe bei Formspree.
   if (FORM_ID){ form.action='https://formspree.io/f/'+FORM_ID; form.method='POST'; }
-  var tabs={bulk:$('tab-bulk'), einzel:$('tab-einzel')}, panels={bulk:$('fs-bulk'), einzel:$('fs-einzel')};
+  var tabs={bulk:$('tab-bulk'), einzel:$('tab-einzel'), beide:$('tab-beide')};
+  var ARTEN={bulk:'Bulk', einzel:'Einzelkarten', beide:'Bulk + Einzelkarten'};
   var mode='bulk', last=null;
+  function hatBulk(){ return mode!=='einzel'; }
+  function hatEinzel(){ return mode!=='bulk'; }
+  function modeAusHash(){ var h=location.hash.slice(1); return ARTEN[h] ? h : 'bulk'; }
 
   function setMode(m){
-    mode=m; art.value = m==='bulk' ? 'Bulk' : 'Einzelkarten';
-    for (var k in tabs){ tabs[k].setAttribute('aria-selected', k===m); panels[k].hidden = k!==m; }
+    mode=m; art.value = ARTEN[m];
+    for (var k in tabs) tabs[k].setAttribute('aria-selected', k===m);
+    $('fs-bulk').hidden=!hatBulk(); $('fs-einzel').hidden=!hatEinzel();
     if (location.hash !== '#'+m) { try { history.replaceState(null,'','#'+m); } catch(e){} }
     calc();
   }
-  tabs.bulk.addEventListener('click', function(){ setMode('bulk'); });
-  tabs.einzel.addEventListener('click', function(){ setMode('einzel'); });
+  for (var k in tabs) (function(k){ tabs[k].addEventListener('click', function(){ setMode(k); }); })(k);
 
   function sortiert(){ return form.querySelector('input[name="sortiert"]:checked').value==='sortiert'; }
   function n(id){ return Math.floor(ngcNum($(id).value)); }
@@ -430,7 +436,18 @@ ankauf_js = read("prices.js") + r"""
 
   function calc(){
     var rows='', tipp='';
-    if (mode==='bulk'){
+    if (mode==='beide'){
+      var s2=sortiert(); $('grp-sorted').hidden=!s2; $('grp-un').hidden=s2;
+      var b=last=ngcBulk({sortiert:s2, cu:n('cu'), holo:n('holo'), ex:n('ex'), un:n('un')});
+      var w=ngcNum($('wert').value), e=Math.round(w*100*P.quote);
+      rows+=row('Bulk · '+int.format(b.anzahl)+' Karten', b.ok?ngcFmt(b.cent):'–');
+      rows+=row('Einzelkarten · 70 % von '+(w?ngcFmt(Math.round(w*100)):'–'), w?ngcFmt(e):'–');
+      var sum=(b.ok?b.cent:0)+(w?e:0);
+      $('s-total').textContent = sum ? ngcFmt(sum) : '–';
+      $('s-foot').textContent = b.anzahl>0 && !b.ok ? 'Bulk kaufe ich ab '+int.format(P.MIN)+' Karten an.'
+        : 'Schätzung. Einzelkarten prüfe ich selbst nach, deinen festen Betrag bekommst du im Angebot.';
+      tipp = b.ok ? b.tipp : '';
+    } else if (mode==='bulk'){
       var s=sortiert(); $('grp-sorted').hidden=!s; $('grp-un').hidden=s;
       var r=last=ngcBulk({sortiert:s, cu:n('cu'), holo:n('holo'), ex:n('ex'), un:n('un')});
       if (s){
@@ -468,9 +485,8 @@ ankauf_js = read("prices.js") + r"""
   }
   $('next').addEventListener('click', function(){
     calc();
-    if (mode==='bulk'){
-      if (flag('f-menge','err-menge', !last.ok)){ $('err-menge').textContent='Ich kaufe Bulk ab '+int.format(P.MIN)+' Karten an. Du bist bei '+int.format(last.anzahl)+'.'; $(sortiert()?'cu':'un').focus(); return; }
-    } else if (flag('f-liste','err-liste', !$('liste').value.trim())){ $('liste').focus(); return; }
+    if (hatBulk() && flag('f-menge','err-menge', !last.ok)){ $('err-menge').textContent='Ich kaufe Bulk ab '+int.format(P.MIN)+' Karten an. Du bist bei '+int.format(last.anzahl)+'.'; $(sortiert()?'cu':'un').focus(); return; }
+    if (hatEinzel() && flag('f-liste','err-liste', !$('liste').value.trim())){ $('liste').focus(); return; }
     part(2); $('name').focus({preventScroll:true});
   });
   $('back').addEventListener('click', function(){ part(1); });
@@ -504,12 +520,12 @@ ankauf_js = read("prices.js") + r"""
     var d=new Date(), pad=function(x){return String(x).padStart(2,'0');};
     var id='NGC-'+String(d.getFullYear()).slice(2)+pad(d.getMonth()+1)+pad(d.getDate())+'-'+Math.random().toString(36).slice(2,6).toUpperCase();
     $('h-id').value=id;
-    if (mode==='bulk'){ $('h-karten').value=last.anzahl; $('h-schaetzung').value=$('s-total').textContent; }
+    if (hatBulk()){ $('h-karten').value=last.anzahl; $('h-schaetzung').value=$('s-total').textContent; }
     var data=new FormData(form);
     var summary={ id:id, art:art.value, name:$('name').value.trim(), mail:$('mail').value.trim(), tel:$('tel').value.trim(), kontaktweg:kontaktweg(),
       auszahlung:data.get('auszahlung'), schaetzung:$('s-total').textContent,
-      menge: mode==='bulk' ? int.format(last.anzahl)+(sortiert()?' Karten, sortiert':' Karten, unsortiert') : null,
-      karten: mode==='einzel' ? $('liste').value.trim().split('\n').filter(Boolean).length : null };
+      menge: hatBulk() ? int.format(last.anzahl)+(sortiert()?' Karten, sortiert':' Karten, unsortiert') : null,
+      karten: hatEinzel() ? $('liste').value.trim().split('\n').filter(Boolean).length : null };
     try { sessionStorage.setItem('ngc-anfrage', JSON.stringify(summary)); } catch(e){}
 
     var btn=$('send'); btn.disabled=true; btn.textContent='Wird gesendet …';
@@ -519,8 +535,8 @@ ankauf_js = read("prices.js") + r"""
     form.submit();
   });
 
-  setMode(location.hash==='#einzel' ? 'einzel' : 'bulk');
-  window.addEventListener('hashchange', function(){ setMode(location.hash==='#einzel'?'einzel':'bulk'); });
+  setMode(modeAusHash());
+  window.addEventListener('hashchange', function(){ setMode(modeAusHash()); });
 })();
 """
 page("ankauf.html", "Ankauf-Anfrage · NoGreedCards", "Verkauf deinen Pokémon-Bulk oder deine Einzelkarten an NoGreedCards: Anfrage in 2 Minuten.", "", ankauf, ankauf_js)
@@ -631,7 +647,7 @@ ablauf = f'''<main>
   <section style="padding-top:24px">
     <div class="wrap">
       <ol class="timeline">
-        <li><span class="t-num">01</span><div class="t-body"><h3>Anfrage</h3><p>Du füllst das Ankauf-Formular aus: Bulk ab 500 Karten oder eine Liste deiner Einzelkarten. Das dauert etwa 2 Minuten.</p><div class="t-meta"><span class="chip">Du</span><span class="chip">2 Min.</span></div></div></li>
+        <li><span class="t-num">01</span><div class="t-body"><h3>Anfrage</h3><p>Du füllst das Ankauf-Formular aus: Bulk ab 500 Karten, eine Liste deiner Einzelkarten oder beides zusammen. Das dauert etwa 2 Minuten.</p><div class="t-meta"><span class="chip">Du</span><span class="chip">2 Min.</span></div></div></li>
         <li><span class="t-num">02</span><div class="t-body"><h3>Angebot</h3><p>Ich schicke dir ein Angebot mit festem Betrag per WhatsApp oder E-Mail, je nachdem, was du im Formular gewählt hast. Bulk nach Preisliste, Einzelkarten zu 70 % des aktuellen Cardmarket-Preises. Bei Einzelkarten frage ich eventuell nach Fotos.</p><div class="t-meta"><span class="chip">Ich</span><span class="chip">meist in 2 Tagen</span></div></div></li>
         <li><span class="t-num">03</span><div class="t-body"><h3>Versand</h3><p>Du sagst zu und schickst die Karten per Post mit deiner Anfragenummer. <a href="versand.html" style="color:var(--gold-soft)">Versandanleitung</a></p><div class="t-meta"><span class="chip">Du</span></div></div></li>
         <li><span class="t-num">04</span><div class="t-body"><h3>Prüfung</h3><p>Ich kontrolliere Bulk nach Gewicht und Stichprobe und prüfe Einzelkarten auf Zustand und Echtheit. Passt die Sendung, bleibt es beim zugesagten Betrag. Weicht sie stark ab, entscheidest du: angepasster Betrag oder Karten zurück.</p><div class="t-meta"><span class="chip">Ich</span><span class="chip">bis 2 Werktage nach Eingang</span></div></div></li>

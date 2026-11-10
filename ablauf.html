@@ -225,7 +225,8 @@ legend{font-family:var(--font-display);font-stretch:112%;font-weight:800;font-si
 .opt-tag{font-style:normal;font-weight:400;color:var(--muted);font-size:12px}
 .check{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted)}
 .check input{margin-top:4px;accent-color:var(--gold)}
-.tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:640px){ .tabs{grid-template-columns:1fr} }
 .tab{font:inherit;text-align:left;cursor:pointer;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;color:var(--fg);display:grid;gap:4px}
 .tab b{font-family:var(--font-display);font-stretch:112%;font-size:17px}
 .tab span{font-size:13px;color:var(--muted)}
@@ -376,7 +377,7 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
   <section style="padding-top:24px">
     <div class="wrap">
       <ol class="timeline">
-        <li><span class="t-num">01</span><div class="t-body"><h3>Anfrage</h3><p>Du füllst das Ankauf-Formular aus: Bulk ab 500 Karten oder eine Liste deiner Einzelkarten. Das dauert etwa 2 Minuten.</p><div class="t-meta"><span class="chip">Du</span><span class="chip">2 Min.</span></div></div></li>
+        <li><span class="t-num">01</span><div class="t-body"><h3>Anfrage</h3><p>Du füllst das Ankauf-Formular aus: Bulk ab 500 Karten, eine Liste deiner Einzelkarten oder beides zusammen. Das dauert etwa 2 Minuten.</p><div class="t-meta"><span class="chip">Du</span><span class="chip">2 Min.</span></div></div></li>
         <li><span class="t-num">02</span><div class="t-body"><h3>Angebot</h3><p>Ich schicke dir ein Angebot mit festem Betrag per WhatsApp oder E-Mail, je nachdem, was du im Formular gewählt hast. Bulk nach Preisliste, Einzelkarten zu 70 % des aktuellen Cardmarket-Preises. Bei Einzelkarten frage ich eventuell nach Fotos.</p><div class="t-meta"><span class="chip">Ich</span><span class="chip">meist in 2 Tagen</span></div></div></li>
         <li><span class="t-num">03</span><div class="t-body"><h3>Versand</h3><p>Du sagst zu und schickst die Karten per Post mit deiner Anfragenummer. <a href="versand.html" style="color:var(--gold-soft)">Versandanleitung</a></p><div class="t-meta"><span class="chip">Du</span></div></div></li>
         <li><span class="t-num">04</span><div class="t-body"><h3>Prüfung</h3><p>Ich kontrolliere Bulk nach Gewicht und Stichprobe und prüfe Einzelkarten auf Zustand und Echtheit. Passt die Sendung, bleibt es beim zugesagten Betrag. Weicht sie stark ab, entscheidest du: angepasster Betrag oder Karten zurück.</p><div class="t-meta"><span class="chip">Ich</span><span class="chip">bis 2 Werktage nach Eingang</span></div></div></li>

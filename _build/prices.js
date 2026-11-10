@@ -1,8 +1,8 @@
-// PREISE in Cent je Karte. Bestätigt am 10.11.2026.
+// PREISE in Cent je Karte. Bestätigt am 10.11.2026, C/U am 10.11.2026 auf 0,8 ct erhöht.
 // Gleiche Werte stehen in der Preistabelle auf der Startseite.
 var NGC_PREISE = {
   MIN: 500,                         // Mindestmenge Bulk, alle Karten zusammen
-  cu: 0.7,                          // Common & Uncommon
+  cu: 0.8,                          // Common & Uncommon
   holo: 1.5, holoBonus: 2, holoAb: 500,
   ex: 25, exBonus: 35, exAb: 20,    // EX, V, GX, VMAX, ex unter 1 € Marktwert
   un: 0.6,                          // unsortiert
