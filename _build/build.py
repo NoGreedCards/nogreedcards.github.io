@@ -307,7 +307,7 @@ ankauf = f'''<main>
             <small>Unsicher? <a href="index.html#sortieren" style="color:var(--gold-soft)">So sortierst du in 10 Minuten</a>. Grob schätzen reicht: ein voller Schuhkarton sind etwa 800 bis 1.000 Karten.</small>
           </div>
           <div class="row3" id="grp-sorted">
-            <label class="f"><span>Common &amp; Uncommon</span><input id="cu" name="common_uncommon" type="text" inputmode="numeric" placeholder="z. B. 1.500" autocomplete="off"><small>0,7 ct je Karte</small></label>
+            <label class="f"><span>Common &amp; Uncommon</span><input id="cu" name="common_uncommon" type="text" inputmode="numeric" placeholder="z. B. 1.500" autocomplete="off"><small>0,8 ct je Karte</small></label>
             <label class="f"><span>Holo &amp; Reverse</span><input id="holo" name="holo_reverse" type="text" inputmode="numeric" placeholder="z. B. 400" autocomplete="off"><small>1,5 ct, ab 500: 2 ct</small></label>
             <label class="f"><span>EX, V, GX, ex</span><input id="ex" name="ex_v_gx" type="text" inputmode="numeric" placeholder="z. B. 10" autocomplete="off"><small>25 ct, ab 20: 35 ct</small></label>
           </div>

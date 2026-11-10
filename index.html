@@ -393,7 +393,7 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
         <label class="opt"><input type="radio" name="bc-mode" value="unsortiert"><span>Unsortiert</span></label>
       </div>
       <div id="bc-sorted">
-        <label class="calc-row" for="bc-cu"><span>Common &amp; Uncommon<small>0,7 ct je Karte</small></span>
+        <label class="calc-row" for="bc-cu"><span>Common &amp; Uncommon<small>0,8 ct je Karte</small></span>
           <span class="field"><input id="bc-cu" type="text" inputmode="numeric" value="1.500"></span><span class="mono" id="bc-cu-v">10,50 €</span></label>
         <label class="calc-row" for="bc-holo"><span>Holo &amp; Reverse<small id="bc-holo-r">1,5 ct · ab 500: 2 ct</small></span>
           <span class="field"><input id="bc-holo" type="text" inputmode="numeric" value="400"></span><span class="mono" id="bc-holo-v">6,00 €</span></label>
@@ -450,7 +450,7 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
           <!-- PREISE: bei Änderung auch prices.js und ankauf (build.py) anpassen. -->
           <table class="rates">
             <tbody>
-              <tr><td>Common &amp; Uncommon<span class="unit">je 1.000 Karten</span></td><td>7,00 €</td></tr>
+              <tr><td>Common &amp; Uncommon<span class="unit">je 1.000 Karten</span></td><td>8,00 €</td></tr>
               <tr><td>Holo &amp; Reverse Holo<span class="unit">je 1.000 Karten · ab 500 Holos 20 €</span></td><td>15,00 €</td></tr>
               <tr><td>EX, V, GX, VMAX, ex<span class="unit">je Karte, unter 1 € Marktwert · ab 20 Stück 0,35 €</span></td><td>0,25 €</td></tr>
               <tr><td>Unsortiert<span class="unit">je 1.000 Karten, alles gemischt</span></td><td>6,00 €</td></tr>
@@ -606,11 +606,11 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
     </nav>
   </div>
 </footer>
-<script>// PREISE in Cent je Karte. Bestätigt am 10.11.2026.
+<script>// PREISE in Cent je Karte. Bestätigt am 10.11.2026, C/U am 10.11.2026 auf 0,8 ct erhöht.
 // Gleiche Werte stehen in der Preistabelle auf der Startseite.
 var NGC_PREISE = {
   MIN: 500,                         // Mindestmenge Bulk, alle Karten zusammen
-  cu: 0.7,                          // Common & Uncommon
+  cu: 0.8,                          // Common & Uncommon
   holo: 1.5, holoBonus: 2, holoAb: 500,
   ex: 25, exBonus: 35, exAb: 20,    // EX, V, GX, VMAX, ex unter 1 € Marktwert
   un: 0.6,                          // unsortiert
