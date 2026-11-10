@@ -225,7 +225,8 @@ legend{font-family:var(--font-display);font-stretch:112%;font-weight:800;font-si
 .opt-tag{font-style:normal;font-weight:400;color:var(--muted);font-size:12px}
 .check{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted)}
 .check input{margin-top:4px;accent-color:var(--gold)}
-.tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:640px){ .tabs{grid-template-columns:1fr} }
 .tab{font:inherit;text-align:left;cursor:pointer;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;color:var(--fg);display:grid;gap:4px}
 .tab b{font-family:var(--font-display);font-stretch:112%;font-size:17px}
 .tab span{font-size:13px;color:var(--muted)}
@@ -381,6 +382,7 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
         <div class="tabs" role="tablist" aria-label="Art des Ankaufs">
           <button type="button" class="tab" role="tab" id="tab-bulk" aria-controls="fs-bulk" aria-selected="true"><b>Bulk</b><span>ab 500 Karten, feste Preise</span></button>
           <button type="button" class="tab" role="tab" id="tab-einzel" aria-controls="fs-einzel" aria-selected="false"><b>Einzelkarten</b><span>70 % vom Cardmarket-Preis</span></button>
+          <button type="button" class="tab" role="tab" id="tab-beide" aria-controls="fs-bulk fs-einzel" aria-selected="false"><b>Bulk + Einzelkarten</b><span>beides in einer Anfrage</span></button>
         </div>
         <input type="hidden" name="art" id="art" value="Bulk">
         <input type="hidden" name="anfragenummer" id="h-id">
@@ -547,17 +549,21 @@ function ngcFmt(cent){ return ngcEur.format(cent/100); }
   // Normaler Formular-Versand statt JavaScript-Fetch: Formspree leitet nach dem Senden
   // selbst auf danke.html weiter. Das braucht keine CORS- oder Domain-Freigabe bei Formspree.
   if (FORM_ID){ form.action='https://formspree.io/f/'+FORM_ID; form.method='POST'; }
-  var tabs={bulk:$('tab-bulk'), einzel:$('tab-einzel')}, panels={bulk:$('fs-bulk'), einzel:$('fs-einzel')};
+  var tabs={bulk:$('tab-bulk'), einzel:$('tab-einzel'), beide:$('tab-beide')};
+  var ARTEN={bulk:'Bulk', einzel:'Einzelkarten', beide:'Bulk + Einzelkarten'};
   var mode='bulk', last=null;
+  function hatBulk(){ return mode!=='einzel'; }
+  function hatEinzel(){ return mode!=='bulk'; }
+  function modeAusHash(){ var h=location.hash.slice(1); return ARTEN[h] ? h : 'bulk'; }
 
   function setMode(m){
-    mode=m; art.value = m==='bulk' ? 'Bulk' : 'Einzelkarten';
-    for (var k in tabs){ tabs[k].setAttribute('aria-selected', k===m); panels[k].hidden = k!==m; }
+    mode=m; art.value = ARTEN[m];
+    for (var k in tabs) tabs[k].setAttribute('aria-selected', k===m);
+    $('fs-bulk').hidden=!hatBulk(); $('fs-einzel').hidden=!hatEinzel();
     if (location.hash !== '#'+m) { try { history.replaceState(null,'','#'+m); } catch(e){} }
     calc();
   }
-  tabs.bulk.addEventListener('click', function(){ setMode('bulk'); });
-  tabs.einzel.addEventListener('click', function(){ setMode('einzel'); });
+  for (var k in tabs) (function(k){ tabs[k].addEventListener('click', function(){ setMode(k); }); })(k);
 
   function sortiert(){ return form.querySelector('input[name="sortiert"]:checked').value==='sortiert'; }
   function n(id){ return Math.floor(ngcNum($(id).value)); }
@@ -565,7 +571,18 @@ function ngcFmt(cent){ return ngcEur.format(cent/100); }
 
   function calc(){
     var rows='', tipp='';
-    if (mode==='bulk'){
+    if (mode==='beide'){
+      var s2=sortiert(); $('grp-sorted').hidden=!s2; $('grp-un').hidden=s2;
+      var b=last=ngcBulk({sortiert:s2, cu:n('cu'), holo:n('holo'), ex:n('ex'), un:n('un')});
+      var w=ngcNum($('wert').value), e=Math.round(w*100*P.quote);
+      rows+=row('Bulk · '+int.format(b.anzahl)+' Karten', b.ok?ngcFmt(b.cent):'–');
+      rows+=row('Einzelkarten · 70 % von '+(w?ngcFmt(Math.round(w*100)):'–'), w?ngcFmt(e):'–');
+      var sum=(b.ok?b.cent:0)+(w?e:0);
+      $('s-total').textContent = sum ? ngcFmt(sum) : '–';
+      $('s-foot').textContent = b.anzahl>0 && !b.ok ? 'Bulk kaufe ich ab '+int.format(P.MIN)+' Karten an.'
+        : 'Schätzung. Einzelkarten prüfe ich selbst nach, deinen festen Betrag bekommst du im Angebot.';
+      tipp = b.ok ? b.tipp : '';
+    } else if (mode==='bulk'){
       var s=sortiert(); $('grp-sorted').hidden=!s; $('grp-un').hidden=s;
       var r=last=ngcBulk({sortiert:s, cu:n('cu'), holo:n('holo'), ex:n('ex'), un:n('un')});
       if (s){
@@ -603,9 +620,8 @@ function ngcFmt(cent){ return ngcEur.format(cent/100); }
   }
   $('next').addEventListener('click', function(){
     calc();
-    if (mode==='bulk'){
-      if (flag('f-menge','err-menge', !last.ok)){ $('err-menge').textContent='Ich kaufe Bulk ab '+int.format(P.MIN)+' Karten an. Du bist bei '+int.format(last.anzahl)+'.'; $(sortiert()?'cu':'un').focus(); return; }
-    } else if (flag('f-liste','err-liste', !$('liste').value.trim())){ $('liste').focus(); return; }
+    if (hatBulk() && flag('f-menge','err-menge', !last.ok)){ $('err-menge').textContent='Ich kaufe Bulk ab '+int.format(P.MIN)+' Karten an. Du bist bei '+int.format(last.anzahl)+'.'; $(sortiert()?'cu':'un').focus(); return; }
+    if (hatEinzel() && flag('f-liste','err-liste', !$('liste').value.trim())){ $('liste').focus(); return; }
     part(2); $('name').focus({preventScroll:true});
   });
   $('back').addEventListener('click', function(){ part(1); });
@@ -639,12 +655,12 @@ function ngcFmt(cent){ return ngcEur.format(cent/100); }
     var d=new Date(), pad=function(x){return String(x).padStart(2,'0');};
     var id='NGC-'+String(d.getFullYear()).slice(2)+pad(d.getMonth()+1)+pad(d.getDate())+'-'+Math.random().toString(36).slice(2,6).toUpperCase();
     $('h-id').value=id;
-    if (mode==='bulk'){ $('h-karten').value=last.anzahl; $('h-schaetzung').value=$('s-total').textContent; }
+    if (hatBulk()){ $('h-karten').value=last.anzahl; $('h-schaetzung').value=$('s-total').textContent; }
     var data=new FormData(form);
     var summary={ id:id, art:art.value, name:$('name').value.trim(), mail:$('mail').value.trim(), tel:$('tel').value.trim(), kontaktweg:kontaktweg(),
       auszahlung:data.get('auszahlung'), schaetzung:$('s-total').textContent,
-      menge: mode==='bulk' ? int.format(last.anzahl)+(sortiert()?' Karten, sortiert':' Karten, unsortiert') : null,
-      karten: mode==='einzel' ? $('liste').value.trim().split('\n').filter(Boolean).length : null };
+      menge: hatBulk() ? int.format(last.anzahl)+(sortiert()?' Karten, sortiert':' Karten, unsortiert') : null,
+      karten: hatEinzel() ? $('liste').value.trim().split('\n').filter(Boolean).length : null };
     try { sessionStorage.setItem('ngc-anfrage', JSON.stringify(summary)); } catch(e){}
 
     var btn=$('send'); btn.disabled=true; btn.textContent='Wird gesendet …';
@@ -654,8 +670,8 @@ function ngcFmt(cent){ return ngcEur.format(cent/100); }
     form.submit();
   });
 
-  setMode(location.hash==='#einzel' ? 'einzel' : 'bulk');
-  window.addEventListener('hashchange', function(){ setMode(location.hash==='#einzel'?'einzel':'bulk'); });
+  setMode(modeAusHash());
+  window.addEventListener('hashchange', function(){ setMode(modeAusHash()); });
 })();
 </script>
 </body>

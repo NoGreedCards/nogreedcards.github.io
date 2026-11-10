@@ -225,7 +225,8 @@ legend{font-family:var(--font-display);font-stretch:112%;font-weight:800;font-si
 .opt-tag{font-style:normal;font-weight:400;color:var(--muted);font-size:12px}
 .check{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted)}
 .check input{margin-top:4px;accent-color:var(--gold)}
-.tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:640px){ .tabs{grid-template-columns:1fr} }
 .tab{font:inherit;text-align:left;cursor:pointer;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;color:var(--fg);display:grid;gap:4px}
 .tab b{font-family:var(--font-display);font-stretch:112%;font-size:17px}
 .tab span{font-size:13px;color:var(--muted)}
