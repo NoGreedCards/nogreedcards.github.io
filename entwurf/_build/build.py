@@ -381,7 +381,7 @@ ankauf = f'''<main>
 ankauf_js = read("prices.js") + r"""
 (function(){
   // Formspree-Formular-ID hier eintragen, z. B. "xabcdwxyz". Leer = Vorschau-Modus ohne Versand.
-  var FORM_ID = "";
+  var FORM_ID = "mzeenvdz";
   var P = NGC_PREISE;
 
   var int = new Intl.NumberFormat('de-DE');
