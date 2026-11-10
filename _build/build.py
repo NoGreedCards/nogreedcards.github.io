@@ -1,4 +1,4 @@
-"""Baut die Entwurfsseiten. Aufruf: python3 build.py <repo-ausgabe> <artifact-ausgabe>"""
+"""Baut die Website. Aufruf: python3 build.py <repo-ausgabe> <artifact-ausgabe>"""
 import sys, os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -147,6 +147,15 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
 .row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 @media (max-width:640px){ .row3{grid-template-columns:1fr} }
 #f-menge:has(.err[hidden]){display:none}
+
+/* Rechtstexte */
+.legal{max-width:72ch;display:grid;gap:14px;padding-bottom:80px;color:var(--muted)}
+.legal h2{font-size:22px;color:var(--fg);margin-top:22px}
+.legal h3{font-size:17px;color:var(--fg);margin-top:8px}
+.legal b{color:var(--fg);font-weight:600}
+.legal a{color:var(--gold-soft)}
+.legal ul{margin:0;padding-left:20px;display:grid;gap:6px}
+.legal address{font-style:normal;color:var(--fg);line-height:1.6}
 .reviews-main{grid-template-columns:minmax(0,2.2fr) minmax(0,1fr);align-items:start}
 @media (max-width:860px){ .reviews-main{grid-template-columns:1fr} }
 .ebay-box{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--r);padding:28px;display:grid;gap:8px;min-width:0}
@@ -170,9 +179,14 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
 
 CSS = BASE_CSS.replace("--green:#39ff8c;", "--green:#39ff8c;\n  --warn:#e8896b;     /* Hinweise und Fehler */") + EXTRA_CSS
 
-FONTS = '''<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">'''
+# Schriften liegen lokal in /fonts (keine Verbindung zu Google, Lizenz: SIL OFL 1.1)
+FONT_CSS = """
+@font-face{font-family:"Archivo";font-style:normal;font-display:swap;font-weight:100 900;font-stretch:62% 125%;src:url(fonts/archivo-latin-standard-normal.woff2) format("woff2")}
+@font-face{font-family:"Figtree";font-style:normal;font-display:swap;font-weight:300 900;src:url(fonts/figtree-latin-wght-normal.woff2) format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-display:swap;font-weight:400;src:url(fonts/jetbrains-mono-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-display:swap;font-weight:600;src:url(fonts/jetbrains-mono-latin-600-normal.woff2) format("woff2")}
+"""
+FONTS = '<link rel="preload" href="fonts/archivo-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>'
 
 SEAL = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12.5 L9.5 18 L20 6" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 
@@ -205,10 +219,11 @@ FOOTER = '''<footer>
       <a href="ablauf.html">Ankauf</a>
       <a href="versand.html">Versand</a>
       <a href="https://www.youtube.com/@NoGreedCollector" target="_blank" rel="noopener">YouTube</a>
-      <a href="turniere.html">Turniere</a>
+      <a href="https://playagainst.xyz" target="_blank" rel="noopener">Turniere</a>
       <!-- PLATZHALTER: Impressum und Datenschutz anlegen, bevor die Seite gewerblich live geht -->
-      <a href="#">Impressum</a>
-      <a href="#">Datenschutz</a>
+      <a href="mailto:nogreedtcg@gmail.com">Kontakt</a>
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
     </nav>
   </div>
 </footer>'''
@@ -224,10 +239,9 @@ def stepper(now):
 
 def page(name, title, desc, cur, body, script=""):
     head = f'''<title>{title}</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="{desc}">
 {FONTS}
-<style>{CSS}</style>
+<style>{FONT_CSS}{CSS}</style>
 '''
     content = f"{header(cur)}\n{body}\n{FOOTER}\n" + (f"<script>{script}</script>\n" if script else "")
     full = ('<!doctype html>\n<html lang="de">\n<head>\n<meta charset="utf-8">\n'
@@ -253,7 +267,7 @@ landing = landing.replace(old_steps, '''      <ol class="steps" aria-label="So l
       <p style="margin-top:24px"><a href="ablauf.html" style="color:var(--gold-soft)">Alle Schritte und Ankaufbedingungen ansehen →</a></p>''')
 assert landing.count("kontakt.html") == 0
 page("index.html", "NoGreedCards",
-     "NoGreedCards aus Saarbrücken kauft deinen Pokémon-Bulk zu festen Preisen und Einzelkarten zu 70 % des Cardmarket-Preises.",
+     "NoGreedCards aus dem Saarland kauft deine Pokémon-Sammlung und deinen Bulk zu festen Preisen und Einzelkarten zu 70 % des Cardmarket-Preises.",
      "", landing, read("prices.js") + read("landing.js"))
 
 # ---------------- Anfrage ----------------
@@ -356,7 +370,7 @@ ankauf = f'''<main>
           </div>
           <label class="f"><span>Nachricht (optional)</span><textarea id="nachricht" name="nachricht" style="min-height:90px;font-family:var(--font-body)"></textarea></label>
           <label class="check"><input type="checkbox" id="ok-18" name="volljaehrig"><span>Ich bin mindestens 18 Jahre alt oder meine Eltern sind einverstanden.</span></label>
-          <label class="check"><input type="checkbox" id="ok-agb" name="bedingungen"><span>Ich habe die <a href="ablauf.html#bedingungen" style="color:var(--gold-soft)">Ankaufbedingungen</a> und die <a href="#" style="color:var(--gold-soft)">Datenschutzerklärung</a> gelesen.</span></label>
+          <label class="check"><input type="checkbox" id="ok-agb" name="bedingungen"><span>Ich habe die <a href="ablauf.html#bedingungen" style="color:var(--gold-soft)">Ankaufbedingungen</a> und die <a href="datenschutz.html" style="color:var(--gold-soft)">Datenschutzerklärung</a> gelesen.</span></label>
           <span class="err" id="err-ok" hidden>Bitte bestätige beide Punkte.</span>
         </fieldset>
 
@@ -373,10 +387,10 @@ ankauf = f'''<main>
         <div class="receipt-head"><span class="eyebrow">Deine Schätzung</span><span class="seal">{SEAL}</span></div>
         <div id="s-rows"></div>
         <div class="receipt-total"><span>ca.</span><b id="s-total">–</b></div>
-        <p class="receipt-foot" id="s-foot">Der Endbetrag steht fest, sobald ich nachgezählt habe.</p>
+        <p class="receipt-foot" id="s-foot">Schätzung. Deinen festen Betrag bekommst du im Angebot.</p>
         <p class="receipt-foot bonus" id="s-tipp"></p>
       </div>
-      <div class="side-note"><b>Passt dir der Endbetrag nicht?</b><span>Dann schicke ich dir deine Karten zurück. Details in den <a href="ablauf.html#bedingungen" style="color:var(--gold-soft)">Ankaufbedingungen</a>.</span></div>
+      <div class="side-note"><b>Fester Betrag</b><span>Sobald du mein Angebot annimmst, steht dein Betrag fest. Weicht deine Sendung stark ab, entscheidest du: angepasster Betrag oder Karten zurück. Details in den <a href="ablauf.html#bedingungen" style="color:var(--gold-soft)">Ankaufbedingungen</a>.</span></div>
       <div class="side-note"><b>Was danach passiert</b>Ich melde mich mit einem Angebot, per WhatsApp oder E-Mail. Erst wenn du zusagst, schickst du die Karten per Post.</div>
     </aside>
   </div>
@@ -423,7 +437,7 @@ ankauf_js = read("prices.js") + r"""
       } else rows+=row('Unsortiert · '+int.format(n('un')), ngcFmt(r.un));
       rows+=row('Karten gesamt', int.format(r.anzahl));
       $('s-total').textContent = r.ok ? ngcFmt(r.cent) : '–';
-      $('s-foot').textContent = r.anzahl>0 && !r.ok ? 'Bulk kaufe ich ab '+int.format(P.MIN)+' Karten an.' : 'Der Endbetrag steht fest, sobald ich nachgezählt habe.';
+      $('s-foot').textContent = r.anzahl>0 && !r.ok ? 'Bulk kaufe ich ab '+int.format(P.MIN)+' Karten an.' : 'Schätzung. Deinen festen Betrag bekommst du im Angebot.';
       tipp = r.ok ? r.tipp : '';
     } else {
       var v=ngcNum($('wert').value);
@@ -581,7 +595,7 @@ versand = f'''<main>
         <ul>
           <li>Jede Karte in eine Hülle (Sleeve), wertvolle zusätzlich in einen Toploader.</li>
           <li>Zwischen zwei Pappen legen und mit Klebeband fixieren, nicht direkt auf die Karte.</li>
-          <li>Ab einem Wert von 25 € bitte versichert verschicken. <span class="tbd">Grenze anpassen</span></li>
+          <li>Ab einem Wert von 25 € bitte versichert verschicken.</li>
           <li>Zettel mit Anfragenummer und deiner Kartenliste beilegen.</li>
         </ul>
       </div>
@@ -590,12 +604,11 @@ versand = f'''<main>
       <div class="card">
         <h3>Nach dem Versand</h3>
         <p>Schick mir die Sendungsnummer, einfach als Antwort im selben Chat oder per E-Mail. Sobald das Paket da ist, bekommst du eine kurze Eingangsbestätigung.</p>
-        <p>Danach zähle und prüfe ich deine Karten und melde mich mit dem Endbetrag.</p>
+        <p>Danach prüfe ich die Sendung. Passt sie zu deiner Anfrage, zahle ich dir den zugesagten Betrag innerhalb von 2 Werktagen aus.</p>
       </div>
       <div class="card">
         <h3>Wer zahlt das Porto?</h3>
-        <!-- ENTSCHEIDUNG OFFEN: Porto-Regel -->
-        <p>Das Porto zahlst du. Ab 5.000 Karten erstatte ich dir bis zu 6,99 € mit der Auszahlung. <span class="tbd">Vorschlag, anpassen</span></p>
+        <p>Das Porto zahlst du. Ab 5.000 Karten erstatte ich dir bis zu 6,99 € mit der Auszahlung.</p>
         <p>Geht ein Paket verloren, gilt die Sendungsverfolgung. Deshalb nie ohne Sendungsnummer verschicken.</p>
       </div>
     </div>
@@ -616,9 +629,9 @@ ablauf = f'''<main>
     <div class="wrap">
       <ol class="timeline">
         <li><span class="t-num">01</span><div class="t-body"><h3>Anfrage</h3><p>Du füllst das Ankauf-Formular aus: Bulk ab 500 Karten oder eine Liste deiner Einzelkarten. Das dauert etwa 2 Minuten.</p><div class="t-meta"><span class="chip">Du</span><span class="chip">2 Min.</span></div></div></li>
-        <li><span class="t-num">02</span><div class="t-body"><h3>Angebot</h3><p>Ich schicke dir ein Angebot per WhatsApp oder E-Mail, je nachdem, was du im Formular gewählt hast. Bulk nach Preisliste, Einzelkarten zu 70 % des aktuellen Cardmarket-Preises. Bei Einzelkarten frage ich eventuell nach Fotos.</p><div class="t-meta"><span class="chip">Ich</span><span class="chip">meist in 2 Tagen <span class="tbd" style="margin-left:4px">Vorschlag</span></span></div></div></li>
+        <li><span class="t-num">02</span><div class="t-body"><h3>Angebot</h3><p>Ich schicke dir ein Angebot mit festem Betrag per WhatsApp oder E-Mail, je nachdem, was du im Formular gewählt hast. Bulk nach Preisliste, Einzelkarten zu 70 % des aktuellen Cardmarket-Preises. Bei Einzelkarten frage ich eventuell nach Fotos.</p><div class="t-meta"><span class="chip">Ich</span><span class="chip">meist in 2 Tagen</span></div></div></li>
         <li><span class="t-num">03</span><div class="t-body"><h3>Versand</h3><p>Du sagst zu und schickst die Karten per Post mit deiner Anfragenummer. <a href="versand.html" style="color:var(--gold-soft)">Versandanleitung</a></p><div class="t-meta"><span class="chip">Du</span></div></div></li>
-        <li><span class="t-num">04</span><div class="t-body"><h3>Prüfung</h3><p>Ich zähle Bulk nach Gewicht und Stichprobe und prüfe Einzelkarten auf Zustand und Echtheit. Weicht etwas ab, bekommst du ein neues Angebot oder deine Karten zurück.</p><div class="t-meta"><span class="chip">Ich</span><span class="chip">2 bis 3 Tage nach Eingang <span class="tbd" style="margin-left:4px">Vorschlag</span></span></div></div></li>
+        <li><span class="t-num">04</span><div class="t-body"><h3>Prüfung</h3><p>Ich kontrolliere Bulk nach Gewicht und Stichprobe und prüfe Einzelkarten auf Zustand und Echtheit. Passt die Sendung, bleibt es beim zugesagten Betrag. Weicht sie stark ab, entscheidest du: angepasster Betrag oder Karten zurück.</p><div class="t-meta"><span class="chip">Ich</span><span class="chip">bis 2 Werktage nach Eingang</span></div></div></li>
         <li><span class="t-num">05</span><div class="t-body"><h3>Auszahlung</h3><p>Du bekommst dein Geld per PayPal oder Überweisung. Dazu einen Ankaufbeleg als PDF.</p><div class="t-meta"><span class="chip chip-gold">Fertig</span></div></div></li>
       </ol>
     </div>
@@ -631,19 +644,19 @@ ablauf = f'''<main>
       <div class="sec-head">
         <div class="eyebrow">Ankaufbedingungen</div>
         <h2>Die Regeln, kurz und klar.</h2>
-        <p class="lead">Entwurf. Vor dem Livegang bitte rechtlich prüfen lassen.</p>
       </div>
-      <!-- ENTWURF: Inhalte sind Vorschläge -->
       <ol class="terms">
-        <li><span><b>Nur Originale.</b> Ich kaufe nur echte Pokémon-Karten. Fälschungen und Proxies schicke ich zurück.</span></li>
-        <li><span><b>Wann der Kauf zustande kommt:</b> Mein Angebot vor dem Versand ist eine Einschätzung anhand deiner Angaben. Der Kauf kommt erst zustande, wenn deine Karten bei mir angekommen sind, ich sie geprüft habe und dir den Endbetrag bestätige. Bis dahin bleiben die Karten dein Eigentum.</span></li>
+        <li><span><b>Nur Originale.</b> Ich kaufe nur echte Pokémon-Karten. Fälschungen, Proxies, andere Kartenspiele und stark beschädigte Karten zählen nicht und werden nicht bezahlt. Geht der Rest ohnehin zurück, lege ich sie bei, sonst entsorge ich sie.</span></li>
+        <li><span><b>Fester Betrag:</b> Ich schicke dir ein Angebot mit festem Betrag, berechnet aus deinen Angaben. Sagst du zu, gilt dieser Betrag, solange deine Sendung zu deinen Angaben passt. Bis zur Auszahlung bleiben die Karten dein Eigentum.</span></li>
         <li><span><b>Versand auf dein Risiko:</b> Du verschickst die Karten auf eigene Gefahr und nur mit Sendungsnummer. Ab einem Wert von 25 € bitte versichert. Geht ein Paket ohne Sendungsnummer verloren, kann ich dafür nicht haften. Bei einem verfolgten Paket hilft dir die Sendungsnummer, den Schaden beim Versanddienst geltend zu machen.</span></li>
         <li><span><b>Mindestmenge Bulk:</b> 500 Karten. Bulk zählt ohne Hüllen, Toploader und Sammelalben.</span></li>
         <li><span><b>Sortierung:</b> Ich prüfe deine Sortierung. Falsch einsortierte Karten zähle ich in der passenden Kategorie. Full Arts und Karten ab 1 € Marktwert biete ich dir als Einzelkarten zu 70 % an. Gemischte Kisten zählen als unsortiert.</span></li>
-        <li><span><b>Zählung:</b> Ich zähle Bulk nach Gewicht und Stichprobe. Weicht die Menge um mehr als 10 % ab, passe ich das Angebot an.</span></li>
-        <li><span><b>Zustand:</b> Stark beschädigte Karten (Knicke, Wasserschäden) zählen nicht zum Bulk. Einzelkarten bewerte ich nach der Cardmarket-Zustandsskala.</span></li>
+        <li><span><b>Toleranz:</b> Ich kontrolliere Bulk nach Gewicht und Stichprobe. Weicht die Menge um bis zu 10 % ab oder sind wenige Karten falsch einsortiert, zahle ich trotzdem den vollen zugesagten Betrag.</span></li>
+        <li><span><b>Mehr Karten:</b> Schickst du mehr als 10 % mehr Karten als angegeben, zahle ich die Mehrmenge nach Preisliste dazu.</span></li>
+        <li><span><b>Zustand:</b> Stark beschädigt heißt: Knicke, Risse oder Wasserschäden. Einzelkarten bewerte ich nach der Cardmarket-Zustandsskala.</span></li>
         <li><span><b>Preis:</b> Bei Einzelkarten gilt der Cardmarket-Preis am Tag der Prüfung, für den passenden Zustand und die passende Sprache.</span></li>
-        <li><span><b>Abweichungen:</b> Passt etwas nicht, bekommst du ein neues Angebot. Lehnst du ab, schicke ich dir die Karten zurück. <span class="tbd">Rückporto regeln</span></span></li>
+        <li><span><b>Größere Abweichungen:</b> Fehlen mehr als 10 % der Karten oder ist viel falsch einsortiert, berechne ich den Betrag nach Preisliste neu und schicke dir Fotos und das Gewicht als Beleg. Du hast 7 Tage Zeit und wählst: angepasster Betrag oder Rücksendung deiner Karten, das Rückporto zahlst du. Antwortest du nicht, erinnere ich dich nach 7 Tagen und zahle dir nach 14 Tagen den angepassten Betrag aus.</span></li>
+        <li><span><b>Auszahlung:</b> Passt die Sendung, zahle ich innerhalb von 2 Werktagen nach Eingang per PayPal oder Überweisung aus.</span></li>
         <li><span><b>Minderjährige</b> verkaufen nur mit Einverständnis der Eltern.</span></li>
         <li><span><b>Beleg:</b> Für jeden Ankauf stelle ich einen Ankaufbeleg mit Name, Datum, Karten und Preis aus.</span></li>
       </ol>
@@ -655,16 +668,43 @@ ablauf = f'''<main>
       <div class="wrap">
         <div class="sec-head"><div class="eyebrow">Häufige Fragen</div><h2>Noch Fragen?</h2></div>
         <div style="max-width:780px">
-          <details><summary>Muss ich meine Karten vorher sortieren?</summary><p>Nein. Sortieren ist meine Arbeit. Gib im Formular einfach an, was ungefähr dabei ist.</p></details>
+          <details><summary>Muss ich meine Karten vorher sortieren?</summary><p>Nein. Dann wählst du im Formular „Unsortiert“ und bekommst 6 € je 1.000 Karten. Sortiert bekommst du mehr, <a href="index.html#sortieren" style="color:var(--gold-soft)">so geht es in 10 Minuten</a>.</p></details>
           <details><summary>Wie schätze ich die Anzahl?</summary><p>100 Karten wiegen etwa 180 g. Ein voller Schuhkarton sind ungefähr 800 bis 1.000 Karten.</p></details>
           <details><summary>Kaufst du auch englische oder japanische Karten?</summary><p>Englische ja. Bei anderen Sprachen schreib es bitte in die Nachricht, dann mache ich ein eigenes Angebot.</p></details>
           <details><summary>Was ist mit Karten in Sammelalben?</summary><p>Bitte nimm sie vorher heraus. Alben und Hüllen kann ich nicht mit ankaufen.</p></details>
           <details><summary>Warum WhatsApp?</summary><p>Weil es schneller geht. Du kannst mir Fotos deiner Karten direkt schicken, und Rückfragen sind in einer Minute geklärt. Wer lieber nicht chattet, wählt im Formular E-Mail.</p></details>
-          <details><summary>Bin ich nach der Anfrage zum Verkauf verpflichtet?</summary><p>Nein. Die Anfrage ist unverbindlich. Verkauft ist erst, wenn du mein Angebot annimmst und die Karten geprüft sind.</p></details>
+          <details><summary>Bin ich nach der Anfrage zum Verkauf verpflichtet?</summary><p>Nein. Die Anfrage ist unverbindlich. Verkauft ist erst, wenn du mein Angebot annimmst.</p></details>
         </div>
       </div>
     </section>
   </div>
 </main>'''
 page("ablauf.html", "So läuft der Ankauf · NoGreedCards", "Ablauf, Ankaufbedingungen und häufige Fragen zum Kartenankauf bei NoGreedCards.", "ablauf", ablauf)
+
+# ---------------- Impressum ----------------
+ADRESSE = """Steven Lars Schmitt<br>NoGreedCards<br>Mühlenbergring 2<br>66793 Saarwellingen<br>Deutschland"""
+impressum = f'''<main>
+  <div class="wrap page-hero">
+    <div class="crumbs"><a href="index.html">Start</a> / Impressum</div>
+    <h1>Impressum</h1>
+  </div>
+  <div class="wrap legal">
+    <h2>Angaben gemäß § 5 DDG</h2>
+    <address>{ADRESSE}</address>
+    <h2>Kontakt</h2>
+    <p>E-Mail: <a href="mailto:nogreedtcg@gmail.com">nogreedtcg@gmail.com</a><br>Ankauf-Anfragen auch über das <a href="ankauf.html">Ankauf-Formular</a>.</p>
+    <h2>Verantwortlich für den Inhalt</h2>
+    <p>Steven Lars Schmitt, Anschrift wie oben.</p>
+    <h2>Verbraucherstreitbeilegung</h2>
+    <p>Ich bin nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+    <h2>Hinweis</h2>
+    <p>NoGreedCards ist ein unabhängiger Händler und steht in keiner Verbindung zu The Pokémon Company, Nintendo, Creatures oder GAME FREAK. Pokémon ist eine Marke der jeweiligen Rechteinhaber.</p>
+  </div>
+</main>'''
+page("impressum.html", "Impressum · NoGreedCards", "Impressum von NoGreedCards.", "", impressum)
+
+# ---------------- Datenschutz ----------------
+datenschutz = open(os.path.join(HERE, "datenschutz.html"), encoding="utf-8").read()
+page("datenschutz.html", "Datenschutz · NoGreedCards", "Datenschutzerklärung von NoGreedCards.", "", datenschutz)
+
 print("ok")

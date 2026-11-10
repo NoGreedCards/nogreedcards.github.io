@@ -1,4 +1,4 @@
-// PREISE in Cent je Karte. Vorschlag aus der Preisgestaltung, noch nicht final.
+// PREISE in Cent je Karte. Bestätigt am 10.11.2026.
 // Gleiche Werte stehen in der Preistabelle auf der Startseite.
 var NGC_PREISE = {
   MIN: 500,                         // Mindestmenge Bulk, alle Karten zusammen

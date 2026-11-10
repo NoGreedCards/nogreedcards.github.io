@@ -4,12 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ankauf-Anfrage · NoGreedCards</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Verkauf deinen Pokémon-Bulk oder deine Einzelkarten an NoGreedCards: Anfrage in 2 Minuten.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="preload" href="fonts/archivo-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+@font-face{font-family:"Archivo";font-style:normal;font-display:swap;font-weight:100 900;font-stretch:62% 125%;src:url(fonts/archivo-latin-standard-normal.woff2) format("woff2")}
+@font-face{font-family:"Figtree";font-style:normal;font-display:swap;font-weight:300 900;src:url(fonts/figtree-latin-wght-normal.woff2) format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-display:swap;font-weight:400;src:url(fonts/jetbrains-mono-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-display:swap;font-weight:600;src:url(fonts/jetbrains-mono-latin-600-normal.woff2) format("woff2")}
+
 /* Layout: Händler-Ledger. Dunkler Grund wie bisher, gestrichelte Ticket-Kanten als Trenner,
    Preise immer in Mono und rechtsbündig wie in einem Kassenbuch. Eine Spalte, max. 1120px. */
 :root{
@@ -315,6 +317,15 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
 .row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 @media (max-width:640px){ .row3{grid-template-columns:1fr} }
 #f-menge:has(.err[hidden]){display:none}
+
+/* Rechtstexte */
+.legal{max-width:72ch;display:grid;gap:14px;padding-bottom:80px;color:var(--muted)}
+.legal h2{font-size:22px;color:var(--fg);margin-top:22px}
+.legal h3{font-size:17px;color:var(--fg);margin-top:8px}
+.legal b{color:var(--fg);font-weight:600}
+.legal a{color:var(--gold-soft)}
+.legal ul{margin:0;padding-left:20px;display:grid;gap:6px}
+.legal address{font-style:normal;color:var(--fg);line-height:1.6}
 .reviews-main{grid-template-columns:minmax(0,2.2fr) minmax(0,1fr);align-items:start}
 @media (max-width:860px){ .reviews-main{grid-template-columns:1fr} }
 .ebay-box{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--r);padding:28px;display:grid;gap:8px;min-width:0}
@@ -450,7 +461,7 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
           </div>
           <label class="f"><span>Nachricht (optional)</span><textarea id="nachricht" name="nachricht" style="min-height:90px;font-family:var(--font-body)"></textarea></label>
           <label class="check"><input type="checkbox" id="ok-18" name="volljaehrig"><span>Ich bin mindestens 18 Jahre alt oder meine Eltern sind einverstanden.</span></label>
-          <label class="check"><input type="checkbox" id="ok-agb" name="bedingungen"><span>Ich habe die <a href="ablauf.html#bedingungen" style="color:var(--gold-soft)">Ankaufbedingungen</a> und die <a href="#" style="color:var(--gold-soft)">Datenschutzerklärung</a> gelesen.</span></label>
+          <label class="check"><input type="checkbox" id="ok-agb" name="bedingungen"><span>Ich habe die <a href="ablauf.html#bedingungen" style="color:var(--gold-soft)">Ankaufbedingungen</a> und die <a href="datenschutz.html" style="color:var(--gold-soft)">Datenschutzerklärung</a> gelesen.</span></label>
           <span class="err" id="err-ok" hidden>Bitte bestätige beide Punkte.</span>
         </fieldset>
 
@@ -467,10 +478,10 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
         <div class="receipt-head"><span class="eyebrow">Deine Schätzung</span><span class="seal"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12.5 L9.5 18 L20 6" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
         <div id="s-rows"></div>
         <div class="receipt-total"><span>ca.</span><b id="s-total">–</b></div>
-        <p class="receipt-foot" id="s-foot">Der Endbetrag steht fest, sobald ich nachgezählt habe.</p>
+        <p class="receipt-foot" id="s-foot">Schätzung. Deinen festen Betrag bekommst du im Angebot.</p>
         <p class="receipt-foot bonus" id="s-tipp"></p>
       </div>
-      <div class="side-note"><b>Passt dir der Endbetrag nicht?</b><span>Dann schicke ich dir deine Karten zurück. Details in den <a href="ablauf.html#bedingungen" style="color:var(--gold-soft)">Ankaufbedingungen</a>.</span></div>
+      <div class="side-note"><b>Fester Betrag</b><span>Sobald du mein Angebot annimmst, steht dein Betrag fest. Weicht deine Sendung stark ab, entscheidest du: angepasster Betrag oder Karten zurück. Details in den <a href="ablauf.html#bedingungen" style="color:var(--gold-soft)">Ankaufbedingungen</a>.</span></div>
       <div class="side-note"><b>Was danach passiert</b>Ich melde mich mit einem Angebot, per WhatsApp oder E-Mail. Erst wenn du zusagst, schickst du die Karten per Post.</div>
     </aside>
   </div>
@@ -485,14 +496,15 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
       <a href="ablauf.html">Ankauf</a>
       <a href="versand.html">Versand</a>
       <a href="https://www.youtube.com/@NoGreedCollector" target="_blank" rel="noopener">YouTube</a>
-      <a href="turniere.html">Turniere</a>
+      <a href="https://playagainst.xyz" target="_blank" rel="noopener">Turniere</a>
       <!-- PLATZHALTER: Impressum und Datenschutz anlegen, bevor die Seite gewerblich live geht -->
-      <a href="#">Impressum</a>
-      <a href="#">Datenschutz</a>
+      <a href="mailto:nogreedtcg@gmail.com">Kontakt</a>
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
     </nav>
   </div>
 </footer>
-<script>// PREISE in Cent je Karte. Vorschlag aus der Preisgestaltung, noch nicht final.
+<script>// PREISE in Cent je Karte. Bestätigt am 10.11.2026.
 // Gleiche Werte stehen in der Preistabelle auf der Startseite.
 var NGC_PREISE = {
   MIN: 500,                         // Mindestmenge Bulk, alle Karten zusammen
@@ -560,7 +572,7 @@ function ngcFmt(cent){ return ngcEur.format(cent/100); }
       } else rows+=row('Unsortiert · '+int.format(n('un')), ngcFmt(r.un));
       rows+=row('Karten gesamt', int.format(r.anzahl));
       $('s-total').textContent = r.ok ? ngcFmt(r.cent) : '–';
-      $('s-foot').textContent = r.anzahl>0 && !r.ok ? 'Bulk kaufe ich ab '+int.format(P.MIN)+' Karten an.' : 'Der Endbetrag steht fest, sobald ich nachgezählt habe.';
+      $('s-foot').textContent = r.anzahl>0 && !r.ok ? 'Bulk kaufe ich ab '+int.format(P.MIN)+' Karten an.' : 'Schätzung. Deinen festen Betrag bekommst du im Angebot.';
       tipp = r.ok ? r.tipp : '';
     } else {
       var v=ngcNum($('wert').value);
