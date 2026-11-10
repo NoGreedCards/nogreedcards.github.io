@@ -275,6 +275,10 @@ ankauf = f'''<main>
           <button type="button" class="tab" role="tab" id="tab-einzel" aria-controls="fs-einzel" aria-selected="false"><b>Einzelkarten</b><span>70 % vom Cardmarket-Preis</span></button>
         </div>
         <input type="hidden" name="art" id="art" value="Bulk">
+        <input type="hidden" name="anfragenummer" id="h-id">
+        <input type="hidden" name="karten_gesamt" id="h-karten">
+        <input type="hidden" name="schaetzung" id="h-schaetzung">
+        <input type="hidden" name="_redirect" id="h-redirect">
 
         <fieldset id="fs-bulk" role="tabpanel" aria-labelledby="tab-bulk">
           <legend>Deine Bulk-Karten</legend>
@@ -388,6 +392,9 @@ ankauf_js = read("prices.js") + r"""
   function $(id){ return document.getElementById(id); }
 
   var form=$('ankauf-form'), art=$('art');
+  // Normaler Formular-Versand statt JavaScript-Fetch: Formspree leitet nach dem Senden
+  // selbst auf danke.html weiter. Das braucht keine CORS- oder Domain-Freigabe bei Formspree.
+  if (FORM_ID){ form.action='https://formspree.io/f/'+FORM_ID; form.method='POST'; }
   var tabs={bulk:$('tab-bulk'), einzel:$('tab-einzel')}, panels={bulk:$('fs-bulk'), einzel:$('fs-einzel')};
   var mode='bulk', last=null;
 
@@ -479,8 +486,9 @@ ankauf_js = read("prices.js") + r"""
 
     var d=new Date(), pad=function(x){return String(x).padStart(2,'0');};
     var id='NGC-'+String(d.getFullYear()).slice(2)+pad(d.getMonth()+1)+pad(d.getDate())+'-'+Math.random().toString(36).slice(2,6).toUpperCase();
-    var data=new FormData(form); data.append('anfragenummer', id);
-    if (mode==='bulk'){ data.append('karten_gesamt', last.anzahl); data.append('schaetzung', $('s-total').textContent); }
+    $('h-id').value=id;
+    if (mode==='bulk'){ $('h-karten').value=last.anzahl; $('h-schaetzung').value=$('s-total').textContent; }
+    var data=new FormData(form);
     var summary={ id:id, art:art.value, name:$('name').value.trim(), mail:$('mail').value.trim(), tel:$('tel').value.trim(), kontaktweg:kontaktweg(),
       auszahlung:data.get('auszahlung'), schaetzung:$('s-total').textContent,
       menge: mode==='bulk' ? int.format(last.anzahl)+(sortiert()?' Karten, sortiert':' Karten, unsortiert') : null,
@@ -488,12 +496,10 @@ ankauf_js = read("prices.js") + r"""
     try { sessionStorage.setItem('ngc-anfrage', JSON.stringify(summary)); } catch(e){}
 
     var btn=$('send'); btn.disabled=true; btn.textContent='Wird gesendet …';
-    var go=function(){ location.href='danke.html'; };
-    if (!FORM_ID){ go(); return; }
-    fetch('https://formspree.io/f/'+FORM_ID, {method:'POST', body:data, headers:{'Accept':'application/json'}})
-      .then(function(r){ if(!r.ok) throw new Error(); go(); })
-      .catch(function(){ btn.disabled=false; btn.textContent='Anfrage senden';
-        $('demo-note').textContent='Das hat nicht geklappt. Bitte versuch es noch einmal oder schreib mir direkt über eBay oder Cardmarket.'; });
+    if (!FORM_ID){ location.href='danke.html'; return; }
+    // Formspree leitet nach erfolgreichem Versand selbst hierhin weiter.
+    $('h-redirect').value=new URL('danke.html', location.href).href;
+    form.submit();
   });
 
   setMode(location.hash==='#einzel' ? 'einzel' : 'bulk');
