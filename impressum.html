@@ -3,13 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Versand · NoGreedCards</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="So verpackst du deine Karten für den Ankauf bei NoGreedCards.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<title>Impressum · NoGreedCards</title>
+<meta name="description" content="Impressum von NoGreedCards.">
+<link rel="preload" href="fonts/archivo-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+@font-face{font-family:"Archivo";font-style:normal;font-display:swap;font-weight:100 900;font-stretch:62% 125%;src:url(fonts/archivo-latin-standard-normal.woff2) format("woff2")}
+@font-face{font-family:"Figtree";font-style:normal;font-display:swap;font-weight:300 900;src:url(fonts/figtree-latin-wght-normal.woff2) format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-display:swap;font-weight:400;src:url(fonts/jetbrains-mono-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-display:swap;font-weight:600;src:url(fonts/jetbrains-mono-latin-600-normal.woff2) format("woff2")}
+
 /* Layout: Händler-Ledger. Dunkler Grund wie bisher, gestrichelte Ticket-Kanten als Trenner,
    Preise immer in Mono und rechtsbündig wie in einem Kassenbuch. Eine Spalte, max. 1120px. */
 :root{
@@ -315,6 +317,15 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
 .row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 @media (max-width:640px){ .row3{grid-template-columns:1fr} }
 #f-menge:has(.err[hidden]){display:none}
+
+/* Rechtstexte */
+.legal{max-width:72ch;display:grid;gap:14px;padding-bottom:80px;color:var(--muted)}
+.legal h2{font-size:22px;color:var(--fg);margin-top:22px}
+.legal h3{font-size:17px;color:var(--fg);margin-top:8px}
+.legal b{color:var(--fg);font-weight:600}
+.legal a{color:var(--gold-soft)}
+.legal ul{margin:0;padding-left:20px;display:grid;gap:6px}
+.legal address{font-style:normal;color:var(--fg);line-height:1.6}
 .reviews-main{grid-template-columns:minmax(0,2.2fr) minmax(0,1fr);align-items:start}
 @media (max-width:860px){ .reviews-main{grid-template-columns:1fr} }
 .ebay-box{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--r);padding:28px;display:grid;gap:8px;min-width:0}
@@ -353,48 +364,20 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
 </header>
 <main>
   <div class="wrap page-hero">
-    <div class="crumbs"><a href="index.html">Start</a> / <a href="ablauf.html">Ankauf</a> / Versand</div>
-    <h1>So kommen deine Karten <em>sicher</em> an.</h1>
-    <p class="lead">Diese Seite brauchst du erst, wenn du mein Angebot angenommen hast. Die Versandadresse bekommst du mit dem Angebot per WhatsApp oder E-Mail.</p>
-    <div style="margin-top:12px"><ol class="stepper" aria-label="Fortschritt des Ankaufs"><li class="done"><b>01</b><span>Anfrage</span></li><li class="done"><b>02</b><span>Angebot</span></li><li class="now" aria-current="step"><b>03</b><span>Versand</span></li><li class=""><b>04</b><span>Prüfung</span></li><li class=""><b>05</b><span>Auszahlung</span></li></ol></div>
+    <div class="crumbs"><a href="index.html">Start</a> / Impressum</div>
+    <h1>Impressum</h1>
   </div>
-  <div class="wrap" style="display:grid;gap:56px;padding-bottom:80px">
-    <div class="grid2">
-      <div class="card">
-        <span class="chip" style="justify-self:start">Per Post</span>
-        <h3>Bulk verpacken</h3>
-        <ul>
-          <li>Karten stapelweise in einen stabilen Karton, nicht lose in einen Umschlag.</li>
-          <li>Hohlräume mit Zeitungspapier füllen, damit nichts rutscht.</li>
-          <li>Karton mit einer Plastiktüte innen gegen Nässe schützen.</li>
-          <li>Zettel mit deiner <b style="color:var(--fg)">Anfragenummer</b> obenauf legen.</li>
-          <li>Paket mit Sendungsnummer verschicken und Foto vom Inhalt machen.</li>
-        </ul>
-      </div>
-      <div class="card">
-        <span class="chip" style="justify-self:start">Per Post</span>
-        <h3>Einzelkarten verpacken</h3>
-        <ul>
-          <li>Jede Karte in eine Hülle (Sleeve), wertvolle zusätzlich in einen Toploader.</li>
-          <li>Zwischen zwei Pappen legen und mit Klebeband fixieren, nicht direkt auf die Karte.</li>
-          <li>Ab einem Wert von 25 € bitte versichert verschicken. <span class="tbd">Grenze anpassen</span></li>
-          <li>Zettel mit Anfragenummer und deiner Kartenliste beilegen.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="grid2">
-      <div class="card">
-        <h3>Nach dem Versand</h3>
-        <p>Schick mir die Sendungsnummer, einfach als Antwort im selben Chat oder per E-Mail. Sobald das Paket da ist, bekommst du eine kurze Eingangsbestätigung.</p>
-        <p>Danach zähle und prüfe ich deine Karten und melde mich mit dem Endbetrag.</p>
-      </div>
-      <div class="card">
-        <h3>Wer zahlt das Porto?</h3>
-        <!-- ENTSCHEIDUNG OFFEN: Porto-Regel -->
-        <p>Das Porto zahlst du. Ab 5.000 Karten erstatte ich dir bis zu 6,99 € mit der Auszahlung. <span class="tbd">Vorschlag, anpassen</span></p>
-        <p>Geht ein Paket verloren, gilt die Sendungsverfolgung. Deshalb nie ohne Sendungsnummer verschicken.</p>
-      </div>
-    </div>
+  <div class="wrap legal">
+    <h2>Angaben gemäß § 5 DDG</h2>
+    <address>Steven Lars Schmitt<br>NoGreedCards<br>Mühlenbergring 2<br>66793 Saarwellingen<br>Deutschland</address>
+    <h2>Kontakt</h2>
+    <p>E-Mail: <a href="mailto:nogreedtcg@gmail.com">nogreedtcg@gmail.com</a><br>Ankauf-Anfragen auch über das <a href="ankauf.html">Ankauf-Formular</a>.</p>
+    <h2>Verantwortlich für den Inhalt</h2>
+    <p>Steven Lars Schmitt, Anschrift wie oben.</p>
+    <h2>Verbraucherstreitbeilegung</h2>
+    <p>Ich bin nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+    <h2>Hinweis</h2>
+    <p>NoGreedCards ist ein unabhängiger Händler und steht in keiner Verbindung zu The Pokémon Company, Nintendo, Creatures oder GAME FREAK. Pokémon ist eine Marke der jeweiligen Rechteinhaber.</p>
   </div>
 </main>
 <footer>
@@ -407,10 +390,11 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
       <a href="ablauf.html">Ankauf</a>
       <a href="versand.html">Versand</a>
       <a href="https://www.youtube.com/@NoGreedCollector" target="_blank" rel="noopener">YouTube</a>
-      <a href="turniere.html">Turniere</a>
+      <a href="https://playagainst.xyz" target="_blank" rel="noopener">Turniere</a>
       <!-- PLATZHALTER: Impressum und Datenschutz anlegen, bevor die Seite gewerblich live geht -->
-      <a href="#">Impressum</a>
-      <a href="#">Datenschutz</a>
+      <a href="mailto:nogreedtcg@gmail.com">Kontakt</a>
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
     </nav>
   </div>
 </footer>

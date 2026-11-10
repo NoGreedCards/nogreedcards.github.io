@@ -1,8 +1,8 @@
 <main id="top">
   <div class="wrap hero">
     <div>
-      <div class="eyebrow">Pokémon-Karten · Saarbrücken</div>
-      <h1 style="margin-top:16px">Ich kaufe deinen <em>Bulk</em>.</h1>
+      <div class="eyebrow">Pokémon-Karten · Saarland</div>
+      <h1 style="margin-top:16px">Ich kaufe deine <em>Sammlung</em>.</h1>
       <p class="lead">Ab 500 Karten. Du trägst grob ein, was du hast, und siehst sofort, was du dafür bekommst. Auszahlung per PayPal oder Überweisung.</p>
       <div class="hero-actions">
         <a class="btn btn-gold" href="ankauf.html#bulk">Bulk anbieten</a>
@@ -10,12 +10,12 @@
       </div>
       <ul class="trust">
         <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12.5 L9.5 18 L20 6" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg> Preise vorab sichtbar</li>
-        <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12.5 L9.5 18 L20 6" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg> Endbetrag passt nicht? Karten gehen zurück</li>
+        <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12.5 L9.5 18 L20 6" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg> Fester Betrag ab deiner Zusage</li>
         <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12.5 L9.5 18 L20 6" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg> Bewertungen direkt bei eBay und Cardmarket</li>
       </ul>
     </div>
 
-    <!-- BULK-RECHNER: Preise stehen in landing.js (PREISE). Vorschlag aus der Preisgestaltung, noch nicht final. -->
+    <!-- BULK-RECHNER: Preise stehen in prices.js. -->
     <aside class="receipt" id="bulk-calc" aria-label="Bulk-Rechner">
       <div class="receipt-head">
         <span class="eyebrow">Bulk-Rechner</span>
@@ -39,7 +39,7 @@
         <p class="receipt-foot" style="margin-top:4px">Sortiert bekommst du mehr. <a href="#sortieren" style="color:var(--gold-soft)">So sortierst du in 10 Minuten →</a></p>
       </div>
       <div class="receipt-total"><span>Du bekommst ca.</span><b id="bulk-val" aria-live="polite">19,00 €</b></div>
-      <p class="receipt-foot" id="bulk-hint">Schätzung. Der Endbetrag steht fest, wenn ich gezählt habe.</p>
+      <p class="receipt-foot" id="bulk-hint">Schätzung. Deinen festen Betrag bekommst du im Angebot.</p>
       <p class="receipt-foot bonus" id="bulk-bonus" aria-live="polite"></p>
     </aside>
   </div>
@@ -50,7 +50,7 @@
       <div class="who">
         <!-- PLATZHALTER: echtes Foto von Steven statt Initiale -->
         <span class="avatar" aria-hidden="true">S</span>
-        <div><b>Steven aus Saarbrücken</b><span>Ich sortiere und zähle jede Sendung selbst. Du schreibst direkt mit mir, nicht mit einem Callcenter.</span></div>
+        <div><b>Steven aus dem Saarland</b><span>Ich sortiere und zähle jede Sendung selbst. Du schreibst direkt mit mir, nicht mit einem Chatbot.</span></div>
       </div>
       <a class="mini-score" href="https://feedback.ebay.de/fdbk/feedback_profile/nogreedtcg" target="_blank" rel="noopener">
         <b>eBay</b><span>100 % positiv · 39 Bewertungen ↗</span>
@@ -58,7 +58,7 @@
       <a class="mini-score" href="https://www.cardmarket.com/de/Pokemon/Users/NoGreedCards" target="_blank" rel="noopener">
         <b>Cardmarket</b><span>100 % positiv · 119 Verkäufe ↗</span>
       </a>
-      <div class="promise"><b>Mein Versprechen</b><span>Passt dir mein Endbetrag nach dem Zählen nicht, schicke ich dir deine Karten zurück. <a href="ablauf.html#bedingungen">Bedingungen</a></span></div>
+      <div class="promise"><b>Mein Versprechen</b><span>Dein Betrag steht fest, sobald du zusagst. Weicht deine Sendung stark ab, entscheidest du: angepasster Betrag oder Karten zurück. <a href="ablauf.html#bedingungen">Bedingungen</a></span></div>
     </div>
   </section>
 
@@ -80,7 +80,7 @@
             <span class="chip">Feste Preise</span>
           </div>
           <p>Ich zähle, prüfe und zahle nach dieser Liste. Ab 500 Karten insgesamt.</p>
-          <!-- PREISE: Vorschlag aus der Preisgestaltung. Bei Änderung auch landing.js und ankauf.html anpassen. -->
+          <!-- PREISE: bei Änderung auch prices.js und ankauf (build.py) anpassen. -->
           <table class="rates">
             <tbody>
               <tr><td>Common &amp; Uncommon<span class="unit">je 1.000 Karten</span></td><td>7,00 €</td></tr>
@@ -208,7 +208,7 @@
           <ul>
             <li><span>Zustand</span><span>nach Cardmarket-Skala</span></li>
             <li><span>Sprache</span><span>Deutsch</span></li>
-            <li><span>Versand</span><span>aus Saarbrücken</span></li>
+            <li><span>Versand</span><span>aus dem Saarland</span></li>
           </ul>
           <span class="shop-go">Zum Cardmarket-Shop <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </a>
