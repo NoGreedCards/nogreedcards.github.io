@@ -240,6 +240,9 @@ def stepper(now):
 def page(name, title, desc, cur, body, script=""):
     head = f'''<title>{title}</title>
 <meta name="description" content="{desc}">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
+<link rel="apple-touch-icon" href="icon-180.png">
 {FONTS}
 <style>{FONT_CSS}{CSS}</style>
 '''
