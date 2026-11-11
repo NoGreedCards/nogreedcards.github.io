@@ -46,7 +46,7 @@ legend{font-family:var(--font-display);font-stretch:112%;font-weight:800;font-si
 .opts{display:flex;flex-wrap:wrap;gap:10px}
 .opt{position:relative}
 .opt input{position:absolute;opacity:0;inset:0;cursor:pointer}
-.opt span{display:block;padding:10px 14px;border:1px solid var(--line);border-radius:8px;font-size:14px;cursor:pointer;transition:border-color .15s, background .15s}
+.opt > span{display:block;padding:10px 14px;border:1px solid var(--line);border-radius:8px;font-size:14px;cursor:pointer;transition:border-color .15s, background .15s}
 .opt input:checked + span{border-color:var(--gold);background:color-mix(in srgb, var(--gold) 12%, transparent);color:var(--gold-soft)}
 .opt input:focus-visible + span{outline:2px solid var(--green);outline-offset:2px}
 .opt-tag{font-style:normal;font-weight:400;color:var(--muted);font-size:12px}
@@ -109,7 +109,7 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
 @media (max-width:420px){ header .btn-sm{white-space:nowrap;padding-inline:12px} header .brand span{font-size:15px} }
 .seg{padding-top:14px}
 .seg .opt{flex:1}
-.seg .opt span{text-align:center;padding:8px 10px}
+.seg .opt > span{text-align:center;padding:8px 10px}
 .calc-row{display:grid;grid-template-columns:minmax(0,1fr) 92px 70px;gap:10px;align-items:center;padding-block:8px;font-size:14px}
 .calc-row > span:first-child{display:grid;gap:2px}
 .calc-row small{font-size:12px;color:var(--muted)}
@@ -176,6 +176,55 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
 .score-cm .score-meta{font-size:13px}
 .quotes .quote{margin:0;border-left-color:var(--gold)}
 .quotes .quote p{font-size:17px;color:var(--fg)}
+
+/* ---- Detailkorrekturen 11.11.2026 ---- */
+.nobr{white-space:nowrap}
+[id]{scroll-margin-top:96px}
+.card{align-content:start}
+.stepper li{align-content:start}
+.sym{display:block;height:28px;line-height:28px}
+.sort-grid .card{gap:14px}
+.legal{max-width:1120px}
+.legal > *{max-width:72ch}
+.terms li{grid-template-columns:48px 1fr}
+.terms li::before{content:"§\00a0" counter(t)}
+.promise{border-left-color:var(--gold)}
+.side-note{border-left-color:color-mix(in srgb, var(--gold) 45%, var(--line))}
+.t-body > b{color:var(--fg);font-weight:600;font-size:16px}
+.receipt-head{flex-wrap:wrap;gap:6px 12px}
+.receipt-head > *{white-space:nowrap}
+.score-cm{grid-template-columns:1fr;align-content:start}
+.score-cm .score-num{grid-row:auto;margin-bottom:6px}
+@media (max-width:560px){
+  .big small{display:block;margin:8px 0 0;font-size:16px}
+  .tab{padding:12px 16px}
+  .card p,.card li,.path p,.legal p,.legal li,.f small{hyphens:auto;-webkit-hyphens:auto}
+}
+
+/* ---- Feinschliff ---- */
+::selection{background:color-mix(in srgb, var(--gold) 35%, transparent);color:var(--fg)}
+p,li,.lead,small{text-wrap:pretty}
+a{text-underline-offset:3px;text-decoration-thickness:1px}
+section{padding-block:clamp(56px, 8vw, 88px)}
+.card,.path,.ebay-box,fieldset,.tab,.mini-score,.score{box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}
+.btn:active{transform:translateY(0) scale(.98)}
+.tab{transition:border-color .15s, background .15s}
+.tab:hover,.opt > span:hover{border-color:color-mix(in srgb, var(--gold) 55%, var(--line))}
+.path{transition:border-color .2s}
+.path:hover{border-color:var(--line)}
+.f input:focus,.f select:focus,.f textarea:focus,.field:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb, var(--gold) 18%, transparent)}
+.field{transition:border-color .15s, box-shadow .15s}
+.eyebrow{font-variant-numeric:tabular-nums}
+footer a{text-decoration:none;transition:color .15s}
+footer a:hover{color:var(--gold-soft)}
+nav a.nav-link{padding-block:10px}
+@media (max-width:560px){ .part-head{grid-template-columns:1fr} }
+footer nav a,footer a{display:inline-block;padding-block:6px}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition:none!important;animation:none!important}
+  .btn:hover,.shop:hover,.btn:active{transform:none}
+}
 """
 
 CSS = BASE_CSS.replace("--green:#39ff8c;", "--green:#39ff8c;\n  --warn:#e8896b;     /* Hinweise und Fehler */") + EXTRA_CSS
@@ -238,16 +287,30 @@ def stepper(now):
         items.append(f'<li class="{cls}"{cur}><b>0{i}</b><span>{s}</span></li>')
     return '<ol class="stepper" aria-label="Fortschritt des Ankaufs">' + "".join(items) + '</ol>'
 
+import re
+_SKIP = re.compile(r'(<script.*?</script>|<style.*?</style>|<option.*?</option>|<textarea.*?</textarea>|<[^>]+>)', re.S)
+def _typo_text(t):
+    t = t.replace(" →", "&nbsp;→")
+    t = re.sub(r"(\d) (€|%)", r"\1&nbsp;\2", t)
+    t = re.sub(r"(§|Art\.|Abs\.|lit\.|Nr\.) (?=\w)", r"\1&nbsp;", t)
+    t = t.replace("z. B.", "z.&nbsp;B.")
+    t = re.sub(r"\bE-Mail\b", '<span class="nobr">E-Mail</span>', t)
+    return t
+def typo(html):
+    """Geschützte Leerzeichen und Umbruchschutz (deutsche Detailtypografie), nur im sichtbaren Text."""
+    return "".join(part if _SKIP.fullmatch(part) else _typo_text(part) for part in _SKIP.split(html))
+
 def page(name, title, desc, cur, body, script=""):
     head = f'''<title>{title}</title>
 <meta name="description" content="{desc}">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
 <link rel="apple-touch-icon" href="icon-180.png">
+<meta name="theme-color" content="#181121">
 {FONTS}
 <style>{FONT_CSS}{CSS}</style>
 '''
-    content = f"{header(cur)}\n{body}\n{FOOTER}\n" + (f"<script>{script}</script>\n" if script else "")
+    content = typo(f"{header(cur)}\n{body}\n{FOOTER}\n") + (f"<script>{script}</script>\n" if script else "")
     full = ('<!doctype html>\n<html lang="de">\n<head>\n<meta charset="utf-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
             + head + '</head>\n<body>\n' + content + '</body>\n</html>\n')
@@ -396,7 +459,7 @@ ankauf = f'''<main>
         <p class="receipt-foot bonus" id="s-tipp"></p>
       </div>
       <div class="side-note"><b>Fester Betrag</b><span>Sobald du mein Angebot annimmst, steht dein Betrag fest. Weicht deine Sendung stark ab, entscheidest du: angepasster Betrag oder Karten zurück. Details in den <a href="ablauf.html#bedingungen" style="color:var(--gold-soft)">Ankaufbedingungen</a>.</span></div>
-      <div class="side-note"><b>Was danach passiert</b>Ich melde mich mit einem Angebot, per WhatsApp oder E-Mail. Erst wenn du zusagst, schickst du die Karten per Post.</div>
+      <div class="side-note"><b>Was danach passiert</b><span>Ich melde mich mit einem Angebot, per WhatsApp oder E-Mail. Erst wenn du zusagst, schickst du die Karten per Post.</span></div>
     </aside>
   </div>
 </main>'''
@@ -665,7 +728,7 @@ ablauf = f'''<main>
         <h2>Die Regeln, kurz und klar.</h2>
       </div>
       <ol class="terms">
-        <li><span><b>Nur Originale.</b> Ich kaufe nur echte Pokémon-Karten. Fälschungen, Proxies, andere Kartenspiele und stark beschädigte Karten zählen nicht und werden nicht bezahlt. Geht der Rest ohnehin zurück, lege ich sie bei, sonst entsorge ich sie.</span></li>
+        <li><span><b>Nur Originale:</b> Ich kaufe nur echte Pokémon-Karten. Fälschungen, Proxies, andere Kartenspiele und stark beschädigte Karten zählen nicht und werden nicht bezahlt. Geht der Rest ohnehin zurück, lege ich sie bei, sonst entsorge ich sie.</span></li>
         <li><span><b>Fester Betrag:</b> Ich schicke dir ein Angebot mit festem Betrag, berechnet aus deinen Angaben. Sagst du zu, gilt dieser Betrag, solange deine Sendung zu deinen Angaben passt. Bis zur Auszahlung bleiben die Karten dein Eigentum.</span></li>
         <li><span><b>Versand auf dein Risiko:</b> Du verschickst die Karten auf eigene Gefahr und nur mit Sendungsnummer. Ab einem Wert von 25 € bitte versichert. Geht ein Paket ohne Sendungsnummer verloren, kann ich dafür nicht haften. Bei einem verfolgten Paket hilft dir die Sendungsnummer, den Schaden beim Versanddienst geltend zu machen.</span></li>
         <li><span><b>Mindestmenge Bulk:</b> 500 Karten. Bulk zählt ohne Hüllen, Toploader und Sammelalben.</span></li>
@@ -676,7 +739,7 @@ ablauf = f'''<main>
         <li><span><b>Preis:</b> Bei Einzelkarten gilt der Cardmarket-Preis am Tag der Prüfung, für den passenden Zustand und die passende Sprache.</span></li>
         <li><span><b>Größere Abweichungen:</b> Fehlen mehr als 10 % der Karten oder ist viel falsch einsortiert, berechne ich den Betrag nach Preisliste neu und schicke dir Fotos und das Gewicht als Beleg. Du hast 7 Tage Zeit und wählst: angepasster Betrag oder Rücksendung deiner Karten, das Rückporto zahlst du. Antwortest du nicht, erinnere ich dich nach 7 Tagen und zahle dir nach 14 Tagen den angepassten Betrag aus.</span></li>
         <li><span><b>Auszahlung:</b> Passt die Sendung, zahle ich innerhalb von 2 Werktagen nach Eingang per PayPal oder Überweisung aus.</span></li>
-        <li><span><b>Minderjährige</b> verkaufen nur mit Einverständnis der Eltern.</span></li>
+        <li><span><b>Minderjährige:</b> Verkauf nur mit Einverständnis der Eltern.</span></li>
         <li><span><b>Beleg:</b> Für jeden Ankauf stelle ich einen Ankaufbeleg mit Name, Datum, Karten und Preis aus.</span></li>
       </ol>
     </div>
