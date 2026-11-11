@@ -8,6 +8,7 @@
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
 <link rel="apple-touch-icon" href="icon-180.png">
+<meta name="theme-color" content="#181121">
 <link rel="preload" href="fonts/archivo-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 @font-face{font-family:"Archivo";font-style:normal;font-display:swap;font-weight:100 900;font-stretch:62% 125%;src:url(fonts/archivo-latin-standard-normal.woff2) format("woff2")}
@@ -219,7 +220,7 @@ legend{font-family:var(--font-display);font-stretch:112%;font-weight:800;font-si
 .opts{display:flex;flex-wrap:wrap;gap:10px}
 .opt{position:relative}
 .opt input{position:absolute;opacity:0;inset:0;cursor:pointer}
-.opt span{display:block;padding:10px 14px;border:1px solid var(--line);border-radius:8px;font-size:14px;cursor:pointer;transition:border-color .15s, background .15s}
+.opt > span{display:block;padding:10px 14px;border:1px solid var(--line);border-radius:8px;font-size:14px;cursor:pointer;transition:border-color .15s, background .15s}
 .opt input:checked + span{border-color:var(--gold);background:color-mix(in srgb, var(--gold) 12%, transparent);color:var(--gold-soft)}
 .opt input:focus-visible + span{outline:2px solid var(--green);outline-offset:2px}
 .opt-tag{font-style:normal;font-weight:400;color:var(--muted);font-size:12px}
@@ -282,7 +283,7 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
 @media (max-width:420px){ header .btn-sm{white-space:nowrap;padding-inline:12px} header .brand span{font-size:15px} }
 .seg{padding-top:14px}
 .seg .opt{flex:1}
-.seg .opt span{text-align:center;padding:8px 10px}
+.seg .opt > span{text-align:center;padding:8px 10px}
 .calc-row{display:grid;grid-template-columns:minmax(0,1fr) 92px 70px;gap:10px;align-items:center;padding-block:8px;font-size:14px}
 .calc-row > span:first-child{display:grid;gap:2px}
 .calc-row small{font-size:12px;color:var(--muted)}
@@ -349,6 +350,55 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
 .score-cm .score-meta{font-size:13px}
 .quotes .quote{margin:0;border-left-color:var(--gold)}
 .quotes .quote p{font-size:17px;color:var(--fg)}
+
+/* ---- Detailkorrekturen 11.11.2026 ---- */
+.nobr{white-space:nowrap}
+[id]{scroll-margin-top:96px}
+.card{align-content:start}
+.stepper li{align-content:start}
+.sym{display:block;height:28px;line-height:28px}
+.sort-grid .card{gap:14px}
+.legal{max-width:1120px}
+.legal > *{max-width:72ch}
+.terms li{grid-template-columns:48px 1fr}
+.terms li::before{content:"§\00a0" counter(t)}
+.promise{border-left-color:var(--gold)}
+.side-note{border-left-color:color-mix(in srgb, var(--gold) 45%, var(--line))}
+.t-body > b{color:var(--fg);font-weight:600;font-size:16px}
+.receipt-head{flex-wrap:wrap;gap:6px 12px}
+.receipt-head > *{white-space:nowrap}
+.score-cm{grid-template-columns:1fr;align-content:start}
+.score-cm .score-num{grid-row:auto;margin-bottom:6px}
+@media (max-width:560px){
+  .big small{display:block;margin:8px 0 0;font-size:16px}
+  .tab{padding:12px 16px}
+  .card p,.card li,.path p,.legal p,.legal li,.f small{hyphens:auto;-webkit-hyphens:auto}
+}
+
+/* ---- Feinschliff ---- */
+::selection{background:color-mix(in srgb, var(--gold) 35%, transparent);color:var(--fg)}
+p,li,.lead,small{text-wrap:pretty}
+a{text-underline-offset:3px;text-decoration-thickness:1px}
+section{padding-block:clamp(56px, 8vw, 88px)}
+.card,.path,.ebay-box,fieldset,.tab,.mini-score,.score{box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}
+.btn:active{transform:translateY(0) scale(.98)}
+.tab{transition:border-color .15s, background .15s}
+.tab:hover,.opt > span:hover{border-color:color-mix(in srgb, var(--gold) 55%, var(--line))}
+.path{transition:border-color .2s}
+.path:hover{border-color:var(--line)}
+.f input:focus,.f select:focus,.f textarea:focus,.field:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb, var(--gold) 18%, transparent)}
+.field{transition:border-color .15s, box-shadow .15s}
+.eyebrow{font-variant-numeric:tabular-nums}
+footer a{text-decoration:none;transition:color .15s}
+footer a:hover{color:var(--gold-soft)}
+nav a.nav-link{padding-block:10px}
+@media (max-width:560px){ .part-head{grid-template-columns:1fr} }
+footer nav a,footer a{display:inline-block;padding-block:6px}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition:none!important;animation:none!important}
+  .btn:hover,.shop:hover,.btn:active{transform:none}
+}
 </style>
 </head>
 <body>
@@ -370,7 +420,7 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
   <div class="wrap page-hero">
     <div class="crumbs"><a href="index.html">Start</a> / <a href="ablauf.html">Ankauf</a> / Versand</div>
     <h1>So kommen deine Karten <em>sicher</em> an.</h1>
-    <p class="lead">Diese Seite brauchst du erst, wenn du mein Angebot angenommen hast. Die Versandadresse bekommst du mit dem Angebot per WhatsApp oder E-Mail.</p>
+    <p class="lead">Diese Seite brauchst du erst, wenn du mein Angebot angenommen hast. Die Versandadresse bekommst du mit dem Angebot per WhatsApp oder <span class="nobr">E-Mail</span>.</p>
     <div style="margin-top:12px"><ol class="stepper" aria-label="Fortschritt des Ankaufs"><li class="done"><b>01</b><span>Anfrage</span></li><li class="done"><b>02</b><span>Angebot</span></li><li class="now" aria-current="step"><b>03</b><span>Versand</span></li><li class=""><b>04</b><span>Prüfung</span></li><li class=""><b>05</b><span>Auszahlung</span></li></ol></div>
   </div>
   <div class="wrap" style="display:grid;gap:56px;padding-bottom:80px">
@@ -392,7 +442,7 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
         <ul>
           <li>Jede Karte in eine Hülle (Sleeve), wertvolle zusätzlich in einen Toploader.</li>
           <li>Zwischen zwei Pappen legen und mit Klebeband fixieren, nicht direkt auf die Karte.</li>
-          <li>Ab einem Wert von 25 € bitte versichert verschicken.</li>
+          <li>Ab einem Wert von 25&nbsp;€ bitte versichert verschicken.</li>
           <li>Zettel mit Anfragenummer und deiner Kartenliste beilegen.</li>
         </ul>
       </div>
@@ -400,12 +450,12 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
     <div class="grid2">
       <div class="card">
         <h3>Nach dem Versand</h3>
-        <p>Schick mir die Sendungsnummer, einfach als Antwort im selben Chat oder per E-Mail. Sobald das Paket da ist, bekommst du eine kurze Eingangsbestätigung.</p>
+        <p>Schick mir die Sendungsnummer, einfach als Antwort im selben Chat oder per <span class="nobr">E-Mail</span>. Sobald das Paket da ist, bekommst du eine kurze Eingangsbestätigung.</p>
         <p>Danach prüfe ich die Sendung. Passt sie zu deiner Anfrage, zahle ich dir den zugesagten Betrag innerhalb von 2 Werktagen aus.</p>
       </div>
       <div class="card">
         <h3>Wer zahlt das Porto?</h3>
-        <p>Das Porto zahlst du. Ab 5.000 Karten erstatte ich dir bis zu 6,99 € mit der Auszahlung.</p>
+        <p>Das Porto zahlst du. Ab 5.000 Karten erstatte ich dir bis zu 6,99&nbsp;€ mit der Auszahlung.</p>
         <p>Geht ein Paket verloren, gilt die Sendungsverfolgung. Deshalb nie ohne Sendungsnummer verschicken.</p>
       </div>
     </div>

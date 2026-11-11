@@ -8,6 +8,7 @@
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
 <link rel="apple-touch-icon" href="icon-180.png">
+<meta name="theme-color" content="#181121">
 <link rel="preload" href="fonts/archivo-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 @font-face{font-family:"Archivo";font-style:normal;font-display:swap;font-weight:100 900;font-stretch:62% 125%;src:url(fonts/archivo-latin-standard-normal.woff2) format("woff2")}
@@ -219,7 +220,7 @@ legend{font-family:var(--font-display);font-stretch:112%;font-weight:800;font-si
 .opts{display:flex;flex-wrap:wrap;gap:10px}
 .opt{position:relative}
 .opt input{position:absolute;opacity:0;inset:0;cursor:pointer}
-.opt span{display:block;padding:10px 14px;border:1px solid var(--line);border-radius:8px;font-size:14px;cursor:pointer;transition:border-color .15s, background .15s}
+.opt > span{display:block;padding:10px 14px;border:1px solid var(--line);border-radius:8px;font-size:14px;cursor:pointer;transition:border-color .15s, background .15s}
 .opt input:checked + span{border-color:var(--gold);background:color-mix(in srgb, var(--gold) 12%, transparent);color:var(--gold-soft)}
 .opt input:focus-visible + span{outline:2px solid var(--green);outline-offset:2px}
 .opt-tag{font-style:normal;font-weight:400;color:var(--muted);font-size:12px}
@@ -282,7 +283,7 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
 @media (max-width:420px){ header .btn-sm{white-space:nowrap;padding-inline:12px} header .brand span{font-size:15px} }
 .seg{padding-top:14px}
 .seg .opt{flex:1}
-.seg .opt span{text-align:center;padding:8px 10px}
+.seg .opt > span{text-align:center;padding:8px 10px}
 .calc-row{display:grid;grid-template-columns:minmax(0,1fr) 92px 70px;gap:10px;align-items:center;padding-block:8px;font-size:14px}
 .calc-row > span:first-child{display:grid;gap:2px}
 .calc-row small{font-size:12px;color:var(--muted)}
@@ -349,6 +350,55 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
 .score-cm .score-meta{font-size:13px}
 .quotes .quote{margin:0;border-left-color:var(--gold)}
 .quotes .quote p{font-size:17px;color:var(--fg)}
+
+/* ---- Detailkorrekturen 11.11.2026 ---- */
+.nobr{white-space:nowrap}
+[id]{scroll-margin-top:96px}
+.card{align-content:start}
+.stepper li{align-content:start}
+.sym{display:block;height:28px;line-height:28px}
+.sort-grid .card{gap:14px}
+.legal{max-width:1120px}
+.legal > *{max-width:72ch}
+.terms li{grid-template-columns:48px 1fr}
+.terms li::before{content:"§\00a0" counter(t)}
+.promise{border-left-color:var(--gold)}
+.side-note{border-left-color:color-mix(in srgb, var(--gold) 45%, var(--line))}
+.t-body > b{color:var(--fg);font-weight:600;font-size:16px}
+.receipt-head{flex-wrap:wrap;gap:6px 12px}
+.receipt-head > *{white-space:nowrap}
+.score-cm{grid-template-columns:1fr;align-content:start}
+.score-cm .score-num{grid-row:auto;margin-bottom:6px}
+@media (max-width:560px){
+  .big small{display:block;margin:8px 0 0;font-size:16px}
+  .tab{padding:12px 16px}
+  .card p,.card li,.path p,.legal p,.legal li,.f small{hyphens:auto;-webkit-hyphens:auto}
+}
+
+/* ---- Feinschliff ---- */
+::selection{background:color-mix(in srgb, var(--gold) 35%, transparent);color:var(--fg)}
+p,li,.lead,small{text-wrap:pretty}
+a{text-underline-offset:3px;text-decoration-thickness:1px}
+section{padding-block:clamp(56px, 8vw, 88px)}
+.card,.path,.ebay-box,fieldset,.tab,.mini-score,.score{box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}
+.btn:active{transform:translateY(0) scale(.98)}
+.tab{transition:border-color .15s, background .15s}
+.tab:hover,.opt > span:hover{border-color:color-mix(in srgb, var(--gold) 55%, var(--line))}
+.path{transition:border-color .2s}
+.path:hover{border-color:var(--line)}
+.f input:focus,.f select:focus,.f textarea:focus,.field:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb, var(--gold) 18%, transparent)}
+.field{transition:border-color .15s, box-shadow .15s}
+.eyebrow{font-variant-numeric:tabular-nums}
+footer a{text-decoration:none;transition:color .15s}
+footer a:hover{color:var(--gold-soft)}
+nav a.nav-link{padding-block:10px}
+@media (max-width:560px){ .part-head{grid-template-columns:1fr} }
+footer nav a,footer a{display:inline-block;padding-block:6px}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition:none!important;animation:none!important}
+  .btn:hover,.shop:hover,.btn:active{transform:none}
+}
 </style>
 </head>
 <body>
@@ -374,7 +424,7 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
       <p class="lead">Ab 500 Karten. Du trägst grob ein, was du hast, und siehst sofort, was du dafür bekommst. Auszahlung per PayPal oder Überweisung.</p>
       <div class="hero-actions">
         <a class="btn btn-gold" href="ankauf.html#bulk">Bulk anbieten</a>
-        <a class="text-link" href="ablauf.html">So läuft der Ankauf →</a>
+        <a class="text-link" href="ablauf.html">So läuft der Ankauf&nbsp;→</a>
       </div>
       <ul class="trust">
         <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12.5 L9.5 18 L20 6" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg> Preise vorab sichtbar</li>
@@ -395,18 +445,18 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
       </div>
       <div id="bc-sorted">
         <label class="calc-row" for="bc-cu"><span>Common &amp; Uncommon<small>0,8 ct je Karte</small></span>
-          <span class="field"><input id="bc-cu" type="text" inputmode="numeric" value="1.500"></span><span class="mono" id="bc-cu-v">10,50 €</span></label>
+          <span class="field"><input id="bc-cu" type="text" inputmode="numeric" value="1.500"></span><span class="mono" id="bc-cu-v">10,50&nbsp;€</span></label>
         <label class="calc-row" for="bc-holo"><span>Holo &amp; Reverse<small id="bc-holo-r">1,5 ct · ab 500: 2 ct</small></span>
-          <span class="field"><input id="bc-holo" type="text" inputmode="numeric" value="400"></span><span class="mono" id="bc-holo-v">6,00 €</span></label>
+          <span class="field"><input id="bc-holo" type="text" inputmode="numeric" value="400"></span><span class="mono" id="bc-holo-v">6,00&nbsp;€</span></label>
         <label class="calc-row" for="bc-ex"><span>EX, V, GX, ex<small id="bc-ex-r">25 ct · ab 20: 35 ct</small></span>
-          <span class="field"><input id="bc-ex" type="text" inputmode="numeric" value="10"></span><span class="mono" id="bc-ex-v">2,50 €</span></label>
+          <span class="field"><input id="bc-ex" type="text" inputmode="numeric" value="10"></span><span class="mono" id="bc-ex-v">2,50&nbsp;€</span></label>
       </div>
       <div id="bc-unsorted" hidden>
         <label class="calc-row" for="bc-un"><span>Alles gemischt<small>0,6 ct je Karte</small></span>
-          <span class="field"><input id="bc-un" type="text" inputmode="numeric" value="2.000"></span><span class="mono" id="bc-un-v">12,00 €</span></label>
-        <p class="receipt-foot" style="margin-top:4px">Sortiert bekommst du mehr. <a href="#sortieren" style="color:var(--gold-soft)">So sortierst du in 10 Minuten →</a></p>
+          <span class="field"><input id="bc-un" type="text" inputmode="numeric" value="2.000"></span><span class="mono" id="bc-un-v">12,00&nbsp;€</span></label>
+        <p class="receipt-foot" style="margin-top:4px">Sortiert bekommst du mehr. <a href="#sortieren" style="color:var(--gold-soft)">So sortierst du in 10 Minuten&nbsp;→</a></p>
       </div>
-      <div class="receipt-total"><span>Du bekommst ca.</span><b id="bulk-val" aria-live="polite">19,00 €</b></div>
+      <div class="receipt-total"><span>Du bekommst ca.</span><b id="bulk-val" aria-live="polite">19,00&nbsp;€</b></div>
       <p class="receipt-foot" id="bulk-hint">Schätzung. Deinen festen Betrag bekommst du im Angebot.</p>
       <p class="receipt-foot bonus" id="bulk-bonus" aria-live="polite"></p>
     </aside>
@@ -421,10 +471,10 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
         <div><b>Steven aus dem Saarland</b><span>Ich sortiere und zähle jede Sendung selbst. Du schreibst direkt mit mir, nicht mit einem Chatbot.</span></div>
       </div>
       <a class="mini-score" href="https://feedback.ebay.de/fdbk/feedback_profile/nogreedtcg" target="_blank" rel="noopener">
-        <b>eBay</b><span>100 % positiv · 39 Bewertungen ↗</span>
+        <b>eBay</b><span>100&nbsp;% positiv · 39 Bewertungen ↗</span>
       </a>
       <a class="mini-score" href="https://www.cardmarket.com/de/Pokemon/Users/NoGreedCards" target="_blank" rel="noopener">
-        <b>Cardmarket</b><span>100 % positiv · 119 Verkäufe ↗</span>
+        <b>Cardmarket</b><span>100&nbsp;% positiv · 119 Verkäufe ↗</span>
       </a>
       <div class="promise"><b>Mein Versprechen</b><span>Dein Betrag steht fest, sobald du zusagst. Weicht deine Sendung stark ab, entscheidest du: angepasster Betrag oder Karten zurück. <a href="ablauf.html#bedingungen">Bedingungen</a></span></div>
     </div>
@@ -451,12 +501,12 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
           <!-- PREISE: bei Änderung auch prices.js und ankauf (build.py) anpassen. -->
           <table class="rates">
             <tbody>
-              <tr><td>Common &amp; Uncommon<span class="unit">je 1.000 Karten</span></td><td>8,00 €</td></tr>
-              <tr><td>Holo &amp; Reverse Holo<span class="unit">je 1.000 Karten · ab 500 Holos 20 €</span></td><td>15,00 €</td></tr>
-              <tr><td>EX, V, GX, VMAX, ex<span class="unit">je Karte, unter 1 € Marktwert · ab 20 Stück 0,35 €</span></td><td>0,25 €</td></tr>
-              <tr><td>Unsortiert<span class="unit">je 1.000 Karten, alles gemischt</span></td><td>6,00 €</td></tr>
+              <tr><td>Common &amp; Uncommon<span class="unit">je 1.000 Karten</span></td><td>8,00&nbsp;€</td></tr>
+              <tr><td>Holo &amp; Reverse Holo<span class="unit">je 1.000 Karten · ab 500 Holos 20&nbsp;€</span></td><td>15,00&nbsp;€</td></tr>
+              <tr><td>EX, V, GX, VMAX, ex<span class="unit">je Karte, unter 1&nbsp;€ Marktwert · ab 20 Stück 0,35&nbsp;€</span></td><td>0,25&nbsp;€</td></tr>
+              <tr><td>Unsortiert<span class="unit">je 1.000 Karten, alles gemischt</span></td><td>6,00&nbsp;€</td></tr>
               <tr><td>Basis-Energien<span class="unit">nehme ich gern mit</span></td><td>kostenlos</td></tr>
-              <tr><td>Full Arts und Karten ab 1 €<span class="unit">kaufe ich als Einzelkarten an</span></td><td>70 %</td></tr>
+              <tr><td>Full Arts und Karten ab 1&nbsp;€<span class="unit">kaufe ich als Einzelkarten an</span></td><td>70&nbsp;%</td></tr>
             </tbody>
           </table>
           <a class="btn btn-line" href="ankauf.html#bulk">Bulk anbieten</a>
@@ -469,14 +519,14 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
             <span class="chip chip-gold">Ankauf</span>
           </div>
           <div class="big">70&nbsp;%<small>vom Cardmarket-Preis</small></div>
-          <p>Du nennst mir deine Karten, ich schaue den aktuellen Cardmarket-Preis nach und zahle dir 70 % davon. Sofort, ohne auf einen Käufer zu warten.</p>
+          <p>Du nennst mir deine Karten, ich schaue den aktuellen Cardmarket-Preis nach und zahle dir 70&nbsp;% davon. Sofort, ohne auf einen Käufer zu warten.</p>
           <div class="receipt receipt-flat" aria-label="Einzelkarten-Rechner">
             <div class="receipt-head"><span class="eyebrow">Einzelkarten-Rechner</span><span class="mono" style="color:var(--muted);font-size:13px">1 Karte · NM</span></div>
             <label class="receipt-in" for="cm-price"><span>Cardmarket-Preis deiner Karte</span>
               <span class="field"><input id="cm-price" type="text" inputmode="decimal" value="12,00"><span>€</span></span>
             </label>
-            <div class="receipt-row"><span>Ankaufsquote</span><span class="mono">70 %</span></div>
-            <div class="receipt-total"><span>Du bekommst</span><b id="calc-val" aria-live="polite">8,40 €</b></div>
+            <div class="receipt-row"><span>Ankaufsquote</span><span class="mono">70&nbsp;%</span></div>
+            <div class="receipt-total"><span>Du bekommst</span><b id="calc-val" aria-live="polite">8,40&nbsp;€</b></div>
           </div>
           <a class="btn btn-line" href="ankauf.html#einzel">Einzelkarten anfragen</a>
         </article>
@@ -484,13 +534,15 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
 
       <ol class="steps" aria-label="So läuft ein Ankauf ab">
         <li><b>Anfrage</b><span>Formular ausfüllen, dauert 2 Minuten.</span></li>
-        <li><b>Angebot</b><span>Du bekommst ein Angebot per WhatsApp oder E-Mail.</span></li>
+        <li><b>Angebot</b><span>Du bekommst ein Angebot per WhatsApp oder <span class="nobr">E-Mail</span>.</span></li>
         <li><b>Versand</b><span>Du schickst die Karten per Post, mit Packanleitung.</span></li>
         <li><b>Prüfung und Auszahlung</b><span>Ich zähle nach und zahle dir den Betrag aus.</span></li>
       </ol>
-      <p style="margin-top:24px"><a href="ablauf.html" style="color:var(--gold-soft)">Alle Schritte und Ankaufbedingungen ansehen →</a></p>
+      <p style="margin-top:24px"><a href="ablauf.html" style="color:var(--gold-soft)">Alle Schritte und Ankaufbedingungen ansehen&nbsp;→</a></p>
     </div>
   </section>
+
+  <hr class="tear">
 
   <!-- SORTIERHILFE: gibt zuerst Nutzen, bevor jemand verkauft -->
   <section id="sortieren">
@@ -503,8 +555,8 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
       <div class="sort-grid">
         <div class="card"><span class="sym" aria-hidden="true">● ◆</span><h3>Common &amp; Uncommon</h3><p>Unten rechts auf der Karte: ein Kreis ● ist Common, eine Raute ◆ ist Uncommon. Beide kommen auf einen Stapel.</p></div>
         <div class="card"><span class="sym" aria-hidden="true">✦</span><h3>Holo &amp; Reverse</h3><p>Glänzt das Bild, ist es eine Holo. Glänzt alles außer dem Bild, ist es eine Reverse Holo. Beide auf einen Stapel.</p></div>
-        <div class="card"><span class="sym" aria-hidden="true">V</span><h3>EX, V, GX, ex</h3><p>Steht hinter dem Namen EX, GX, V, VMAX, VSTAR oder ex, kommt die Karte hierhin. Gilt für Karten unter 1 € Marktwert.</p></div>
-        <div class="card"><span class="sym" aria-hidden="true">★</span><h3>Full Arts und Wertvolles</h3><p>Bild über die ganze Karte oder über 1 € wert? Leg sie zur Seite. Die kaufe ich als Einzelkarte zu 70 % an.</p></div>
+        <div class="card"><span class="sym" aria-hidden="true">V</span><h3>EX, V, GX, ex</h3><p>Steht hinter dem Namen EX, GX, V, VMAX, VSTAR oder ex, kommt die Karte hierhin. Gilt für Karten unter 1&nbsp;€ Marktwert.</p></div>
+        <div class="card"><span class="sym" aria-hidden="true">★</span><h3>Full Arts und Wertvolles</h3><p>Bild über die ganze Karte oder über 1&nbsp;€ wert? Leg sie zur Seite. Die kaufe ich als Einzelkarte zu 70&nbsp;% an.</p></div>
       </div>
       <p class="sort-foot">Energien kannst du einfach mitschicken. Keine Lust zu sortieren? Dann wähl im Rechner „Unsortiert“.</p>
     </div>
@@ -548,7 +600,7 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
         <details class="source-note" id="bewertungen-quelle">
           <summary>Woher die Bewertungen kommen</summary>
           <p>Alle Bewertungen auf dieser Seite stammen von eBay und Cardmarket. Dort kann nur bewerten, wer bei mir tatsächlich gekauft hat. Ich prüfe die Bewertungen nicht zusätzlich selbst. Ich zeige keine gekauften oder erfundenen Bewertungen. Die Zitate sind eine Auswahl, wörtlich und ungekürzt übernommen; alle Bewertungen siehst du vollständig auf eBay und Cardmarket. Die Zahlen übernehme ich so, wie sie auf der Plattform stehen.</p>
-          <p>Grundlage: <a href="https://www.gesetze-im-internet.de/uwg_2004/__5b.html" target="_blank" rel="noopener">§ 5b Abs. 3 UWG</a> (Hinweis, wie Bewertungen geprüft werden) und der <a href="https://www.gesetze-im-internet.de/uwg_2004/anhang.html" target="_blank" rel="noopener">Anhang zu § 3 Abs. 3 UWG</a>, Nr. 23b und 23c (keine falschen Angaben zur Echtheit, keine gefälschten Bewertungen) sowie Nr. 7 (keine erfundene Zeitbegrenzung bei Angeboten).</p>
+          <p>Grundlage: <a href="https://www.gesetze-im-internet.de/uwg_2004/__5b.html" target="_blank" rel="noopener">§&nbsp;5b Abs.&nbsp;3 UWG</a> (Hinweis, wie Bewertungen geprüft werden) und der <a href="https://www.gesetze-im-internet.de/uwg_2004/anhang.html" target="_blank" rel="noopener">Anhang zu §&nbsp;3 Abs.&nbsp;3 UWG</a>, Nr.&nbsp;23b und 23c (keine falschen Angaben zur Echtheit, keine gefälschten Bewertungen) sowie Nr.&nbsp;7 (keine erfundene Zeitbegrenzung bei Angeboten).</p>
         </details>
       </div>
     </section>
@@ -568,9 +620,9 @@ details p{color:var(--muted);margin-top:10px;max-width:66ch}
           <h3>Sortierte Lose</h3>
           <p>Fertige Sammlungen für Einsteiger, Kinder und Binder-Sammler.</p>
           <ul>
-            <li><span>100 Karten, 25 Holo garantiert</span><span>5,99 €</span></li>
-            <li><span>500 Karten, nur Holo</span><span>29,99 €</span></li>
-            <li><span>Spielbereites 60er-Deck</span><span>16,99 €</span></li>
+            <li><span>100 Karten, 25 Holo garantiert</span><span>5,99&nbsp;€</span></li>
+            <li><span>500 Karten, nur Holo</span><span>29,99&nbsp;€</span></li>
+            <li><span>Spielbereites 60er-Deck</span><span>16,99&nbsp;€</span></li>
           </ul>
           <span class="shop-go">Zum eBay-Shop <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </a>
