@@ -220,6 +220,10 @@ footer a:hover{color:var(--gold-soft)}
 nav a.nav-link{padding-block:10px}
 @media (max-width:560px){ .part-head{grid-template-columns:1fr} }
 footer nav a,footer a{display:inline-block;padding-block:6px}
+/* Turnier-Button: Grün aus dem NGC-Logo, runde Glas-Optik */
+.btn-turnier{color:#0b3a30;background:linear-gradient(160deg,#bff0d6 0%,#6fd0ac 45%,#3fae8f 100%);border-color:rgba(255,255,255,.55);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 6px 16px -8px rgba(63,174,143,.8)}
+.btn-turnier:hover{filter:brightness(1.06)}
+@media (max-width:480px){ header nav{gap:8px} header .brand-name{display:none} }
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{transition:none!important;animation:none!important}
@@ -254,6 +258,7 @@ def header(cur):
       {a("ablauf.html","So läuft der Ankauf","ablauf")}
       {a("index.html#bewertungen","Bewertungen","")}
       {a("index.html#shops","Shops","")}
+      <a class="btn btn-turnier btn-sm" href="turniere.html">Turniere</a>
       <a class="btn btn-gold btn-sm" href="ankauf.html">Angebot holen</a>
     </nav>
   </div>
@@ -269,7 +274,7 @@ FOOTER = '''<footer>
       <a href="ablauf.html">Ankauf</a>
       <a href="versand.html">Versand</a>
       <a href="https://www.youtube.com/@NoGreedCollector" target="_blank" rel="noopener">YouTube</a>
-      <a href="https://playagainst.xyz" target="_blank" rel="noopener">Turniere</a>
+      <a href="turniere.html">Turniere</a>
       <!-- PLATZHALTER: Impressum und Datenschutz anlegen, bevor die Seite gewerblich live geht -->
       <a href="mailto:nogreedtcg@gmail.com">Kontakt</a>
       <a href="impressum.html">Impressum</a>
@@ -317,6 +322,8 @@ def page(name, title, desc, cur, body, script=""):
     open(os.path.join(REPO_OUT, name), "w", encoding="utf-8").write(full)
     # Startseite im Artifact ohne eigenes Gerüst (wird beim Veröffentlichen ergänzt)
     open(os.path.join(ART_OUT, name), "w", encoding="utf-8").write(head + content if name == "index.html" else full)
+
+exec(read("turniere.py"))
 
 # ---------------- Startseite ----------------
 landing = read("landing_main.html")
