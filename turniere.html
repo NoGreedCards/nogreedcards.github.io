@@ -159,6 +159,48 @@ h2 .pd-sym{height:.82em;margin-left:.2em}
 .empty{display:grid;place-items:center;align-content:center;text-align:center;gap:8px;padding:34px 20px;border-radius:var(--r-lg);border:1px dashed rgba(255,255,255,.25);color:var(--t-muted);font-size:15px}
 .empty b{color:#fff;font-size:17px}
 
+
+/* PlayAgainst: Ticket & Anmeldung (Vorschlag) */
+.pa{padding:clamp(22px,4vw,40px);display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(24px,4vw,48px);align-items:center}
+@media (max-width:860px){ .pa{grid-template-columns:1fr} }
+.pa-text{display:grid;gap:16px;min-width:0}
+.pa-text h2{font-size:clamp(28px,4vw,40px);font-weight:800}
+.pa-text p{color:var(--t-muted);max-width:56ch}
+.pa-badge{display:inline-flex;align-items:center;gap:10px;width:max-content;max-width:100%;padding:6px 14px 6px 6px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--glass-line);font-weight:700;font-size:14px}
+.pa-badge i{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-family:var(--font-display);font-weight:900;font-size:12px;color:#fff;background:linear-gradient(160deg,#c4b0ff,#7c4fe0);box-shadow:inset 0 1px 0 rgba(255,255,255,.55)}
+.pa-steps{list-style:none;margin:8px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;position:relative;counter-reset:st}
+.pa-steps::before{content:"";position:absolute;left:21px;right:calc(25% - 24px);top:20px;height:2px;background:linear-gradient(90deg,var(--t-green),var(--t-violet));opacity:.6;z-index:0}
+.pa-steps li{position:relative;z-index:1;display:grid;gap:8px;justify-items:start;align-content:start;min-width:0}
+.pa-steps .n{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-family:var(--font-mono);font-weight:600;font-size:14px;color:#0b3a30;background:linear-gradient(160deg,#c6f3dc,#56c09f);border:2px solid #fff;box-shadow:0 8px 18px -8px rgba(67,178,147,.9)}
+.pa-steps li:last-child .n{color:#fff;background:linear-gradient(160deg,#c4b0ff,#7c4fe0)}
+.pa-steps b{font-size:15px}
+.pa-steps span{font-size:14px;color:var(--t-muted);line-height:1.5}
+/* senkrechte Schrittliste: Handy und schmale Zweispalter (861–1180 px) */
+@media (max-width:640px), (min-width:861px) and (max-width:1180px){
+  .pa-steps{grid-template-columns:1fr;gap:16px}
+  .pa-steps::before{display:none}
+  .pa-steps li{grid-template-columns:auto minmax(0,1fr);column-gap:14px;row-gap:2px}
+  .pa-steps .n{grid-row:1 / span 2}
+  .pa-steps li:not(:last-child)::after{content:"";position:absolute;left:20px;top:42px;bottom:-16px;width:2px;background:linear-gradient(180deg,var(--t-green),var(--t-violet));opacity:.6;z-index:-1}
+}
+.pa-cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.pa-note{font-size:13px;color:var(--t-dim)}
+/* Handy-Ansicht als Bild für "so sieht das auf PlayAgainst aus" */
+.phone{justify-self:center;width:100%;max-width:300px;border-radius:36px;padding:12px;background:linear-gradient(160deg,rgba(255,255,255,.22),rgba(255,255,255,.06));border:1px solid var(--glass-line);box-shadow:0 30px 60px -30px rgba(8,4,20,.9)}
+.phone-in{border-radius:26px;background:#0f0a1d;padding:16px 14px 18px;display:grid;gap:12px;border:1px solid rgba(255,255,255,.1)}
+.ph-top{display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--t-dim)}
+.ph-card{border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);padding:14px;display:grid;gap:8px}
+.ph-card h4{margin:0;font-family:var(--font-display);font-stretch:112%;font-size:17px;font-weight:800}
+.ph-row{display:flex;justify-content:space-between;gap:8px;font-size:13px;color:var(--t-muted)}
+.ph-row b{color:#fff;font-weight:600;font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.ph-bar{height:6px;border-radius:999px;background:rgba(255,255,255,.1);overflow:hidden}
+.ph-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--t-green),var(--t-green-lt))}
+.ph-btn{display:grid;place-items:center;padding:11px;border-radius:999px;font-weight:700;font-size:14px;color:#0b3a30;background:linear-gradient(165deg,#c6f3dc 0%,#77d4b1 42%,#43b293 78%,#2f9c80 100%)}
+.ph-list{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.ph-list li{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--t-muted)}
+.ph-list li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--t-check);flex-shrink:0}
+.ph-cap{text-align:center;font-size:12px;color:var(--t-dim)}
+
 /* Fußzeile */
 .t-foot{padding-block:40px 56px}
 .t-foot .glass{border-radius:var(--r-lg);padding:22px 24px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between}
@@ -180,6 +222,7 @@ h2 .pd-sym{height:.82em;margin-left:.2em}
       <span>CollectorsGuild</span>
     </a>
     <nav class="t-nav" aria-label="Turnier-Navigation">
+      <a class="t-link" href="#anmeldung">Anmeldung</a>
       <a class="t-link" href="#termin">Termin</a>
       <a class="t-link" href="#season">Season</a>
       <a class="t-link" href="#pokedollar">Pokédollar</a>
@@ -195,12 +238,54 @@ h2 .pd-sym{height:.82em;margin-left:.2em}
       <h1><span>CollectorsGuild</span><small>Turniere</small></h1>
       <p class="lead">Die Turnierliga von NoGreedCards in der Trading Card Cave in Dillingen. Swiss-Format, eine Season über fünf Monate und eine Rangliste mit Pokédollar.</p>
       <div class="t-cta">
-        <a class="pill pill-green" href="#termin">Zum ersten Turnier</a>
-        <a class="pill pill-glass" href="https://playagainst.xyz" target="_blank" rel="noopener">PlayAgainst&nbsp;↗</a>
+        <a class="pill pill-green" href="#anmeldung">Ticket &amp; Anmeldung</a>
+        <a class="pill pill-glass" href="#termin">Zum ersten Turnier</a>
       </div>
     </div>
     <div class="logo-orb glass"><img src="ngc-logo.png" alt="NGC-Logo von NoGreedCards" width="320" height="319"></div>
   </div>
+
+
+  <section id="anmeldung" style="scroll-margin-top:96px;padding-top:0">
+    <div class="wrap">
+      <div class="glass pa">
+        <div class="pa-text">
+          <span class="pa-badge"><i>PA</i>Läuft über PlayAgainst</span>
+          <h2>Ticket und Anmeldung auf PlayAgainst</h2>
+          <p>Für alle CollectorsGuild-Turniere kaufst du dein Ticket und meldest dich auf PlayAgainst an. Dort siehst du die freien Plätze, und am Turniertag laufen Paarungen, Ergebnisse und die Pokédollar-Rangliste ebenfalls über PlayAgainst. Du brauchst nur einen kostenlosen Account, keine App.</p>
+          <ol class="pa-steps">
+            <li><span class="n">1</span><b>Account anlegen</b><span>Kostenlos auf playagainst.xyz registrieren.</span></li>
+            <li><span class="n">2</span><b>Turnier wählen</b><span>CollectorsGuild&nbsp;#1 öffnen und anmelden. Ist es voll, rückst du von der Warteliste automatisch nach.</span></li>
+            <li><span class="n">3</span><b>Ticket sichern</b><span>Ticketpreis und Bezahlweg <span class="soon">folgen</span></span></li>
+            <li><span class="n">4</span><b>Einchecken</b><span>Am Turniertag im Laden einchecken und losspielen.</span></li>
+          </ol>
+          <div class="pa-cta">
+            <a class="pill pill-green" href="https://playagainst.xyz" target="_blank" rel="noopener">Ticket auf PlayAgainst sichern&nbsp;↗</a>
+            <span class="pa-note">Öffnet playagainst.xyz in einem neuen Tab.</span>
+          </div>
+        </div>
+        <figure class="phone" aria-label="So sieht das Turnier auf PlayAgainst aus (Beispielansicht)" style="margin:0">
+          <div class="phone-in">
+            <div class="ph-top"><span>PLAYAGAINST</span><span>Event</span></div>
+            <div class="ph-card">
+              <h4>CollectorsGuild #1</h4>
+              <div class="ph-row"><span>So, 27.12.2026</span><span>Dillingen/Saar</span></div>
+              <div class="ph-row"><span>Plätze frei</span><b>16 / 16</b></div>
+              <div class="ph-bar"><i></i></div>
+              <div class="ph-btn">Anmelden</div>
+            </div>
+            <ul class="ph-list">
+              <li>Paarungen und Rundenuhr live</li>
+              <li>Ergebnis melden, beide bestätigen</li>
+              <li>Erinnerung am Vortag per E-Mail</li>
+              <li>Rangliste der Season</li>
+            </ul>
+            <figcaption class="ph-cap">Beispielansicht</figcaption>
+          </div>
+        </figure>
+      </div>
+    </div>
+  </section>
 
   <section id="termin" style="scroll-margin-top:96px">
     <div class="wrap">
@@ -217,8 +302,8 @@ h2 .pd-sym{height:.82em;margin-left:.2em}
             <li><small>Format</small><b>Swiss</b></li>
             <li><small>Plätze</small><b>max. 16</b></li>
             <li><small>Startzeit</small><span class="soon">folgt</span></li>
-            <li><small>Ticket</small><span class="soon">folgt</span></li>
-            <li><small>Anmeldung</small><span class="soon">folgt</span></li>
+            <li><small>Ticket</small><b>über PlayAgainst</b></li>
+            <li><small>Anmeldung</small><b><a href="#anmeldung">über PlayAgainst</a></b></li>
           </ul>
           <p class="countdown" id="countdown" hidden>Noch <b id="cd-days"></b> bis zum Turnier</p>
         </div>
