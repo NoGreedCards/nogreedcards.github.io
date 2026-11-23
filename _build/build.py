@@ -231,7 +231,7 @@ footer nav a,footer a{display:inline-block;padding-block:6px}
 }
 """
 
-CSS = BASE_CSS.replace("--green:#39ff8c;", "--green:#39ff8c;\n  --warn:#e8896b;     /* Hinweise und Fehler */") + EXTRA_CSS
+CSS = BASE_CSS.replace("--green:#39ff8c;", "--green:#39ff8c;\n  --warn:#e8896b;     /* Hinweise und Fehler */") + EXTRA_CSS + read("glass.css")
 
 # Schriften liegen lokal in /fonts (keine Verbindung zu Google, Lizenz: SIL OFL 1.1)
 FONT_CSS = """
@@ -251,7 +251,7 @@ def header(cur):
     return f'''<header>
   <div class="wrap bar">
     <a href="index.html" class="brand" aria-label="NoGreedCards Startseite">
-      <span class="seal">{SEAL}</span>
+      <img src="ngc-logo.png" alt="" width="36" height="36">
       <span class="brand-name">NOGREEDCARDS</span>
     </a>
     <nav aria-label="Hauptnavigation">
@@ -305,6 +305,8 @@ def typo(html):
     """Geschützte Leerzeichen und Umbruchschutz (deutsche Detailtypografie), nur im sichtbaren Text."""
     return "".join(part if _SKIP.fullmatch(part) else _typo_text(part) for part in _SKIP.split(html))
 
+ORBS = '<div class="orbs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>\n'
+
 def page(name, title, desc, cur, body, script=""):
     head = f'''<title>{title}</title>
 <meta name="description" content="{desc}">
@@ -315,7 +317,7 @@ def page(name, title, desc, cur, body, script=""):
 {FONTS}
 <style>{FONT_CSS}{CSS}</style>
 '''
-    content = typo(f"{header(cur)}\n{body}\n{FOOTER}\n") + (f"<script>{script}</script>\n" if script else "")
+    content = ORBS + typo(f"{header(cur)}\n{body}\n{FOOTER}\n") + (f"<script>{script}</script>\n" if script else "")
     full = ('<!doctype html>\n<html lang="de">\n<head>\n<meta charset="utf-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
             + head + '</head>\n<body>\n' + content + '</body>\n</html>\n')
