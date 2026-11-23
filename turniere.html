@@ -137,7 +137,7 @@ section{padding-block:clamp(36px,6vw,64px)}
 .dot-w{color:#2a1650;background:linear-gradient(160deg,#ffffff,#ddd3f7);box-shadow:inset 0 1px 0 #fff}
 .season li.final{background:linear-gradient(160deg,rgba(139,92,246,.32),rgba(139,92,246,.12));border-color:rgba(196,176,255,.4)}
 
-/* Pokédollar */
+/* Punkte */
 .pd{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
 @media (max-width:820px){ .pd{grid-template-columns:1fr} }
 .pd-box{padding:clamp(20px,3vw,30px);display:flex;flex-direction:column;gap:14px}
@@ -156,11 +156,13 @@ h2 .pd-sym{height:.82em;margin-left:.2em}
 .ptable tr:last-child td{border-bottom:0}
 .ptable td:last-child{text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-weight:600;color:var(--t-green-lt);white-space:nowrap}
 .ptable tr:first-child td:last-child{color:#fff}
+.ptable td:first-child{padding-right:14px;color:var(--t-muted)}
+.ptable td:last-child{white-space:normal;font-family:var(--font-body);font-weight:700}
+.facts b{overflow-wrap:anywhere}
 .empty{display:grid;place-items:center;align-content:center;text-align:center;gap:8px;padding:34px 20px;border-radius:var(--r-lg);border:1px dashed rgba(255,255,255,.25);color:var(--t-muted);font-size:15px}
 .empty b{color:#fff;font-size:17px}
 
-
-/* PlayAgainst: Ticket & Anmeldung (Vorschlag) */
+/* PlayAgainst: Ticket & Anmeldung */
 .pa{padding:clamp(22px,4vw,40px);display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(24px,4vw,48px);align-items:center}
 @media (max-width:860px){ .pa{grid-template-columns:1fr} }
 .pa-text{display:grid;gap:16px;min-width:0}
@@ -225,7 +227,7 @@ h2 .pd-sym{height:.82em;margin-left:.2em}
       <a class="t-link" href="#anmeldung">Anmeldung</a>
       <a class="t-link" href="#termin">Termin</a>
       <a class="t-link" href="#season">Season</a>
-      <a class="t-link" href="#pokedollar">Pokédollar</a>
+      <a class="t-link" href="#punkte">Punkte</a>
       <a class="pill pill-glass pill-sm" href="index.html">NoGreedCards</a>
     </nav>
   </header>
@@ -236,7 +238,7 @@ h2 .pd-sym{height:.82em;margin-left:.2em}
     <div>
       <span class="kicker">Pokémon-TCG · Saarland</span>
       <h1><span>CollectorsGuild</span><small>Turniere</small></h1>
-      <p class="lead">Die Turnierliga von NoGreedCards in der Trading Card Cave in Dillingen. Swiss-Format, eine Season über fünf Monate und eine Rangliste mit Pokédollar.</p>
+      <p class="lead">Die Pokémon-TCG-Liga von NoGreedCards in der Trading Card Cave in Dillingen. Standard, Swiss, Best of 3: drei Turniere, eine Trade Night und ein Finale. Punkte und Rangliste laufen über PlayAgainst.</p>
       <div class="t-cta">
         <a class="pill pill-green" href="#anmeldung">Ticket &amp; Anmeldung</a>
         <a class="pill pill-glass" href="#termin">Zum ersten Turnier</a>
@@ -245,18 +247,17 @@ h2 .pd-sym{height:.82em;margin-left:.2em}
     <div class="logo-orb glass"><img src="ngc-logo.png" alt="NGC-Logo von NoGreedCards" width="320" height="319"></div>
   </div>
 
-
   <section id="anmeldung" style="scroll-margin-top:96px;padding-top:0">
     <div class="wrap">
       <div class="glass pa">
         <div class="pa-text">
           <span class="pa-badge"><i>PA</i>Läuft über PlayAgainst</span>
           <h2>Ticket und Anmeldung auf PlayAgainst</h2>
-          <p>Für alle CollectorsGuild-Turniere kaufst du dein Ticket und meldest dich auf PlayAgainst an. Dort siehst du die freien Plätze, und am Turniertag laufen Paarungen, Ergebnisse und die Pokédollar-Rangliste ebenfalls über PlayAgainst. Du brauchst nur einen kostenlosen Account, keine App.</p>
+          <p>Für alle CollectorsGuild-Turniere kaufst du dein Ticket und meldest dich auf PlayAgainst an. Dort siehst du die freien Plätze, und am Turniertag laufen Paarungen, Ergebnisse und die Rangliste der Season ebenfalls über PlayAgainst. Du brauchst nur einen kostenlosen Account, keine App.</p>
           <ol class="pa-steps">
             <li><span class="n">1</span><b>Account anlegen</b><span>Kostenlos auf playagainst.xyz registrieren.</span></li>
-            <li><span class="n">2</span><b>Turnier wählen</b><span>CollectorsGuild&nbsp;#1 öffnen und anmelden. Ist es voll, rückst du von der Warteliste automatisch nach.</span></li>
-            <li><span class="n">3</span><b>Ticket sichern</b><span>Ticketpreis und Bezahlweg <span class="soon">folgen</span></span></li>
+            <li><span class="n">2</span><b>Turnier wählen</b><span>CollectorsGuild&nbsp;#1 öffnen und anmelden. Ist es voll, rückst du von der Warteliste automatisch nach. Anmeldeschluss ist Samstag, 26.12.2026.</span></li>
+            <li><span class="n">3</span><b>Ticket sichern</b><span>9&nbsp;€ pro Termin, auch fürs Finale. Bezahlweg <span class="soon">folgt</span></span></li>
             <li><span class="n">4</span><b>Einchecken</b><span>Am Turniertag im Laden einchecken und losspielen.</span></li>
           </ol>
           <div class="pa-cta">
@@ -277,7 +278,7 @@ h2 .pd-sym{height:.82em;margin-left:.2em}
             <ul class="ph-list">
               <li>Paarungen und Rundenuhr live</li>
               <li>Ergebnis melden, beide bestätigen</li>
-              <li>Erinnerung am Vortag per E-Mail</li>
+              <li>Erinnerung am Vortag per <span class="nobr">E-Mail</span></li>
               <li>Rangliste der Season</li>
             </ul>
             <figcaption class="ph-cap">Beispielansicht</figcaption>
@@ -299,12 +300,14 @@ h2 .pd-sym{height:.82em;margin-left:.2em}
           <h3>Sonntag, <span class="nobr">27. Dezember 2026</span></h3>
           <p class="when">Trading Card Cave, Marktstraße 13, Dillingen/Saar</p>
           <ul class="facts">
-            <li><small>Format</small><b>Swiss</b></li>
+            <li><small>Format</small><b>Standard · Swiss · Bo3</b></li>
             <li><small>Plätze</small><b>max. 16</b></li>
             <li><small>Startzeit</small><span class="soon">folgt</span></li>
-            <li><small>Ticket</small><b>über PlayAgainst</b></li>
+            <li><small>Ticket</small><b>9&nbsp;€ über PlayAgainst</b></li>
+            <li><small>Anmeldeschluss</small><b>Sa, 26.12.2026</b></li>
             <li><small>Anmeldung</small><b><a href="#anmeldung">über PlayAgainst</a></b></li>
           </ul>
+          <p class="when">Mitbringen: dein Standard-Deck in Hüllen, Schadensmarker und Münze oder Würfel. Runden: 3 bei 4–8 Spielern, 4 bei 9–12, 5 bei 13–16. Unter 4 Anmeldungen wird abgesagt und das Ticket erstattet.</p>
           <p class="countdown" id="countdown" hidden>Noch <b id="cd-days"></b> bis zum Turnier</p>
         </div>
       </article>
@@ -315,45 +318,47 @@ h2 .pd-sym{height:.82em;margin-left:.2em}
     <div class="wrap">
       <div class="sec-head">
         <span class="eyebrow">Season 1</span>
-        <h2>Fünf Monate, ein Finale</h2>
-        <p>Jeden Monat ein Termin. Weitere Daten stehen hier, sobald sie feststehen.</p>
+        <h2>Drei Turniere, eine Trade Night, ein Finale</h2>
+        <p>Fest ist bisher nur Turnier #1 am 27.12.2026. Die übrigen Termine stehen hier, sobald sie feststehen. Du musst nicht bei jedem Termin mitspielen.</p>
       </div>
       <ol class="season">
-        <li class="glass"><span class="dot dot-g">1</span><span class="m">Monat 1</span><h3>Turnier</h3><p>Swiss-Turnier, Pokédollar für die Rangliste.</p></li>
-        <li class="glass"><span class="dot dot-g">2</span><span class="m">Monat 2</span><h3>Turnier</h3><p>Swiss-Turnier, Pokédollar für die Rangliste.</p></li>
-        <li class="glass"><span class="dot dot-w">3</span><span class="m">Monat 3</span><h3>Trade Night</h3><p>Kostenlos. Tauschen ja, Verkaufen nein.</p></li>
-        <li class="glass"><span class="dot dot-g">4</span><span class="m">Monat 4</span><h3>Turnier</h3><p>Swiss-Turnier, Pokédollar für die Rangliste.</p></li>
-        <li class="glass final"><span class="dot dot-v">5</span><span class="m">Monat 5</span><h3>Finale</h3><p>Die Besten der Rangliste spielen das Finale der Season.</p></li>
+        <li class="glass"><span class="dot dot-g">1</span><span class="m">So, 27.12.2026</span><h3>Turnier #1</h3><p>Swiss, Best of 3. Punkte für die Rangliste.</p></li>
+        <li class="glass"><span class="dot dot-g">2</span><span class="m">Termin folgt</span><h3>Turnier #2</h3><p>Swiss, Best of 3. Punkte für die Rangliste.</p></li>
+        <li class="glass"><span class="dot dot-w">3</span><span class="m">Termin folgt</span><h3>Trade Night</h3><p>Kostenlos. Tauschen ja, Verkaufen nein.</p></li>
+        <li class="glass"><span class="dot dot-g">4</span><span class="m">Termin folgt</span><h3>Turnier #3</h3><p>Swiss, Best of 3. Punkte für die Rangliste.</p></li>
+        <li class="glass final"><span class="dot dot-v">5</span><span class="m">Termin folgt</span><h3>Finale</h3><p>Die Top 8 der Rangliste. Swiss, Best of 3, Ticket 9&nbsp;€.</p></li>
       </ol>
     </div>
   </section>
 
-  <section id="pokedollar" style="scroll-margin-top:96px">
+  <section id="punkte" style="scroll-margin-top:96px">
     <div class="wrap">
       <div class="sec-head">
         <span class="eyebrow">Rangliste</span>
-        <h2>Pokédollar <svg class="pd-sym" viewBox="0 0 367 597" role="img" aria-label="Pokédollar"><path fill="currentColor" fill-rule="evenodd" d="M72 0H252C320 0 367 64 367 136C367 210 315 272 250 272H154V309H270V385H154V443H270V519H154V597H72V519H0V443H72V385H0V309H72ZM154 74V200H250C280 200 302 170 302 137C302 104 282 74 250 74Z"/></svg></h2>
-        <p>Für deine Platzierung nach den Swiss-Runden bekommst du Pokédollar. Sie zählen für die Rangliste der Season.</p>
+        <h2>Punkte</h2>
+        <p>Die Punkte laufen direkt über PlayAgainst. Größere Turniere bringen damit mehr Punkte, kleine weniger.</p>
       </div>
       <div class="pd">
         <div class="glass pd-box">
-          <div class="pd-title"><span class="coin"><svg class="" viewBox="0 0 367 597" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M72 0H252C320 0 367 64 367 136C367 210 315 272 250 272H154V309H270V385H154V443H270V519H154V597H72V519H0V443H72V385H0V309H72ZM154 74V200H250C280 200 302 170 302 137C302 104 282 74 250 74Z"/></svg></span><h3>Pro Turnier</h3></div>
+          <h3>Pro Turnier</h3>
           <table class="ptable">
             <tbody>
-              <tr><td>Platz 1</td><td>1.500 <svg class="pd-sym" viewBox="0 0 367 597" role="img" aria-label="Pokédollar"><path fill="currentColor" fill-rule="evenodd" d="M72 0H252C320 0 367 64 367 136C367 210 315 272 250 272H154V309H270V385H154V443H270V519H154V597H72V519H0V443H72V385H0V309H72ZM154 74V200H250C280 200 302 170 302 137C302 104 282 74 250 74Z"/></svg></td></tr>
-              <tr><td>Platz 2</td><td>1.200 <svg class="pd-sym" viewBox="0 0 367 597" role="img" aria-label="Pokédollar"><path fill="currentColor" fill-rule="evenodd" d="M72 0H252C320 0 367 64 367 136C367 210 315 272 250 272H154V309H270V385H154V443H270V519H154V597H72V519H0V443H72V385H0V309H72ZM154 74V200H250C280 200 302 170 302 137C302 104 282 74 250 74Z"/></svg></td></tr>
-              <tr><td>Platz 3–4</td><td>1.000 <svg class="pd-sym" viewBox="0 0 367 597" role="img" aria-label="Pokédollar"><path fill="currentColor" fill-rule="evenodd" d="M72 0H252C320 0 367 64 367 136C367 210 315 272 250 272H154V309H270V385H154V443H270V519H154V597H72V519H0V443H72V385H0V309H72ZM154 74V200H250C280 200 302 170 302 137C302 104 282 74 250 74Z"/></svg></td></tr>
-              <tr><td>Platz 5–8</td><td>700 <svg class="pd-sym" viewBox="0 0 367 597" role="img" aria-label="Pokédollar"><path fill="currentColor" fill-rule="evenodd" d="M72 0H252C320 0 367 64 367 136C367 210 315 272 250 272H154V309H270V385H154V443H270V519H154V597H72V519H0V443H72V385H0V309H72ZM154 74V200H250C280 200 302 170 302 137C302 104 282 74 250 74Z"/></svg></td></tr>
-              <tr><td>Alle weiteren</td><td>400 <svg class="pd-sym" viewBox="0 0 367 597" role="img" aria-label="Pokédollar"><path fill="currentColor" fill-rule="evenodd" d="M72 0H252C320 0 367 64 367 136C367 210 315 272 250 272H154V309H270V385H154V443H270V519H154V597H72V519H0V443H72V385H0V309H72ZM154 74V200H250C280 200 302 170 302 137C302 104 282 74 250 74Z"/></svg></td></tr>
+              <tr><td>Platz 1</td><td>so viele Punkte, wie Leute mitspielen</td></tr>
+              <tr><td>Jeder weitere Platz</td><td>1 Punkt weniger</td></tr>
+              <tr><td>Beispiel 16 Spieler</td><td>16, 15 … 1</td></tr>
+              <tr><td>Fürs Mitspielen</td><td>+2</td></tr>
+              <tr><td>Wertung</td><td>deine besten 2 Turniere</td></tr>
             </tbody>
           </table>
-          <p>Bei weniger als 8 Spielern bekommt die untere Hälfte 400&nbsp;<svg class="pd-sym" viewBox="0 0 367 597" role="img" aria-label="Pokédollar"><path fill="currentColor" fill-rule="evenodd" d="M72 0H252C320 0 367 64 367 136C367 210 315 272 250 272H154V309H270V385H154V443H270V519H154V597H72V519H0V443H72V385H0V309H72ZM154 74V200H250C280 200 302 170 302 137C302 104 282 74 250 74Z"/></svg>.</p>
+          <p>Disqualifikation: 0 Punkte für das Turnier, je nach Fall Bann für die Season.</p>
         </div>
         <div class="glass pd-box">
-          <h3>Aktueller Stand</h3>
-          <div class="empty"><b>Noch keine Ergebnisse</b>Die Rangliste startet nach dem ersten Turnier am 27.12.2026.</div>
+          <h3>Finale</h3>
+          <p>Die Top 8 der Rangliste sind qualifiziert. Sagt jemand ab, rückt Platz 9 nach, dann Platz 10. Gespielt wird wie bei den anderen Turnieren: Swiss, Best of 3.</p>
+          <div class="empty"><b>Noch keine Ergebnisse</b>Die Rangliste startet nach dem ersten Turnier am 27.12.2026 und steht auf PlayAgainst.</div>
         </div>
       </div>
+      <p style="margin-top:18px;color:var(--t-muted)">Die Regeln stehen vor dem ersten Turnier fest und ändern sich während der Season nicht. Anfänger sind willkommen.</p>
     </div>
   </section>
 </main>
